@@ -198,6 +198,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
   <button class="tab" onclick="sw('listen',this)">🎧 듣기</button>
   <button class="tab" onclick="sw('situation',this)">🎬 상황</button>
   <button class="tab" onclick="sw('write',this)">✍️ 영작</button>
+  <button class="tab" onclick="sw('chunks',this)">📖 청크</button>
   <button class="tab" onclick="sw('review',this)">🔄 복습</button>
   <button class="tab" onclick="sw('progress',this)">📊 진행</button>
 </div>
@@ -449,6 +450,50 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
   </div>
 </div>
 
+<!-- 탭: 청크 사전 (NEW!) -->
+<div id="sec-chunks" class="sec">
+
+  <!-- 안내 카드 -->
+  <div class="card" style="background:linear-gradient(135deg,#3182F6,#5B9CFF);color:white;">
+    <div style="font-size:18px;font-weight:800;margin-bottom:8px;">📖 청크 사전 100선</div>
+    <div style="font-size:12px;opacity:.95;line-height:1.7;">
+      ⭐ 진짜 영어가 늘려면 이걸 자유롭게 써야 해요!<br>
+      카테고리별 분류 · 검색 가능 · 외운 거 ✓ · 즐겨찾기 ⭐
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px;font-size:11px;">
+      <div style="background:rgba(255,255,255,.2);padding:6px 10px;border-radius:6px;">
+        외움: <span id="chunk-memorized" style="font-weight:800;">0</span> / 100
+      </div>
+      <div style="background:rgba(255,255,255,.2);padding:6px 10px;border-radius:6px;">
+        ⭐ <span id="chunk-favorited" style="font-weight:800;">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 검색 + 필터 -->
+  <div class="card">
+    <input type="text" id="chunk-search" placeholder="🔍 청크 검색 (영어/한국어)..." oninput="filterChunks()" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:13px;font-family:inherit;outline:none;">
+
+    <div style="margin-top:10px;display:flex;gap:5px;flex-wrap:wrap;">
+      <div class="chunk-filter active" data-filter="all" onclick="setChunkFilter('all',this)" style="padding:6px 10px;border-radius:6px;font-size:11px;cursor:pointer;background:var(--blue);color:white;font-weight:700;">전체</div>
+      <div class="chunk-filter" data-filter="memorized" onclick="setChunkFilter('memorized',this)" style="padding:6px 10px;border-radius:6px;font-size:11px;cursor:pointer;background:var(--bg);color:var(--text2);font-weight:600;">✓ 외운 것</div>
+      <div class="chunk-filter" data-filter="not-memorized" onclick="setChunkFilter('not-memorized',this)" style="padding:6px 10px;border-radius:6px;font-size:11px;cursor:pointer;background:var(--bg);color:var(--text2);font-weight:600;">미외움</div>
+      <div class="chunk-filter" data-filter="favorited" onclick="setChunkFilter('favorited',this)" style="padding:6px 10px;border-radius:6px;font-size:11px;cursor:pointer;background:var(--bg);color:var(--text2);font-weight:600;">⭐ 즐겨찾기</div>
+    </div>
+  </div>
+
+  <!-- 카테고리 -->
+  <div class="card">
+    <div class="ctitle"><span class="cnum">🗂️</span>카테고리별 보기</div>
+    <div id="chunk-categories" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;"></div>
+  </div>
+
+  <!-- 청크 리스트 -->
+  <div id="chunks-list-container">
+    <div class="empty-msg">로딩 중...</div>
+  </div>
+</div>
+
 <!-- 탭: 복습 -->
 <div id="sec-review" class="sec">
   <div class="card">
@@ -557,7 +602,7 @@ function todayKey(){
 }
 
 function getDay(){
-  // 사용자가 수동 선택한 Day가 있으면 우선
+  // 사용자 수동 선택 우선
   if (DATA.selectedDay) return DATA.selectedDay;
 
   if(!DATA.startDate){ DATA.startDate = todayKey(); saveData(); return 1;}
@@ -566,7 +611,6 @@ function getDay(){
 }
 
 function getAutoDay(){
-  // 자동 계산된 Day (수동 선택 무시)
   if(!DATA.startDate) return 1;
   var diff = Math.floor((new Date() - new Date(DATA.startDate))/(1000*60*60*24));
   return diff + 1;
@@ -575,7 +619,7 @@ function getAutoDay(){
 function setDay(dayNum){
   DATA.selectedDay = dayNum;
   saveData();
-  location.reload(); // 새 Day 콘텐츠 다시 로드
+  location.reload();
 }
 
 function clearSelectedDay(){
@@ -602,23 +646,16 @@ function getToday(){
 // JSON 파일에서 day 콘텐츠 로드
 async function loadDayContent(dayNum){
   try {
-    // 사용 가능한 day 확인 (캐시 회피)
     const idxRes = await fetch('/data/index.json?t=' + Date.now());
     const idx = await idxRes.json();
-
-    // 사용 가능한 가장 최근 day
     var targetDay = dayNum;
     if (!idx.available.includes(dayNum)) {
-      // 콘텐츠가 없으면 가장 최근 거 사용
       targetDay = idx.available[idx.available.length - 1] || 1;
     }
-
     const res = await fetch('/data/day' + targetDay + '.json?t=' + Date.now());
     if (!res.ok) throw new Error('데이터 로드 실패');
     DAY_DATA = await res.json();
-
     if (TODAY) TODAY.verb = DAY_DATA.verb.en;
-
     return DAY_DATA;
   } catch (e) {
     console.error('Day 로드 실패:', e);
@@ -1516,6 +1553,7 @@ async function init(){
   updateStats();
   updateWeak();
   renderReview();
+  loadChunksData(); // 청크 사전 초기 로드
 
   // 첫 카테고리 로드
   setTimeout(function(){
@@ -1556,32 +1594,170 @@ async function renderDaySelector(){
 
     $h('day-list', html);
     $t('day-auto', auto);
-  } catch(e) {
-    console.error('Day 목록 로드 실패:', e);
-  }
+  } catch(e) { console.error('Day 목록 로드 실패:', e); }
 }
 
 function toggleDaySelector(){
   var sel = $g('day-selector');
   if(!sel) return;
-  if(sel.style.display === 'block'){
-    sel.style.display = 'none';
-  } else {
-    sel.style.display = 'block';
-    renderDaySelector();
-  }
+  if(sel.style.display === 'block'){ sel.style.display = 'none'; }
+  else { sel.style.display = 'block'; renderDaySelector(); }
 }
 
-// 다른 곳 클릭 시 셀렉터 닫기
 document.addEventListener('click', function(e){
   var sel = $g('day-selector');
   var chip = document.querySelector('.day-chip');
-  if (sel && sel.style.display === 'block' && !sel.contains(e.target) && !chip.contains(e.target)) {
+  if (sel && sel.style.display === 'block' && chip && !sel.contains(e.target) && !chip.contains(e.target)) {
     sel.style.display = 'none';
   }
 });
 
 // ═══════════════════════════════
+// 청크 사전
+// ═══════════════════════════════
+var CHUNKS_DATA = null;
+var chunkFilter = 'all';
+var chunkCategory = 'all';
+
+async function loadChunksData(){
+  try {
+    const res = await fetch('/data/chunks.json?t=' + Date.now());
+    CHUNKS_DATA = await res.json();
+    if(!DATA.chunkBook) DATA.chunkBook = { memorized: {}, favorited: {} };
+    renderChunkCategories();
+    renderChunksList();
+    updateChunkStats();
+  } catch(e) {
+    console.error('청크 로드 실패:', e);
+    $h('chunks-list-container', '<div class="empty-msg" style="color:var(--red);">청크 로드 실패. 새로고침 해주세요!</div>');
+  }
+}
+
+function renderChunkCategories(){
+  if(!CHUNKS_DATA) return;
+  var html = '<div class="chunk-cat-btn" data-cat="all" onclick="setChunkCategory(\'all\',this)" style="padding:6px 10px;border-radius:6px;font-size:11px;cursor:pointer;background:var(--blue);color:white;font-weight:700;">전체 (' + CHUNKS_DATA.chunks.length + ')</div>';
+  CHUNKS_DATA.categories.forEach(function(cat){
+    var count = CHUNKS_DATA.chunks.filter(function(c){return c.category === cat.id;}).length;
+    html += '<div class="chunk-cat-btn" data-cat="'+cat.id+'" onclick="setChunkCategory(\''+cat.id+'\',this)" style="padding:6px 10px;border-radius:6px;font-size:11px;cursor:pointer;background:var(--bg);color:var(--text2);font-weight:600;">'+cat.icon+' '+cat.name+' ('+count+')</div>';
+  });
+  $h('chunk-categories', html);
+}
+
+function setChunkCategory(catId, btn){
+  chunkCategory = catId;
+  document.querySelectorAll('.chunk-cat-btn').forEach(function(b){
+    b.style.background = 'var(--bg)';
+    b.style.color = 'var(--text2)';
+    b.style.fontWeight = '600';
+  });
+  btn.style.background = 'var(--blue)';
+  btn.style.color = 'white';
+  btn.style.fontWeight = '700';
+  renderChunksList();
+}
+
+function setChunkFilter(filter, btn){
+  chunkFilter = filter;
+  document.querySelectorAll('.chunk-filter').forEach(function(b){
+    b.style.background = 'var(--bg)';
+    b.style.color = 'var(--text2)';
+    b.style.fontWeight = '600';
+  });
+  btn.style.background = 'var(--blue)';
+  btn.style.color = 'white';
+  btn.style.fontWeight = '700';
+  renderChunksList();
+}
+
+function filterChunks(){ renderChunksList(); }
+
+function renderChunksList(){
+  if(!CHUNKS_DATA) return;
+  var search = ($g('chunk-search') ? $g('chunk-search').value : '').toLowerCase().trim();
+  var memo = (DATA.chunkBook && DATA.chunkBook.memorized) || {};
+  var fav = (DATA.chunkBook && DATA.chunkBook.favorited) || {};
+
+  var filtered = CHUNKS_DATA.chunks.filter(function(c){
+    if (chunkCategory !== 'all' && c.category !== chunkCategory) return false;
+    if (chunkFilter === 'memorized' && !memo[c.id]) return false;
+    if (chunkFilter === 'not-memorized' && memo[c.id]) return false;
+    if (chunkFilter === 'favorited' && !fav[c.id]) return false;
+    if (search) {
+      var hay = (c.en + ' ' + c.ko).toLowerCase();
+      if (hay.indexOf(search) === -1) return false;
+    }
+    return true;
+  });
+
+  if(filtered.length === 0){
+    $h('chunks-list-container', '<div class="card"><div class="empty-msg">조건에 맞는 청크가 없어요.</div></div>');
+    return;
+  }
+
+  var grouped = {};
+  filtered.forEach(function(c){
+    if(!grouped[c.category]) grouped[c.category] = [];
+    grouped[c.category].push(c);
+  });
+
+  var html = '';
+  CHUNKS_DATA.categories.forEach(function(cat){
+    if(!grouped[cat.id]) return;
+    html += '<div class="card" style="border-left:4px solid '+cat.color+';">';
+    html += '<div style="font-size:13px;font-weight:800;color:'+cat.color+';margin-bottom:4px;">'+cat.icon+' '+cat.name+'</div>';
+    html += '<div style="font-size:11px;color:var(--text2);margin-bottom:12px;">'+cat.description+'</div>';
+
+    grouped[cat.id].forEach(function(c){
+      var isMemo = memo[c.id];
+      var isFav = fav[c.id];
+      var bg = isMemo ? 'var(--green-light)' : 'var(--bg)';
+      var border = isMemo ? 'var(--green)' : cat.lightColor;
+
+      html += '<div style="background:'+bg+';border:1px solid '+border+';border-radius:10px;padding:10px;margin-bottom:8px;">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px;">';
+      html += '<div style="flex:1;"><div style="font-size:14px;font-weight:800;color:'+(isMemo?'var(--green)':cat.color)+';margin-bottom:2px;">'+c.en+'</div>';
+      html += '<div style="font-size:12px;color:var(--text2);">'+c.ko+'</div></div>';
+      html += '<div style="display:flex;gap:6px;flex-shrink:0;">';
+      html += '<button onclick="toggleChunkMemo('+c.id+')" style="background:'+(isMemo?'var(--green)':'white')+';color:'+(isMemo?'white':'var(--text2)')+';border:1px solid '+(isMemo?'var(--green)':'var(--border)')+';border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:12px;font-weight:700;">✓</button>';
+      html += '<button onclick="toggleChunkFav('+c.id+')" style="background:'+(isFav?'#FFB300':'white')+';color:'+(isFav?'white':'var(--text3)')+';border:1px solid '+(isFav?'#FFB300':'var(--border)')+';border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:12px;">⭐</button>';
+      html += '</div></div>';
+      html += '<div style="background:white;padding:6px 10px;border-radius:6px;font-size:11px;color:var(--text);margin-bottom:4px;"><strong style="color:var(--red);">🛡️ AML:</strong> '+c.exAML+'</div>';
+      html += '<div style="background:white;padding:6px 10px;border-radius:6px;font-size:11px;color:var(--text);"><strong style="color:var(--green);">😊 일상:</strong> '+c.exDaily+'</div>';
+      html += '<div style="font-size:9px;color:var(--text3);margin-top:4px;text-align:right;">📚 '+c.source+'</div>';
+      html += '</div>';
+    });
+
+    html += '</div>';
+  });
+
+  $h('chunks-list-container', html);
+}
+
+function toggleChunkMemo(id){
+  if(!DATA.chunkBook) DATA.chunkBook = { memorized: {}, favorited: {} };
+  if(DATA.chunkBook.memorized[id]) delete DATA.chunkBook.memorized[id];
+  else DATA.chunkBook.memorized[id] = true;
+  saveData();
+  renderChunksList();
+  updateChunkStats();
+}
+
+function toggleChunkFav(id){
+  if(!DATA.chunkBook) DATA.chunkBook = { memorized: {}, favorited: {} };
+  if(DATA.chunkBook.favorited[id]) delete DATA.chunkBook.favorited[id];
+  else DATA.chunkBook.favorited[id] = true;
+  saveData();
+  renderChunksList();
+  updateChunkStats();
+}
+
+function updateChunkStats(){
+  var memo = (DATA.chunkBook && DATA.chunkBook.memorized) || {};
+  var fav = (DATA.chunkBook && DATA.chunkBook.favorited) || {};
+  $t('chunk-memorized', Object.keys(memo).length);
+  $t('chunk-favorited', Object.keys(fav).length);
+}
+
 // 모든 onclick 함수 window 노출
 window.sw = sw;
 window.toggleCk = toggleCk;
@@ -1611,6 +1787,12 @@ window.requestCoach = requestCoach;
 window.toggleDaySelector = toggleDaySelector;
 window.setDay = setDay;
 window.clearSelectedDay = clearSelectedDay;
+window.loadChunksData = loadChunksData;
+window.setChunkCategory = setChunkCategory;
+window.setChunkFilter = setChunkFilter;
+window.filterChunks = filterChunks;
+window.toggleChunkMemo = toggleChunkMemo;
+window.toggleChunkFav = toggleChunkFav;
 </script>
 </body>
 </html>
