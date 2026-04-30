@@ -1,0 +1,362 @@
+{
+  "day": 2,
+  "verb": {
+    "en": "HAVE",
+    "pron": "[해브]",
+    "ko": "가지다 / 있다 / 경험하다 / 시키다",
+    "forms": ["have / has", "had", "had", "having"],
+    "frequency": "Oxford English Corpus 빈도 7위 (보조동사 3대장)",
+    "stage": "Stage 1 · 절대 기본"
+  },
+  "meanings": [
+    {
+      "num": 1,
+      "ko": "가지고 있다 (소유·보유)",
+      "example": "I have over 10 years of AML experience.",
+      "exampleKo": "저는 10년 이상의 AML 경력을 가지고 있습니다."
+    },
+    {
+      "num": 2,
+      "ko": "겪다·경험하다 (상황·관계)",
+      "example": "We have a few suspicious transactions to review.",
+      "exampleKo": "검토해야 할 의심거래가 몇 건 있습니다."
+    },
+    {
+      "num": 3,
+      "ko": "~하게 하다 (사역·완료)",
+      "example": "I had the report reviewed by the legal team.",
+      "exampleKo": "그 보고서를 법무팀이 검토하도록 했습니다."
+    }
+  ],
+  "chunks": [
+    {
+      "en": "have to",
+      "ko": "~해야 한다 (의무)",
+      "example": "We have to file the STR within 24 hours.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "have something done",
+      "ko": "~를 (남에게) 시키다 / ~되게 하다",
+      "example": "I had the document translated by a professional.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "have access to",
+      "ko": "~에 접근 권한이 있다",
+      "example": "Only the AML team has access to this database.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "have a look at",
+      "ko": "~를 한번 살펴보다",
+      "example": "Could you have a look at this transaction pattern?",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "have an impact on",
+      "ko": "~에 영향을 미치다",
+      "example": "The new regulation will have a major impact on PG companies.",
+      "source": "Cambridge Dictionary"
+    }
+  ],
+  "pronTip": {
+    "title": "HAVE 동사 발음 핵심",
+    "points": [
+      "have [해브] — v 소리 입술 가볍게 (밸브가 아니라)",
+      "has [해즈] — z 소리 살리기",
+      "had [해드] — d 소리 짧게 끊기",
+      "축약형 자주 사용: I've, you've, he's (= he has), we've",
+      "have to → [해프 투] — v가 무성음 t 만나면 f 소리로!",
+      "has to → [해스 투] — z가 무성음 t 만나면 s 소리로!"
+    ]
+  },
+  "listening": {
+    "title": "AML 컴플라이언스 회의 시나리오",
+    "source": "AML 업무 + Cambridge Dictionary 청크 검증",
+    "fullText": "Manager: We have a flagged transaction from yesterday. Have you had a look at it yet? Staff: Yes, I have. We have to file an STR by tomorrow. Manager: Do you have access to the merchant's KYC file? Staff: I do. I'll have it reviewed by the legal team. Manager: Good. This case will have a big impact on our quarterly report.",
+    "blanks": [
+      {"prefix": "Manager: We", "blank": "have", "suffix": "a flagged transaction from yesterday."},
+      {"prefix": "Have you", "blank": "had", "suffix": "a look at it yet?"},
+      {"prefix": "Staff: Yes, I", "blank": "have", "suffix": ". We"},
+      {"prefix": "We", "blank": "have to", "suffix": "file an STR by tomorrow."},
+      {"prefix": "Manager: Do you", "blank": "have", "suffix": "access to the merchant's KYC file?"},
+      {"prefix": "I'll", "blank": "have", "suffix": "it reviewed by the legal team."},
+      {"prefix": "This case will", "blank": "have", "suffix": "a big impact on our quarterly report."}
+    ]
+  },
+  "youtube": [
+    {
+      "channel": "BBC Learning English",
+      "icon": "📺",
+      "color": "#BB1919",
+      "links": [
+        {"label": "\"have to\" vs \"must\" 차이", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+have+to+must+difference"},
+        {"label": "\"have something done\" 사역", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+have+something+done+causative"}
+      ]
+    },
+    {
+      "channel": "Rachel's English",
+      "icon": "🎙️",
+      "color": "#E91E63",
+      "links": [
+        {"label": "have to → \"해프 투\" 연음", "url": "https://www.youtube.com/results?search_query=Rachel's+English+have+to+pronunciation"},
+        {"label": "HAVE 축약 (I've, we've)", "url": "https://www.youtube.com/results?search_query=Rachel's+English+have+contractions"}
+      ]
+    },
+    {
+      "channel": "EngVid",
+      "icon": "🎓",
+      "color": "#1E88E5",
+      "links": [
+        {"label": "비즈니스 \"have a look at\"", "url": "https://www.youtube.com/results?search_query=engvid+have+a+look+at+business+English"},
+        {"label": "HAVE 동사 8가지 용법", "url": "https://www.youtube.com/results?search_query=engvid+have+verb+uses"}
+      ]
+    },
+    {
+      "channel": "AML 실전 ⭐",
+      "icon": "🛡️",
+      "color": "#7C3AED",
+      "links": [
+        {"label": "AML KYC Access Control", "url": "https://www.youtube.com/results?search_query=AML+KYC+access+control+procedures"},
+        {"label": "FATF Impact on PG Industry", "url": "https://www.youtube.com/results?search_query=FATF+impact+payment+gateway+compliance"}
+      ]
+    }
+  ],
+  "examples5": [
+    {"category": "일상", "label": "소유", "color": "blue", "en": "I have a meeting with the legal team this afternoon.", "ko": "오후에 법무팀과 미팅이 있어요."},
+    {"category": "업무", "label": "의무", "color": "orange", "en": "We have to update the KYC database every quarter.", "ko": "분기마다 KYC 데이터베이스를 업데이트해야 합니다."},
+    {"category": "AML", "label": "접근권한", "color": "green", "en": "Only senior officers have access to high-risk merchant data.", "ko": "시니어 담당자만 고위험 가맹점 데이터에 접근할 수 있어요."},
+    {"category": "의견", "label": "검토요청", "color": "purple", "en": "Could you have a look at this STR draft before I submit it?", "ko": "제출하기 전에 이 STR 초안을 한번 봐주실 수 있나요?"},
+    {"category": "감정", "label": "영향", "color": "red", "en": "This new FATF guideline will have a huge impact on our process.", "ko": "이번 FATF 가이드라인이 우리 프로세스에 큰 영향을 미칠 거예요."}
+  ],
+  "writing5": [
+    {"ko": "저는 AML 분야에서 10년 이상의 경력이 있습니다.", "en": "I have over 10 years of experience in the AML field.", "hint": "HAVE 동사 + 소유 (의미①)"},
+    {"ko": "검토해야 할 의심거래가 몇 건 있습니다.", "en": "We have a few suspicious transactions to review.", "hint": "HAVE 동사 + 상황 (의미②)"},
+    {"ko": "우리는 24시간 이내에 STR을 제출해야 합니다.", "en": "We have to file the STR within 24 hours.", "hint": "청크: have to"},
+    {"ko": "저는 그 문서를 전문가에게 번역시켰어요.", "en": "I had the document translated by a professional.", "hint": "청크: have something done"},
+    {"ko": "AML 팀만 이 데이터베이스에 접근할 수 있습니다.", "en": "Only the AML team has access to this database.", "hint": "청크: have access to"}
+  ],
+  "challenge3sec": [
+    {"ko": "오늘 오후에 컴플라이언스 회의가 있어요.", "en": "I have a compliance meeting this afternoon."},
+    {"ko": "오늘까지 보고서를 제출해야 해요.", "en": "I have to submit the report by today."},
+    {"ko": "이 거래 패턴 한번 봐주실래요?", "en": "Could you have a look at this transaction pattern?"},
+    {"ko": "저는 이 시스템에 접근 권한이 있어요.", "en": "I have access to this system."},
+    {"ko": "법무팀이 그 문서를 검토하게 했어요.", "en": "I had the document reviewed by the legal team."},
+    {"ko": "이 규정이 큰 영향을 미칠 거예요.", "en": "This regulation will have a big impact."},
+    {"ko": "우리는 더 많은 인력이 필요해요.", "en": "We have to hire more staff."}
+  ],
+  "freewrite": {
+    "situation": "본인의 부서에서 새로 도입된 AML 규정이 업무에 미친 영향에 대해 영어로 설명하세요. 어떤 변화가 있었고, 무엇을 해야 하며, 어떤 권한·책임이 있는지 HAVE 동사 + 오늘 배운 청크를 사용해서 3-5문장으로 작성해보세요.",
+    "hint": "활용: have to, have access to, have a look at, have an impact on",
+    "placeholder": "예: The new FATF guideline has had a significant impact on our team. We have to review every high-risk merchant within 7 days..."
+  },
+  "situations": {
+    "office": {
+      "color": "#FFE5E5",
+      "textColor": "#C62828",
+      "info": "🏢 사내 미팅<br>업무 분배, 권한 확인, 작업 지시 — HAVE 동사가 가장 활발하게 쓰이는 상황!",
+      "lv1": [
+        {
+          "title": "업무 요청",
+          "dialog": [
+            {"who": "Mgr", "text": "Do you have time to review this case today?"},
+            {"who": "You", "text": "Yes, I have about an hour after lunch. I'll have a look at it."},
+            {"who": "Mgr", "text": "Great. We have to finalize it by Friday."}
+          ]
+        },
+        {
+          "title": "권한 확인",
+          "dialog": [
+            {"who": "Junior", "text": "Do you have access to the merchant blacklist?"},
+            {"who": "You", "text": "Yes, I do. Why, do you have a question?"},
+            {"who": "Junior", "text": "Could you have a look at this merchant code for me?"}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "팀 회의 진행",
+          "dialog": [
+            {"who": "You", "text": "We have three priority cases this week. The first one will have a big impact on Q2 numbers."},
+            {"who": "Team", "text": "Do we have to file STRs for all three?"},
+            {"who": "You", "text": "Two of them, yes. The third one I'll have reviewed by legal first."},
+            {"who": "Team", "text": "Got it. Do we have access to the historical data?"},
+            {"who": "You", "text": "I have access, and I'll share the folder with the team."},
+            {"who": "Team", "text": "Perfect. We'll have a draft ready by Wednesday."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "본부장과 1:1 미팅에서 이번 분기 AML 업무 진행 상황을 보고하세요. 진행 중인 케이스, 필요한 리소스, 외부 영향을 HAVE 동사로 설명하세요.",
+        "aiRole": "Director of PG Business Division",
+        "aiOpening": "Good morning. I'd like a quick update on the AML team's progress this quarter. What do we have on the table right now, and is there anything you need from me?"
+      }
+    },
+    "email": {
+      "color": "#E3F2FD",
+      "textColor": "#1565C0",
+      "info": "📧 이메일·메시지<br>자료 요청, 검토 부탁, 권한 문의 — 격식 갖춘 HAVE 동사 활용!",
+      "lv1": [
+        {
+          "title": "자료 요청 이메일",
+          "dialog": [
+            {"who": "You", "text": "Hi, do you have the latest CDD template? I have a new merchant onboarding tomorrow."},
+            {"who": "Them", "text": "Yes, I have it. I'll send it over now."},
+            {"who": "You", "text": "Thanks! Could you also have a look at my draft once it's ready?"}
+          ]
+        },
+        {
+          "title": "검토 부탁",
+          "dialog": [
+            {"who": "You", "text": "Hi, I have attached the STR draft. Could you have a look when you have time?"},
+            {"who": "Them", "text": "Sure, I'll have it reviewed by tomorrow morning."},
+            {"who": "You", "text": "Much appreciated. We have to submit by Friday EOD."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "외부 컨설팅 답변",
+          "dialog": [
+            {"who": "Consult", "text": "Our client has a question about your KYC access controls. Who has access to the customer database?"},
+            {"who": "You", "text": "Thanks for reaching out. We have a tiered access model — only the AML team has access to high-risk merchant data."},
+            {"who": "You", "text": "All access is logged, and we have audit reports reviewed quarterly by an external auditor."},
+            {"who": "Consult", "text": "Does the recent FATF update have an impact on this structure?"},
+            {"who": "You", "text": "Yes, it does. We have to add an extra layer of approval for cross-border transactions."},
+            {"who": "Consult", "text": "Understood. Could we have a follow-up call next week?"}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "외국계 PG사 컴플라이언스 담당자가 한국 PG사의 KYC 접근 권한 정책에 대해 문의 이메일을 보냈습니다. 정중하고 명확하게 답변하세요.",
+        "aiRole": "David, Compliance Lead at a US-based PG company",
+        "aiOpening": "Hi, I'm David from PaymentTech US. We have a partnership project on the table and I have a few questions about your access control model. Specifically, who has access to merchant KYC data, and how do you handle cross-border requests?"
+      }
+    },
+    "aml": {
+      "color": "#FFF3E0",
+      "textColor": "#E65100",
+      "info": "🚨 AML 실무<br>STR 제출, 사역 검토, 접근 통제, 규제 영향 — HAVE 동사 핵심 활용!",
+      "lv1": [
+        {
+          "title": "의심거래 보고",
+          "dialog": [
+            {"who": "You", "text": "We have a high-risk transaction from merchant #2024-815. We have to file an STR."},
+            {"who": "Mgr", "text": "Have you had a look at the merchant's history?"},
+            {"who": "You", "text": "Yes, I have. They have three previous flags."}
+          ]
+        },
+        {
+          "title": "KYC 접근 통제",
+          "dialog": [
+            {"who": "Audit", "text": "Who has access to this customer's full KYC profile?"},
+            {"who": "You", "text": "Only the AML team has full access. Sales has limited view only."},
+            {"who": "Audit", "text": "Good. Have all access logs reviewed by next Monday."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "FIU 케이스 미팅",
+          "dialog": [
+            {"who": "FIU", "text": "We have a few follow-up questions on case #2026-0419. Have you had the chance to gather additional evidence?"},
+            {"who": "You", "text": "Yes, we have. I had the transaction logs analyzed by our data team last week."},
+            {"who": "FIU", "text": "Does this case have any cross-border component?"},
+            {"who": "You", "text": "It does. Three transactions have an offshore counterparty. We have to escalate to international cooperation."},
+            {"who": "FIU", "text": "Who has access to the offshore counterparty data?"},
+            {"who": "You", "text": "Only myself and the head of compliance. We've had the access list updated this quarter."},
+            {"who": "FIU", "text": "Excellent. This case will have a significant impact on our typology study."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "FIU에서 본인이 제출한 STR 케이스의 후속 인터뷰 요청이 왔습니다. 케이스의 권한 통제, 검토 과정, 외부 영향에 대해 HAVE 동사를 활용해 답변하세요.",
+        "aiRole": "Senior Inspector from FIU",
+        "aiOpening": "Thank you for joining. We have reviewed the STR you filed and have a few process questions. First, who in your team has access to the underlying transaction data, and have you had the case reviewed by anyone outside your immediate team?"
+      }
+    },
+    "social": {
+      "color": "#F3E5F5",
+      "textColor": "#6A1B9A",
+      "info": "🌍 비즈니스 사교<br>경력 소개, 권한·역할 설명, 업계 영향 토론 — 부드러운 HAVE 동사!",
+      "lv1": [
+        {
+          "title": "경력 소개",
+          "dialog": [
+            {"who": "Peer", "text": "How long have you been in AML?"},
+            {"who": "You", "text": "I have about 10 years of experience, mostly in the PG sector."},
+            {"who": "Peer", "text": "Oh nice, you must have seen a lot of changes."}
+          ]
+        },
+        {
+          "title": "컨퍼런스 점심",
+          "dialog": [
+            {"who": "Peer", "text": "Have you had a chance to attend the keynote this morning?"},
+            {"who": "You", "text": "I have. It was great. The speaker had some sharp insights."},
+            {"who": "Peer", "text": "Same here. Do you have time for a coffee after lunch?"}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "업계 트렌드 대화",
+          "dialog": [
+            {"who": "Peer", "text": "Has the recent FATF update had much impact in Korea?"},
+            {"who": "You", "text": "It has, yes. PG companies have to adjust their merchant onboarding process significantly."},
+            {"who": "Peer", "text": "Interesting. Do Korean PGs have access to a shared blacklist like we do in Singapore?"},
+            {"who": "You", "text": "Not yet — each company has its own. But we have a working group discussing a shared model."},
+            {"who": "Peer", "text": "I'd love to have a deeper chat about that. Do you have time tomorrow?"},
+            {"who": "You", "text": "Sure, I'll have my calendar checked and send you a slot."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "ACAMS 컨퍼런스 네트워킹 이벤트에서 다른 나라 컴플라이언스 담당자와 업계 동향에 대해 자연스럽게 대화하세요. 본인 경력, 권한 구조, 규제 영향을 HAVE 동사로 풀어내세요.",
+        "aiRole": "Marcus, AML Director at a European fintech",
+        "aiOpening": "Hi! Marcus from Berlin. I noticed you're from a Korean PG. We have a partnership inquiry from a Korean firm on our desk and I have zero context on the local AML landscape. Mind if I pick your brain for a few minutes?"
+      }
+    },
+    "daily": {
+      "color": "#E8F5E9",
+      "textColor": "#2E7D32",
+      "info": "😊 일상 응용<br>약속, 일정, 가족 — 가장 친숙한 HAVE 동사 패턴 익히기!",
+      "lv1": [
+        {
+          "title": "주말 약속",
+          "dialog": [
+            {"who": "Friend", "text": "Do you have any plans this weekend?"},
+            {"who": "You", "text": "I have a family dinner on Saturday. I have to prepare the food."},
+            {"who": "Friend", "text": "Sounds nice! Have a great time."}
+          ]
+        },
+        {
+          "title": "건강·식사",
+          "dialog": [
+            {"who": "Friend", "text": "Have you had lunch yet?"},
+            {"who": "You", "text": "Not yet. I have a meeting in 10 minutes — I'll grab something after."},
+            {"who": "Friend", "text": "You have to take care of yourself!"}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "가족 일상",
+          "dialog": [
+            {"who": "Friend", "text": "How's the new baby?"},
+            {"who": "You", "text": "We have so much to do! I have to wake up every 3 hours."},
+            {"who": "Friend", "text": "That's tough. Do you have help from family?"},
+            {"who": "You", "text": "My parents have been helping a lot. I had the nursery painted last weekend."},
+            {"who": "Friend", "text": "Nice! Has becoming a dad had a big impact on your work?"},
+            {"who": "You", "text": "Definitely. I have to be more efficient with my time now."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "오랜만에 만난 외국인 친구와 근황을 나누는 자리입니다. 최근 업무, 가족 변화, 일상 루틴을 HAVE 동사로 자연스럽게 설명하세요.",
+        "aiRole": "Sophie, an old friend from a study abroad program",
+        "aiOpening": "Oh my god, it's been forever! How have you been? Last I heard you had just started at the new PG company — and didn't you also have a baby on the way? Tell me everything!"
+      }
+    }
+  }
+}
