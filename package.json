@@ -1,0 +1,13 @@
+{
+  "name": "kellogg-english-trainer",
+  "version": "1.0.0",
+  "description": "태호님 전용 영어 학습 트레이너 (동사 50개 마스터)",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
