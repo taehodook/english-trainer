@@ -1,0 +1,365 @@
+{
+  "day": 6,
+  "verb": {
+    "en": "TAKE",
+    "pron": "[테이크]",
+    "ko": "가지다 / 받아들이다 / 시간이 걸리다 / 행하다",
+    "forms": ["take / takes", "took", "taken", "taking"],
+    "frequency": "Oxford English Corpus 빈도 상위 (회화·문어 핵심)",
+    "stage": "Stage 1 · 절대 기본"
+  },
+  "meanings": [
+    {
+      "num": 1,
+      "ko": "가져가다·받다 (수령·이동)",
+      "example": "Take this file to the legal team.",
+      "exampleKo": "이 파일을 법무팀에 가져다주세요."
+    },
+    {
+      "num": 2,
+      "ko": "시간이 걸리다 (소요)",
+      "example": "The CDD review takes about 3 days.",
+      "exampleKo": "CDD 검토는 약 3일 정도 걸립니다."
+    },
+    {
+      "num": 3,
+      "ko": "(조치를) 취하다·받아들이다 (행위·수용)",
+      "example": "We need to take immediate action on this alert.",
+      "exampleKo": "이 알람에 대해 즉각적인 조치를 취해야 합니다."
+    }
+  ],
+  "chunks": [
+    {
+      "en": "take action",
+      "ko": "조치를 취하다",
+      "example": "We must take action against money laundering risks.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "take into account",
+      "ko": "~을 고려하다·감안하다",
+      "example": "Please take the merchant's risk score into account.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "take responsibility for",
+      "ko": "~에 대한 책임을 지다",
+      "example": "I take full responsibility for this case review.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "take a look at",
+      "ko": "~를 살펴보다·검토하다",
+      "example": "Could you take a look at this transaction history?",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "take steps to",
+      "ko": "~하기 위한 조치를 취하다",
+      "example": "We're taking steps to strengthen our KYC process.",
+      "source": "Cambridge Dictionary"
+    }
+  ],
+  "pronTip": {
+    "title": "TAKE 동사 발음 핵심",
+    "points": [
+      "take [테이크] — 이중모음 'ay' 길게 (테크 X)",
+      "took [툭] — 짧은 'oo', k 살짝",
+      "taken [테이큰] — '-en' 약하게, 'kn' 연결",
+      "taking [테이킹] — '-ing' 콧소리",
+      "take a look [테이커룩] — k+a 연음, 자연스럽게",
+      "강조: I'll TAKE care of it (take에 강세)"
+    ]
+  },
+  "listening": {
+    "title": "AML 알람 대응 시나리오",
+    "source": "AML 업무 + Cambridge Dictionary 청크 검증",
+    "fullText": "Manager: Could you take a look at this alert? Staff: Yes, I'll take it. The review usually takes 2 days. Manager: We need to take action quickly. Have you taken the merchant's history into account? Staff: I have. I'll take responsibility for the analysis. Manager: Good. We're taking steps to improve our response time.",
+    "blanks": [
+      {"prefix": "Manager: Could you", "blank": "take a look at", "suffix": "this alert?"},
+      {"prefix": "Staff: Yes, I'll", "blank": "take", "suffix": "it. The review usually takes 2 days."},
+      {"prefix": "The review usually", "blank": "takes", "suffix": "2 days."},
+      {"prefix": "Manager: We need to", "blank": "take action", "suffix": "quickly."},
+      {"prefix": "Have you taken the merchant's history", "blank": "into account", "suffix": "?"},
+      {"prefix": "Staff: I have. I'll", "blank": "take responsibility", "suffix": "for the analysis."},
+      {"prefix": "Manager: Good. We're", "blank": "taking steps", "suffix": "to improve our response time."}
+    ]
+  },
+  "youtube": [
+    {
+      "channel": "BBC Learning English",
+      "icon": "📺",
+      "color": "#BB1919",
+      "links": [
+        {"label": "TAKE 동사 핵심 의미", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+take+verb+meanings"},
+        {"label": "\"take into account\" 활용", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+take+into+account"}
+      ]
+    },
+    {
+      "channel": "Rachel's English",
+      "icon": "🎙️",
+      "color": "#E91E63",
+      "links": [
+        {"label": "TAKE 이중모음 발음", "url": "https://www.youtube.com/results?search_query=Rachel's+English+take+pronunciation"},
+        {"label": "\"take a look\" 연음", "url": "https://www.youtube.com/results?search_query=Rachel's+English+take+a+look+linking"}
+      ]
+    },
+    {
+      "channel": "EngVid",
+      "icon": "🎓",
+      "color": "#1E88E5",
+      "links": [
+        {"label": "TAKE 비즈니스 collocations", "url": "https://www.youtube.com/results?search_query=engvid+take+business+collocations"},
+        {"label": "\"take action\" 비즈니스 표현", "url": "https://www.youtube.com/results?search_query=engvid+take+action+business+English"}
+      ]
+    },
+    {
+      "channel": "AML 실전 ⭐",
+      "icon": "🛡️",
+      "color": "#7C3AED",
+      "links": [
+        {"label": "AML Risk-Based Approach (RBA)", "url": "https://www.youtube.com/results?search_query=AML+risk+based+approach+RBA"},
+        {"label": "Mitigating Actions in AML", "url": "https://www.youtube.com/results?search_query=AML+mitigating+actions+compliance"}
+      ]
+    }
+  ],
+  "examples5": [
+    {"category": "일상", "label": "이동·소요", "color": "blue", "en": "It takes me about 40 minutes to get to the office.", "ko": "사무실까지 가는 데 40분 정도 걸려요."},
+    {"category": "업무", "label": "조치", "color": "orange", "en": "We need to take immediate action on this fraud alert.", "ko": "이 사기 알람에 즉각적인 조치를 취해야 합니다."},
+    {"category": "AML", "label": "고려사항", "color": "green", "en": "Take the merchant's transaction history into account.", "ko": "가맹점의 거래 이력을 고려하세요."},
+    {"category": "의견", "label": "검토", "color": "purple", "en": "Could you take a look at this STR draft?", "ko": "이 STR 초안 좀 봐주실래요?"},
+    {"category": "감정", "label": "책임", "color": "red", "en": "I take full responsibility for the team's compliance program.", "ko": "팀의 컴플라이언스 프로그램에 대한 모든 책임은 제가 집니다."}
+  ],
+  "writing5": [
+    {"ko": "이 파일을 법무팀에 가져다주세요.", "en": "Take this file to the legal team.", "hint": "TAKE 동사 + 이동 (의미①)"},
+    {"ko": "CDD 검토는 약 3일 정도 걸립니다.", "en": "The CDD review takes about 3 days.", "hint": "TAKE 동사 + 시간 (의미②)"},
+    {"ko": "이 알람에 대해 즉각적인 조치를 취해야 합니다.", "en": "We need to take immediate action on this alert.", "hint": "청크: take action"},
+    {"ko": "가맹점의 리스크 점수를 고려해주세요.", "en": "Please take the merchant's risk score into account.", "hint": "청크: take into account"},
+    {"ko": "이 케이스 검토에 대한 전적인 책임은 제가 집니다.", "en": "I take full responsibility for this case review.", "hint": "청크: take responsibility for"}
+  ],
+  "challenge3sec": [
+    {"ko": "조치를 취해야 합니다.", "en": "We need to take action."},
+    {"ko": "한번 봐주실래요?", "en": "Could you take a look?"},
+    {"ko": "전적으로 책임지겠습니다.", "en": "I'll take full responsibility."},
+    {"ko": "이 점도 고려해주세요.", "en": "Please take this into account."},
+    {"ko": "절차를 강화하기 위한 조치를 취하고 있어요.", "en": "We're taking steps to strengthen the process."},
+    {"ko": "검토에 약 3일 걸려요.", "en": "It takes about 3 days to review."},
+    {"ko": "잠깐만 시간 좀 내주실래요?", "en": "Could you take a moment?"}
+  ],
+  "freewrite": {
+    "situation": "본인이 최근 직접 책임지고 처리한 컴플라이언스 사안에 대해 영어로 설명하세요. 어떤 조치를 취했고, 무엇을 고려했고, 얼마나 걸렸는지 TAKE 동사 + 오늘 배운 청크를 사용해서 3-5문장으로 작성해보세요.",
+    "hint": "활용: take action, take into account, take responsibility for, take steps to",
+    "placeholder": "예: Last quarter I took responsibility for redesigning our merchant offboarding process. We had to take into account both regulatory requirements and operational impact..."
+  },
+  "situations": {
+    "office": {
+      "color": "#FFE5E5",
+      "textColor": "#C62828",
+      "info": "🏢 사내 미팅<br>책임 분담, 조치 결정, 검토 요청 — TAKE 동사가 행동·수용의 핵심!",
+      "lv1": [
+        {
+          "title": "책임 분담",
+          "dialog": [
+            {"who": "Mgr", "text": "Who's going to take the lead on this case?"},
+            {"who": "You", "text": "I'll take it. I can take a look at it this afternoon."},
+            {"who": "Mgr", "text": "Good. Take your time but let me know if you need help."}
+          ]
+        },
+        {
+          "title": "조치 논의",
+          "dialog": [
+            {"who": "Mgr", "text": "What action should we take on this merchant?"},
+            {"who": "You", "text": "Let's take a closer look first. Maybe enhanced monitoring."},
+            {"who": "Mgr", "text": "Agreed. Take into account their volume too."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "위기 대응 회의",
+          "dialog": [
+            {"who": "Mgr", "text": "We have a critical alert. We need to take immediate action."},
+            {"who": "You", "text": "I'll take responsibility for the response. Let me take a look at the transaction first."},
+            {"who": "Mgr", "text": "What steps will you take?"},
+            {"who": "You", "text": "First, freeze the merchant. Second, take into account their counterparty network. Third, prepare the STR."},
+            {"who": "Mgr", "text": "How long will that take?"},
+            {"who": "You", "text": "Roughly 4 hours if I get data team support. We'll take steps to expedite."},
+            {"who": "Mgr", "text": "Good. Take whatever resources you need."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "긴급 알람이 발생해 본부장에게 즉시 보고하고 대응 계획을 설명하세요. 본인이 어떤 책임을 지고, 어떤 조치를 취하며, 얼마나 걸릴지 TAKE 동사로 명확히 풀어내세요.",
+        "aiRole": "VP of Compliance",
+        "aiOpening": "I just got pinged about a critical alert on merchant 815. Walk me through what action you're taking, who's taking responsibility, and what factors you're taking into account. We don't have time to waste."
+      }
+    },
+    "email": {
+      "color": "#E3F2FD",
+      "textColor": "#1565C0",
+      "info": "📧 이메일·메시지<br>요청, 책임 안내, 조치 보고 — 격식 갖춘 TAKE 동사 활용!",
+      "lv1": [
+        {
+          "title": "검토 요청",
+          "dialog": [
+            {"who": "You", "text": "Hi, could you take a look at the attached STR draft?"},
+            {"who": "Them", "text": "Sure, I'll take a look this afternoon."},
+            {"who": "You", "text": "Thanks. Please take your time — no rush."}
+          ]
+        },
+        {
+          "title": "책임 안내",
+          "dialog": [
+            {"who": "Them", "text": "Who should I contact for KYC follow-ups?"},
+            {"who": "You", "text": "I take responsibility for KYC for that merchant segment."},
+            {"who": "Them", "text": "Got it. I'll take this directly to you going forward."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "외부 규제기관 답변",
+          "dialog": [
+            {"who": "Reg", "text": "We've reviewed your filing. What action did you take after the initial alert?"},
+            {"who": "You", "text": "Thank you. We took several steps. First, we took the merchant's history into account and froze the account."},
+            {"who": "Reg", "text": "What other steps did you take?"},
+            {"who": "You", "text": "We took a deeper look at the counterparty network. We also took responsibility for notifying our internal escalation chain within 24 hours."},
+            {"who": "Reg", "text": "How long did the full response take?"},
+            {"who": "You", "text": "About 48 hours from alert to STR submission. We're taking steps to reduce that further."},
+            {"who": "Reg", "text": "Understood. Please take this feedback into account in your next review."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "FIU에서 본인 팀이 처리한 케이스에 대한 후속 질의 이메일이 왔습니다. 어떤 조치를 취했고, 무엇을 고려했고, 얼마나 걸렸는지 TAKE 동사로 정중하게 답변하세요.",
+        "aiRole": "FIU Compliance Officer",
+        "aiOpening": "Following our review of your STR submission, we'd like to understand the actions you took and the factors you took into account during the case. Could you walk us through your response timeline and the steps your team took at each stage?"
+      }
+    },
+    "aml": {
+      "color": "#FFF3E0",
+      "textColor": "#E65100",
+      "info": "🚨 AML 실무<br>알람 대응, 책임 표명, 조치 보고 — TAKE 동사 핵심 활용!",
+      "lv1": [
+        {
+          "title": "알람 대응",
+          "dialog": [
+            {"who": "Mgr", "text": "What action did you take on the alert?"},
+            {"who": "You", "text": "I took a closer look and froze the account temporarily."},
+            {"who": "Mgr", "text": "Good. Take responsibility for the next steps."}
+          ]
+        },
+        {
+          "title": "리스크 평가",
+          "dialog": [
+            {"who": "Audit", "text": "Did you take the merchant's prior alerts into account?"},
+            {"who": "You", "text": "Yes. They had three previous flags, which we took into account."},
+            {"who": "Audit", "text": "Good. That should drive the next action."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "FIU 조치 인터뷰",
+          "dialog": [
+            {"who": "FIU", "text": "Walk me through the actions your team took on this case."},
+            {"who": "You", "text": "After the alert, we took three immediate steps. First, we took a deep look at the merchant's transaction history."},
+            {"who": "FIU", "text": "What did you take into account?"},
+            {"who": "You", "text": "We took into account the volume change, counterparty geography, and the merchant's stated business purpose."},
+            {"who": "FIU", "text": "Who took responsibility for the final filing decision?"},
+            {"who": "You", "text": "I took full responsibility, with sign-off from the head of compliance."},
+            {"who": "FIU", "text": "How quickly did you take action after the initial flag?"},
+            {"who": "You", "text": "Within 24 hours we froze the account. We're taking steps to make this even faster."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "FIU 검사관이 본인 팀의 케이스 대응 절차에 대한 심층 인터뷰를 진행합니다. 어떤 조치를, 어떤 근거로, 누가 책임지고 취했는지 TAKE 동사로 답변하세요.",
+        "aiRole": "FIU Lead Examiner",
+        "aiOpening": "I want to focus on response actions today. For case 2026-0419, walk me through every action your team took, what you took into account at each step, and who took responsibility for what."
+      }
+    },
+    "social": {
+      "color": "#F3E5F5",
+      "textColor": "#6A1B9A",
+      "info": "🌍 비즈니스 사교<br>업계 의견, 시간 소요 토론, 사례 공유 — 부드러운 TAKE 동사!",
+      "lv1": [
+        {
+          "title": "스터디 약속",
+          "dialog": [
+            {"who": "Peer", "text": "Can you take 30 minutes for a quick chat?"},
+            {"who": "You", "text": "Sure, let me take a look at my calendar."},
+            {"who": "Peer", "text": "Take your time. Just let me know."}
+          ]
+        },
+        {
+          "title": "경험 공유",
+          "dialog": [
+            {"who": "Peer", "text": "How long does CDD take in your company?"},
+            {"who": "You", "text": "It usually takes 3-5 days, depending on complexity."},
+            {"who": "Peer", "text": "Same here. Sometimes it takes longer for cross-border cases."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "업계 책임 토론",
+          "dialog": [
+            {"who": "Peer", "text": "How does your firm take responsibility when an STR turns out to be a false positive?"},
+            {"who": "You", "text": "We take it seriously. We take a look at our screening logic and adjust thresholds."},
+            {"who": "Peer", "text": "Do you take customer feedback into account?"},
+            {"who": "You", "text": "We do, but cautiously. We've taken steps to balance customer experience and regulatory rigor."},
+            {"who": "Peer", "text": "That makes sense. Has it taken long to find the right balance?"},
+            {"who": "You", "text": "It's taken about 2 years of iteration. We're still taking steps to refine it."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "ACAMS 컨퍼런스에서 다른 나라 컴플라이언스 리더와 false positive 대응 책임에 대해 깊이 있게 의견을 나누세요. 본인 회사가 어떤 책임을 지고, 무엇을 고려하고, 어떤 조치를 취하는지 TAKE 동사로 풀어내세요.",
+        "aiRole": "Carlos, Chief Compliance Officer at a Latin American PG",
+        "aiOpening": "Your panel raised a great question about false positives. I'm curious — how does your team take responsibility when a case turns out wrong, and what steps have you taken to reduce it? It's been a real challenge in our market."
+      }
+    },
+    "daily": {
+      "color": "#E8F5E9",
+      "textColor": "#2E7D32",
+      "info": "😊 일상 응용<br>휴식, 시간, 가족 활동 — 가장 친숙한 TAKE 동사 패턴!",
+      "lv1": [
+        {
+          "title": "휴식 권유",
+          "dialog": [
+            {"who": "Friend", "text": "You look exhausted. Take a break!"},
+            {"who": "You", "text": "I should take a few days off, honestly."},
+            {"who": "Friend", "text": "Yes, take care of yourself first."}
+          ]
+        },
+        {
+          "title": "시간 소요",
+          "dialog": [
+            {"who": "Friend", "text": "How long does it take to drive there?"},
+            {"who": "You", "text": "About 2 hours, if traffic isn't bad."},
+            {"who": "Friend", "text": "Let's take an early start then."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "가족·자녀 이야기",
+          "dialog": [
+            {"who": "Friend", "text": "How are you taking care of yourself with the new baby?"},
+            {"who": "You", "text": "Honestly, I haven't been taking great care of myself."},
+            {"who": "Friend", "text": "Take some time for yourself. It really makes a difference."},
+            {"who": "You", "text": "I know. We're taking steps — my spouse and I take turns on weekends."},
+            {"who": "Friend", "text": "That's smart. Did you take any parental leave?"},
+            {"who": "You", "text": "I took two weeks. I should've taken more, looking back."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "오랜만에 만난 친구와 카페에서 근황을 나눕니다. 일과 육아의 균형, 본인을 돌보는 방식, 최근 변화를 TAKE 동사로 자연스럽게 풀어내세요.",
+        "aiRole": "Daniel, a long-time friend and fellow parent",
+        "aiOpening": "Hey, you look like you haven't slept in a month! How are you really doing? Are you taking any time for yourself, or is work just taking over?"
+      }
+    }
+  }
+}

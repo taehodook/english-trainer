@@ -1,0 +1,363 @@
+{
+  "day": 10,
+  "verb": {
+    "en": "KEEP",
+    "pron": "[킵]",
+    "ko": "유지하다 / 보관하다 / 계속하다",
+    "forms": ["keep / keeps", "kept", "kept", "keeping"],
+    "frequency": "Oxford English Corpus 빈도 상위 (상태 유지 동사 대표)",
+    "stage": "Stage 1 · 절대 기본"
+  },
+  "meanings": [
+    {
+      "num": 1,
+      "ko": "유지하다·~한 상태로 두다 (상태)",
+      "example": "We must keep the data confidential.",
+      "exampleKo": "그 데이터는 반드시 기밀로 유지해야 합니다."
+    },
+    {
+      "num": 2,
+      "ko": "보관하다·간직하다 (저장)",
+      "example": "We keep all KYC records for 5 years.",
+      "exampleKo": "모든 KYC 기록을 5년간 보관합니다."
+    },
+    {
+      "num": 3,
+      "ko": "계속하다·반복하다 (지속)",
+      "example": "He kept asking for more documents.",
+      "exampleKo": "그는 추가 서류를 계속 요구했어요."
+    }
+  ],
+  "chunks": [
+    {
+      "en": "keep track of",
+      "ko": "~을 계속 파악·기록하다",
+      "example": "We keep track of all suspicious activity reports.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "keep in mind",
+      "ko": "~을 명심하다·염두에 두다",
+      "example": "Keep in mind the new threshold rules.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "keep up with",
+      "ko": "~을 따라가다·뒤처지지 않다",
+      "example": "It's hard to keep up with FATF updates.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "keep records of",
+      "ko": "~의 기록을 보관·유지하다",
+      "example": "We keep records of all customer due diligence.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "keep someone informed",
+      "ko": "~에게 계속 알리다·보고하다",
+      "example": "I'll keep you informed of any updates on the case.",
+      "source": "Cambridge Dictionary"
+    }
+  ],
+  "pronTip": {
+    "title": "KEEP 동사 발음 핵심",
+    "points": [
+      "keep [킵] — 긴 'ee' 소리, p 살짝 끊기",
+      "kept [켑트] — 짧은 e, t 분명하게",
+      "keeping [키핑] — '-ing' 콧소리",
+      "keep up [키법] — p+u 연음, 부드럽게",
+      "keep in mind [키핀마인드] — p+i 연음",
+      "강세: KEEP me posted (keep에 강세)"
+    ]
+  },
+  "listening": {
+    "title": "AML 기록 관리 시나리오",
+    "source": "AML 업무 + Cambridge Dictionary 청크 검증",
+    "fullText": "Manager: Are we keeping records of all the new high-risk merchants? Staff: Yes. We keep track of every alert in the system. Manager: Good. Keep in mind the new retention rules. Staff: I will. It's hard to keep up with all the regulatory changes. Manager: Just keep me informed of any updates. Staff: Will do. We're keeping the documentation organized.",
+    "blanks": [
+      {"prefix": "Manager: Are we", "blank": "keeping records of", "suffix": "all the new high-risk merchants?"},
+      {"prefix": "Staff: Yes. We", "blank": "keep track of", "suffix": "every alert in the system."},
+      {"prefix": "Manager: Good.", "blank": "Keep in mind", "suffix": "the new retention rules."},
+      {"prefix": "Staff: I will. It's hard to", "blank": "keep up with", "suffix": "all the regulatory changes."},
+      {"prefix": "Manager: Just", "blank": "keep me informed", "suffix": "of any updates."},
+      {"prefix": "Staff: Will do. We're", "blank": "keeping", "suffix": "the documentation organized."}
+    ]
+  },
+  "youtube": [
+    {
+      "channel": "BBC Learning English",
+      "icon": "📺",
+      "color": "#BB1919",
+      "links": [
+        {"label": "KEEP phrasal verbs 정복", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+keep+phrasal+verbs"},
+        {"label": "\"keep up with\" 활용", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+keep+up+with"}
+      ]
+    },
+    {
+      "channel": "Rachel's English",
+      "icon": "🎙️",
+      "color": "#E91E63",
+      "links": [
+        {"label": "KEEP 긴 ee 발음", "url": "https://www.youtube.com/results?search_query=Rachel's+English+keep+pronunciation+long+ee"},
+        {"label": "\"keep in mind\" 연음", "url": "https://www.youtube.com/results?search_query=Rachel's+English+keep+in+mind+linking"}
+      ]
+    },
+    {
+      "channel": "EngVid",
+      "icon": "🎓",
+      "color": "#1E88E5",
+      "links": [
+        {"label": "KEEP 비즈니스 collocations", "url": "https://www.youtube.com/results?search_query=engvid+keep+business+collocations"},
+        {"label": "\"keep me informed\" 비즈니스 표현", "url": "https://www.youtube.com/results?search_query=engvid+keep+me+informed+business+English"}
+      ]
+    },
+    {
+      "channel": "AML 실전 ⭐",
+      "icon": "🛡️",
+      "color": "#7C3AED",
+      "links": [
+        {"label": "AML Record Keeping (5-year rule)", "url": "https://www.youtube.com/results?search_query=AML+record+keeping+retention+5+years"},
+        {"label": "Keeping Up with FATF Updates", "url": "https://www.youtube.com/results?search_query=FATF+updates+compliance+monitoring"}
+      ]
+    }
+  ],
+  "examples5": [
+    {"category": "일상", "label": "유지", "color": "blue", "en": "Please keep the meeting room organized after use.", "ko": "사용 후 회의실을 정리된 상태로 유지해주세요."},
+    {"category": "업무", "label": "보관", "color": "orange", "en": "We keep all CDD records for at least 5 years.", "ko": "모든 CDD 기록을 최소 5년간 보관합니다."},
+    {"category": "AML", "label": "추적", "color": "green", "en": "We keep track of every flagged merchant in our system.", "ko": "시스템에서 신고된 모든 가맹점을 추적합니다."},
+    {"category": "의견", "label": "유의 사항", "color": "purple", "en": "Keep in mind the merchant's past escalation history.", "ko": "가맹점의 과거 에스컬레이션 이력을 염두에 두세요."},
+    {"category": "감정", "label": "보고 유지", "color": "red", "en": "Please keep me informed of any developments on this case.", "ko": "이 케이스에 대한 어떤 진전이든 계속 보고해주세요."}
+  ],
+  "writing5": [
+    {"ko": "그 데이터는 반드시 기밀로 유지해야 합니다.", "en": "We must keep the data confidential.", "hint": "KEEP 동사 + 상태 (의미①)"},
+    {"ko": "모든 KYC 기록을 5년간 보관합니다.", "en": "We keep all KYC records for 5 years.", "hint": "KEEP 동사 + 보관 (의미②)"},
+    {"ko": "모든 의심거래 보고를 추적합니다.", "en": "We keep track of all suspicious activity reports.", "hint": "청크: keep track of"},
+    {"ko": "FATF 업데이트를 따라가기가 어려워요.", "en": "It's hard to keep up with FATF updates.", "hint": "청크: keep up with"},
+    {"ko": "케이스에 대한 어떤 업데이트든 계속 알려드릴게요.", "en": "I'll keep you informed of any updates on the case.", "hint": "청크: keep someone informed"}
+  ],
+  "challenge3sec": [
+    {"ko": "기밀로 유지해주세요.", "en": "Please keep it confidential."},
+    {"ko": "기록을 보관하고 있어요.", "en": "We keep records of it."},
+    {"ko": "추적하고 있어요.", "en": "We're keeping track of it."},
+    {"ko": "이 점 명심하세요.", "en": "Keep this in mind."},
+    {"ko": "최신 동향 따라가기 힘들어요.", "en": "It's hard to keep up with the latest trends."},
+    {"ko": "계속 알려드릴게요.", "en": "I'll keep you informed."},
+    {"ko": "5년간 보관합니다.", "en": "We keep it for 5 years."}
+  ],
+  "freewrite": {
+    "situation": "본인 회사의 AML 기록 보관 정책과 본인이 어떻게 최신 규정을 따라가는지 영어로 설명하세요. 무엇을 보관하고, 어떻게 추적하고, 어떻게 업데이트를 받아오는지 KEEP 동사 + 오늘 배운 청크를 사용해서 3-5문장으로 작성해보세요.",
+    "hint": "활용: keep track of, keep in mind, keep up with, keep records of, keep someone informed",
+    "placeholder": "예: Our team keeps records of all customer due diligence for at least 5 years per Korean regulation. We keep track of regulatory updates through several channels..."
+  },
+  "situations": {
+    "office": {
+      "color": "#FFE5E5",
+      "textColor": "#C62828",
+      "info": "🏢 사내 미팅<br>기록 관리, 진행 보고, 업데이트 공유 — KEEP 동사가 유지·지속의 핵심!",
+      "lv1": [
+        {
+          "title": "보고 약속",
+          "dialog": [
+            {"who": "Mgr", "text": "Could you keep me informed on this case?"},
+            {"who": "You", "text": "Of course. I'll keep you posted daily."},
+            {"who": "Mgr", "text": "Thanks. Keep up the good work."}
+          ]
+        },
+        {
+          "title": "기록 관리",
+          "dialog": [
+            {"who": "Coll", "text": "Where do we keep the audit logs?"},
+            {"who": "You", "text": "We keep them in the secure folder for 5 years."},
+            {"who": "Coll", "text": "Good. Keep that organized — we'll need it for the audit."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "정책 회의",
+          "dialog": [
+            {"who": "Mgr", "text": "How are we keeping up with the new FATF requirements?"},
+            {"who": "You", "text": "We've kept track of all the changes since January."},
+            {"who": "Mgr", "text": "Are we keeping records of every implementation step?"},
+            {"who": "You", "text": "Yes. We keep a change log and every team lead is kept informed."},
+            {"who": "Mgr", "text": "Good. Keep in mind the audit committee meets in two weeks."},
+            {"who": "You", "text": "I'll keep the documentation ready and keep the team aligned."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "본부장에게 신규 FATF 요구사항 대응 현황을 보고하세요. 무엇을 추적하고, 어떻게 기록을 관리하고, 누가 업데이트를 받는지 KEEP 동사로 풀어내세요.",
+        "aiRole": "Compliance Director",
+        "aiOpening": "I want to make sure we're keeping up with the FATF changes. Walk me through what your team is keeping track of, who's keeping the leadership informed, and what we're keeping in mind for the audit committee."
+      }
+    },
+    "email": {
+      "color": "#E3F2FD",
+      "textColor": "#1565C0",
+      "info": "📧 이메일·메시지<br>업데이트 약속, 자료 보관 안내, 유의 사항 — 격식 갖춘 KEEP 동사 활용!",
+      "lv1": [
+        {
+          "title": "업데이트 약속",
+          "dialog": [
+            {"who": "You", "text": "Hi, I'll keep you informed as the case progresses."},
+            {"who": "Them", "text": "Thanks. Please keep me copied on key updates."},
+            {"who": "You", "text": "Will do. I'll keep the loop tight."}
+          ]
+        },
+        {
+          "title": "기록 안내",
+          "dialog": [
+            {"who": "Them", "text": "How long do you keep KYC records?"},
+            {"who": "You", "text": "We keep records of all KYC for 5 years minimum."},
+            {"who": "Them", "text": "Good to know. Keep that policy clear in our agreement."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "외부 가맹점 데이터 정책 안내",
+          "dialog": [
+            {"who": "Vendor", "text": "Hi, our team needs to know how long you keep our merchant data."},
+            {"who": "You", "text": "Thanks for asking. We keep records of CDD for 5 years per Korean AML law."},
+            {"who": "Vendor", "text": "Could you keep us informed if the retention period changes?"},
+            {"who": "You", "text": "Of course. Please keep in mind that some categories may have longer retention requirements."},
+            {"who": "Vendor", "text": "Understood. How do you keep track of regulatory updates?"},
+            {"who": "You", "text": "We keep a regulatory change log. The legal team keeps everyone informed via monthly updates."},
+            {"who": "Vendor", "text": "Helpful. Please keep us on the distribution list."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "외국 가맹점이 데이터 보관 정책과 규정 업데이트 공유 절차에 대해 문의했습니다. 보관 기간, 추적 방법, 업데이트 채널을 KEEP 동사로 정중하게 안내하세요.",
+        "aiRole": "Privacy Officer at an international merchant",
+        "aiOpening": "Hi, our team is reviewing data retention with all our PG partners. Could you let us know how long you keep records of our merchant data, how you keep track of regulatory changes, and how you keep partners informed of updates?"
+      }
+    },
+    "aml": {
+      "color": "#FFF3E0",
+      "textColor": "#E65100",
+      "info": "🚨 AML 실무<br>기록 보관, 알람 추적, 규제 동향 — KEEP 동사 핵심 활용!",
+      "lv1": [
+        {
+          "title": "기록 확인",
+          "dialog": [
+            {"who": "Audit", "text": "Are you keeping records of every alert?"},
+            {"who": "You", "text": "Yes, we keep track of everything in the case management system."},
+            {"who": "Audit", "text": "Good. Keep in mind the 5-year retention requirement."}
+          ]
+        },
+        {
+          "title": "동향 파악",
+          "dialog": [
+            {"who": "Mgr", "text": "How do you keep up with new typologies?"},
+            {"who": "You", "text": "I keep an eye on FATF reports and ACAMS bulletins."},
+            {"who": "Mgr", "text": "Good. Keep me informed of anything significant."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "FIU 기록 관리 인터뷰",
+          "dialog": [
+            {"who": "FIU", "text": "How does your team keep records of suspicious activity?"},
+            {"who": "You", "text": "We keep records of every alert, including ones that don't result in filing."},
+            {"who": "FIU", "text": "How long do you keep them?"},
+            {"who": "You", "text": "Five years from the alert date, in line with regulation. Keep in mind some PEP-linked records are kept indefinitely."},
+            {"who": "FIU", "text": "How do you keep up with regulatory changes?"},
+            {"who": "You", "text": "We keep a change log. The compliance team keeps senior leadership informed monthly."},
+            {"who": "FIU", "text": "Do you keep track of who accessed each record?"},
+            {"who": "You", "text": "Yes, we keep a full access log for every record. It's reviewed quarterly."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "FIU 검사관이 본인 팀의 기록 보관 및 규제 추적 체계에 대해 인터뷰를 진행합니다. 무엇을 보관하고, 얼마나 보관하고, 어떻게 추적하고, 누가 업데이트를 받는지 KEEP 동사로 답변하세요.",
+        "aiRole": "FIU Records Compliance Examiner",
+        "aiOpening": "Today's focus is record-keeping and regulatory awareness. Walk me through what you keep track of, how long you keep records, and how your team keeps up with regulatory changes. I'll also want to know who you keep informed and how often."
+      }
+    },
+    "social": {
+      "color": "#F3E5F5",
+      "textColor": "#6A1B9A",
+      "info": "🌍 비즈니스 사교<br>업계 트렌드, 연락 유지, 학습 동향 — 부드러운 KEEP 동사!",
+      "lv1": [
+        {
+          "title": "연락 유지",
+          "dialog": [
+            {"who": "Peer", "text": "Let's keep in touch after the conference."},
+            {"who": "You", "text": "Definitely. I'll keep you posted on Korean AML updates."},
+            {"who": "Peer", "text": "Same here. Keep doing great work!"}
+          ]
+        },
+        {
+          "title": "동향 파악",
+          "dialog": [
+            {"who": "Peer", "text": "How do you keep up with industry trends?"},
+            {"who": "You", "text": "I keep track of ACAMS articles and FATF bulletins."},
+            {"who": "Peer", "text": "Smart. I should keep that habit too."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "업계 깊은 토론",
+          "dialog": [
+            {"who": "Peer", "text": "How does Korea keep records of cross-border transactions?"},
+            {"who": "You", "text": "We keep records for 5 years minimum. Keep in mind we also keep an audit trail of every access."},
+            {"who": "Peer", "text": "Do you keep informed of changes in counterparty jurisdictions too?"},
+            {"who": "You", "text": "We do. We keep a watchlist that's updated weekly."},
+            {"who": "Peer", "text": "How do you keep up with sanctions list changes?"},
+            {"who": "You", "text": "Automated feed plus a daily review. Hard to keep up otherwise — too many lists, too many updates."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "ACAMS 컨퍼런스에서 다른 나라 컴플라이언스 동료와 각국의 기록 보관·동향 추적 방식을 비교 토론하세요. 본인 회사가 무엇을 추적하고, 어떻게 따라가고, 누구와 정보를 공유하는지 KEEP 동사로 자연스럽게 풀어내세요.",
+        "aiRole": "Lukas, AML Lead at a German payments firm",
+        "aiOpening": "I'd love to keep in touch after the conference. Quick question — how does your team keep up with sanctions list changes and keep records of cross-border activity? We're rebuilding our process and could learn from your approach."
+      }
+    },
+    "daily": {
+      "color": "#E8F5E9",
+      "textColor": "#2E7D32",
+      "info": "😊 일상 응용<br>건강 유지, 약속, 가족 — 가장 친숙한 KEEP 동사 패턴!",
+      "lv1": [
+        {
+          "title": "건강 약속",
+          "dialog": [
+            {"who": "Friend", "text": "How do you keep yourself active?"},
+            {"who": "You", "text": "I try to keep walking every morning."},
+            {"who": "Friend", "text": "Nice. Keep it up!"}
+          ]
+        },
+        {
+          "title": "약속 유지",
+          "dialog": [
+            {"who": "Friend", "text": "Don't forget — dinner at 7."},
+            {"who": "You", "text": "I'll keep that in mind."},
+            {"who": "Friend", "text": "Keep me posted if anything changes."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "친구와 솔직한 대화",
+          "dialog": [
+            {"who": "Friend", "text": "How do you keep up with everything — work, baby, your own life?"},
+            {"who": "You", "text": "Honestly, I just keep a tight schedule. I keep track of everything in one app."},
+            {"who": "Friend", "text": "Do you keep time for yourself?"},
+            {"who": "You", "text": "Trying to. I keep Sunday mornings free for reading or just being alone."},
+            {"who": "Friend", "text": "Smart. Keep that habit — it really matters."},
+            {"who": "You", "text": "I'll keep you informed if I find more tricks!"}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "친구와 카페에서 만나 일·육아·자기 돌봄의 균형을 유지하는 방법에 대해 솔직하게 대화하세요. 무엇을 추적하고, 무엇을 명심하고, 어떻게 따라가는지 KEEP 동사로 자연스럽게 풀어내세요.",
+        "aiRole": "Hye-jin, a close friend juggling similar life demands",
+        "aiOpening": "Honestly, how do you keep it all together? I'm struggling to keep up with everything lately. Any tricks to keep yourself sane that I should keep in mind?"
+      }
+    }
+  }
+}

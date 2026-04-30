@@ -1,0 +1,361 @@
+{
+  "day": 3,
+  "verb": {
+    "en": "DO",
+    "pron": "[두]",
+    "ko": "하다 / 행하다 / 처리하다",
+    "forms": ["do / does", "did", "done", "doing"],
+    "frequency": "Oxford English Corpus 빈도 8위 (보조동사 3대장)",
+    "stage": "Stage 1 · 절대 기본"
+  },
+  "meanings": [
+    {
+      "num": 1,
+      "ko": "하다·수행하다 (행위·작업)",
+      "example": "I do compliance reviews every Monday.",
+      "exampleKo": "저는 매주 월요일 컴플라이언스 검토를 합니다."
+    },
+    {
+      "num": 2,
+      "ko": "처리하다·해결하다 (업무·문제)",
+      "example": "Could you do the KYC update for this merchant?",
+      "exampleKo": "이 가맹점 KYC 업데이트 좀 처리해주실래요?"
+    },
+    {
+      "num": 3,
+      "ko": "충분하다·괜찮다 (상태)",
+      "example": "This draft will do for the first review.",
+      "exampleKo": "이 초안이면 1차 검토용으로는 충분합니다."
+    }
+  ],
+  "chunks": [
+    {
+      "en": "do business with",
+      "ko": "~와 거래하다",
+      "example": "We don't do business with high-risk jurisdictions.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "do due diligence",
+      "ko": "실사를 수행하다",
+      "example": "We do due diligence on every new merchant.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "do one's best",
+      "ko": "최선을 다하다",
+      "example": "I'll do my best to meet the deadline.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "have nothing to do with",
+      "ko": "~와 아무 관련이 없다",
+      "example": "This account has nothing to do with the flagged case.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "do without",
+      "ko": "~ 없이 지내다·~ 없이 해결하다",
+      "example": "We can't do without proper transaction monitoring tools.",
+      "source": "Cambridge Dictionary"
+    }
+  ],
+  "pronTip": {
+    "title": "DO 동사 발음 핵심",
+    "points": [
+      "do [두] — 입술 동그랗게, 짧게 (도우 X)",
+      "does [더즈] — 강세는 'duh' 소리, z 살리기",
+      "did [딛] — d 소리 두 번, 짧게",
+      "done [던] — 'duh-n', 'done' 발음 입 작게",
+      "축약 부정: don't [돈ㅌ] / doesn't [더즌ㅌ] / didn't [디든ㅌ]",
+      "강조 do: 'I DO know' [아이 두 노우] — do에 강세!"
+    ]
+  },
+  "listening": {
+    "title": "AML 신규 가맹점 실사 시나리오",
+    "source": "AML 업무 + Cambridge Dictionary 청크 검증",
+    "fullText": "Manager: Did you do the due diligence on the new merchant? Staff: Yes, I did. They have nothing to do with the previous flagged group. Manager: Good. Do we do business with their parent company? Staff: We don't. I'll do my best to finish the report by tomorrow. Manager: We can't do without a clean audit trail.",
+    "blanks": [
+      {"prefix": "Manager:", "blank": "Did", "suffix": "you do the due diligence on the new merchant?"},
+      {"prefix": "Staff: Yes, I", "blank": "did", "suffix": ". They have nothing to do with the previous flagged group."},
+      {"prefix": "Manager:", "blank": "Do", "suffix": "we do business with their parent company?"},
+      {"prefix": "Staff: We", "blank": "don't", "suffix": ". I'll do my best to finish the report by tomorrow."},
+      {"prefix": "I'll", "blank": "do", "suffix": "my best to finish the report by tomorrow."},
+      {"prefix": "Manager: We can't", "blank": "do", "suffix": "without a clean audit trail."}
+    ]
+  },
+  "youtube": [
+    {
+      "channel": "BBC Learning English",
+      "icon": "📺",
+      "color": "#BB1919",
+      "links": [
+        {"label": "DO vs MAKE 차이 마스터", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+do+vs+make+difference"},
+        {"label": "강조 DO 사용법", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+emphatic+do"}
+      ]
+    },
+    {
+      "channel": "Rachel's English",
+      "icon": "🎙️",
+      "color": "#E91E63",
+      "links": [
+        {"label": "DO/DOES 약형·강형 발음", "url": "https://www.youtube.com/results?search_query=Rachel's+English+do+does+pronunciation"},
+        {"label": "don't/doesn't 축약 발음", "url": "https://www.youtube.com/results?search_query=Rachel's+English+don't+doesn't+contraction"}
+      ]
+    },
+    {
+      "channel": "EngVid",
+      "icon": "🎓",
+      "color": "#1E88E5",
+      "links": [
+        {"label": "비즈니스 \"do business\" 표현", "url": "https://www.youtube.com/results?search_query=engvid+do+business+with+expressions"},
+        {"label": "DO 동사 collocations", "url": "https://www.youtube.com/results?search_query=engvid+do+verb+collocations"}
+      ]
+    },
+    {
+      "channel": "AML 실전 ⭐",
+      "icon": "🛡️",
+      "color": "#7C3AED",
+      "links": [
+        {"label": "Customer Due Diligence (CDD) 실무", "url": "https://www.youtube.com/results?search_query=AML+customer+due+diligence+CDD+procedures"},
+        {"label": "Enhanced Due Diligence (EDD) 절차", "url": "https://www.youtube.com/results?search_query=AML+enhanced+due+diligence+EDD"}
+      ]
+    }
+  ],
+  "examples5": [
+    {"category": "일상", "label": "행위", "color": "blue", "en": "I do my morning email check before standup.", "ko": "스탠드업 미팅 전에 아침 이메일 확인을 합니다."},
+    {"category": "업무", "label": "처리", "color": "orange", "en": "Could you do the merchant onboarding for me today?", "ko": "오늘 제 대신 가맹점 온보딩 좀 처리해주실래요?"},
+    {"category": "AML", "label": "실사", "color": "green", "en": "We do enhanced due diligence on all PEP clients.", "ko": "모든 PEP 고객에게는 강화실사를 수행합니다."},
+    {"category": "의견", "label": "관련성", "color": "purple", "en": "This alert has nothing to do with money laundering.", "ko": "이 알람은 자금세탁과는 관련이 없어요."},
+    {"category": "감정", "label": "최선", "color": "red", "en": "I'll do my best to clear the backlog this week.", "ko": "이번 주 안에 백로그 처리에 최선을 다하겠습니다."}
+  ],
+  "writing5": [
+    {"ko": "저는 매주 월요일에 컴플라이언스 검토를 합니다.", "en": "I do compliance reviews every Monday.", "hint": "DO 동사 + 행위 (의미①)"},
+    {"ko": "이 가맹점 KYC 업데이트 좀 처리해주실래요?", "en": "Could you do the KYC update for this merchant?", "hint": "DO 동사 + 처리 (의미②)"},
+    {"ko": "우리는 모든 신규 가맹점에 대해 실사를 수행합니다.", "en": "We do due diligence on every new merchant.", "hint": "청크: do due diligence"},
+    {"ko": "이 계좌는 신고된 케이스와는 관련이 없습니다.", "en": "This account has nothing to do with the flagged case.", "hint": "청크: have nothing to do with"},
+    {"ko": "저는 마감일을 지키기 위해 최선을 다하겠습니다.", "en": "I'll do my best to meet the deadline.", "hint": "청크: do one's best"}
+  ],
+  "challenge3sec": [
+    {"ko": "저는 매일 아침 트랜잭션 모니터링을 합니다.", "en": "I do transaction monitoring every morning."},
+    {"ko": "최선을 다하겠습니다.", "en": "I'll do my best."},
+    {"ko": "이 거래는 자금세탁과 무관합니다.", "en": "This transaction has nothing to do with money laundering."},
+    {"ko": "우리는 고위험 국가와는 거래하지 않습니다.", "en": "We don't do business with high-risk countries."},
+    {"ko": "저희는 모든 신규 고객에게 실사를 합니다.", "en": "We do due diligence on every new client."},
+    {"ko": "그건 제가 할게요.", "en": "I'll do that."},
+    {"ko": "적절한 도구 없이는 불가능해요.", "en": "We can't do without proper tools."}
+  ],
+  "freewrite": {
+    "situation": "신규 가맹점 온보딩 시 본인 팀이 어떤 실사 절차를 수행하는지 영어로 설명하세요. 어떤 작업을 하고, 어떤 거래는 거절하며, 어떤 도구·자료가 필수인지 DO 동사 + 오늘 배운 청크를 사용해서 3-5문장으로 작성해보세요.",
+    "hint": "활용: do due diligence, do business with, do one's best, do without",
+    "placeholder": "예: When we onboard a new merchant, we do enhanced due diligence on every applicant. We don't do business with companies linked to sanctioned jurisdictions..."
+  },
+  "situations": {
+    "office": {
+      "color": "#FFE5E5",
+      "textColor": "#C62828",
+      "info": "🏢 사내 미팅<br>업무 분담, 진행 상황 확인, 문제 해결 — DO 동사가 행위·처리의 핵심!",
+      "lv1": [
+        {
+          "title": "업무 분담",
+          "dialog": [
+            {"who": "Mgr", "text": "Who's doing the merchant review this week?"},
+            {"who": "You", "text": "I'll do it. I have time on Wednesday afternoon."},
+            {"who": "Mgr", "text": "Great. Just do your best — it's a complex case."}
+          ]
+        },
+        {
+          "title": "진행 상황 점검",
+          "dialog": [
+            {"who": "Mgr", "text": "Did you do the audit prep for tomorrow?"},
+            {"who": "You", "text": "I did. The folder is on the shared drive."},
+            {"who": "Mgr", "text": "Perfect. Let me know if there's anything else I should do."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "프로세스 개선 회의",
+          "dialog": [
+            {"who": "You", "text": "Our current onboarding process takes too long. We can't do without automation any longer."},
+            {"who": "Team", "text": "What exactly do you want to automate?"},
+            {"who": "You", "text": "The CDD checks. Right now we do them manually for every merchant — it's not sustainable."},
+            {"who": "Team", "text": "Does the current vendor do that kind of integration?"},
+            {"who": "You", "text": "They do. I did a demo last week. It would cut our review time by half."},
+            {"who": "Team", "text": "Sounds promising. Let's do a pilot with 10 merchants first."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "운영기획팀과 협업 회의에서 AML 팀의 실사 프로세스 개선안을 제안하세요. 현재 무엇을 수행하는지, 어떤 도구가 부족한지, 어떻게 개선할지 DO 동사로 설명하세요.",
+        "aiRole": "Head of Operations Planning Team (운영기획팀장)",
+        "aiOpening": "Thanks for joining. I heard you wanted to discuss the CDD workflow. Walk me through what your team currently does, and where you think we can do better."
+      }
+    },
+    "email": {
+      "color": "#E3F2FD",
+      "textColor": "#1565C0",
+      "info": "📧 이메일·메시지<br>업무 요청, 진행 보고, 거절 — 격식 갖춘 DO 동사 활용!",
+      "lv1": [
+        {
+          "title": "업무 부탁",
+          "dialog": [
+            {"who": "You", "text": "Hi, could you do me a favor and review this CDD form?"},
+            {"who": "Them", "text": "Sure, I'll do it this afternoon."},
+            {"who": "You", "text": "Thanks! I'll do the same for you anytime."}
+          ]
+        },
+        {
+          "title": "진행 보고",
+          "dialog": [
+            {"who": "Them", "text": "Have you done the analysis I asked for?"},
+            {"who": "You", "text": "I did the first half. I'll do the rest by EOD."},
+            {"who": "Them", "text": "Great, no rush. Just do your best."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "외부 가맹점 거절 답변",
+          "dialog": [
+            {"who": "Vendor", "text": "Hi, we'd like to set up a payment account for our overseas business. Do you do business with companies in our region?"},
+            {"who": "You", "text": "Thanks for reaching out. Unfortunately, we don't do business with merchants in that jurisdiction due to our risk policy."},
+            {"who": "Vendor", "text": "I see. Is there anything we can do to qualify?"},
+            {"who": "You", "text": "We do enhanced due diligence case-by-case, but it would require additional documentation."},
+            {"who": "Vendor", "text": "What kind of documents do you need?"},
+            {"who": "You", "text": "I'll send a checklist. Please understand we have to do this thoroughly to meet our regulatory obligations."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "외국 가맹점 후보가 한국 PG사와 거래를 원하지만 본사 위치가 고위험 국가입니다. 회사 정책에 따라 정중하게 답변하되, 가능한 대안이 있다면 안내하세요.",
+        "aiRole": "Sales Director from a Southeast Asian e-commerce company",
+        "aiOpening": "Hi, my company is based in [high-risk jurisdiction] and we'd like to expand into Korea. Do you do business with companies from our region? We've heard your team is thorough — what would we need to do to qualify?"
+      }
+    },
+    "aml": {
+      "color": "#FFF3E0",
+      "textColor": "#E65100",
+      "info": "🚨 AML 실무<br>실사 수행, 케이스 처리, 관련성 분석 — DO 동사 핵심 활용!",
+      "lv1": [
+        {
+          "title": "CDD 수행 보고",
+          "dialog": [
+            {"who": "Mgr", "text": "Did you do the CDD on the three new merchants?"},
+            {"who": "You", "text": "I did. Two passed, one needs EDD."},
+            {"who": "Mgr", "text": "Good. Do the EDD this week if possible."}
+          ]
+        },
+        {
+          "title": "관련성 확인",
+          "dialog": [
+            {"who": "Audit", "text": "Does this account have anything to do with case #2026-0419?"},
+            {"who": "You", "text": "It doesn't. I checked — completely separate beneficial owner."},
+            {"who": "Audit", "text": "Good. We don't want to do anything that confuses the timeline."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "FIU 실사 절차 답변",
+          "dialog": [
+            {"who": "FIU", "text": "Walk me through what your team did before filing this STR."},
+            {"who": "You", "text": "We did the standard CDD first. When we saw the cross-border pattern, we did EDD on the beneficial owner."},
+            {"who": "FIU", "text": "Did you do business with this merchant before?"},
+            {"who": "You", "text": "We did, for about 18 months. Volume was normal until last quarter."},
+            {"who": "FIU", "text": "Did the abnormal volume have anything to do with their parent company restructuring?"},
+            {"who": "You", "text": "We considered that. Our analysis shows it has nothing to do with restructuring — the counterparties are entirely new."},
+            {"who": "FIU", "text": "Understood. We'll do a deeper review on our end."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "FIU에서 본인 팀의 CDD/EDD 실사 절차에 대한 검사 인터뷰가 진행됩니다. 무엇을 수행했는지, 어떤 분석을 했는지, 무엇이 무관한지 DO 동사를 활용해 답변하세요.",
+        "aiRole": "FIU Compliance Examiner",
+        "aiOpening": "Good morning. We're doing a thematic review on PG company AML practices. Can you walk me through what your team typically does when onboarding a high-risk merchant, and what you did differently in the case you filed last month?"
+      }
+    },
+    "social": {
+      "color": "#F3E5F5",
+      "textColor": "#6A1B9A",
+      "info": "🌍 비즈니스 사교<br>업무 소개, 의견 교환, 관심사 공유 — 부드러운 DO 동사!",
+      "lv1": [
+        {
+          "title": "직업 소개",
+          "dialog": [
+            {"who": "Peer", "text": "What do you do for a living?"},
+            {"who": "You", "text": "I do AML compliance at a Korean PG company."},
+            {"who": "Peer", "text": "Interesting! What does that involve day to day?"}
+          ]
+        },
+        {
+          "title": "주말 계획",
+          "dialog": [
+            {"who": "Peer", "text": "What did you do last weekend?"},
+            {"who": "You", "text": "Not much. I did some reading and caught up on rest."},
+            {"who": "Peer", "text": "That sounds nice. I should do that more often."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "업계 동향 토론",
+          "dialog": [
+            {"who": "Peer", "text": "How do Korean PGs typically do their merchant screening?"},
+            {"who": "You", "text": "We do a layered approach — automated screening first, then manual review for high-risk cases."},
+            {"who": "Peer", "text": "Do you do business with crypto exchanges?"},
+            {"who": "You", "text": "We don't, actually. Our risk appetite doesn't allow it yet."},
+            {"who": "Peer", "text": "Same here. Does that have anything to do with the recent FATF guidance?"},
+            {"who": "You", "text": "Partly, yes. But we'd done that policy before the guidance — we just couldn't do without an extra approval layer."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "ACAMS 컨퍼런스 커피 브레이크에서 다른 나라 컴플라이언스 담당자와 각국 PG/은행의 실사 관행에 대해 자연스럽게 의견을 나누세요.",
+        "aiRole": "Priya, AML Manager at an Indian payments company",
+        "aiOpening": "Hi! Priya, from Bangalore. I noticed you're from a Korean PG. We're doing a benchmarking study on how PGs in Asia do their CDD. Mind if I ask how your team handles it?"
+      }
+    },
+    "daily": {
+      "color": "#E8F5E9",
+      "textColor": "#2E7D32",
+      "info": "😊 일상 응용<br>주말 활동, 운동, 가족 일 — 가장 친숙한 DO 동사 패턴!",
+      "lv1": [
+        {
+          "title": "운동 루틴",
+          "dialog": [
+            {"who": "Friend", "text": "What do you do to stay active?"},
+            {"who": "You", "text": "I do yoga twice a week. It's the only thing I can do consistently."},
+            {"who": "Friend", "text": "Nice! I should do something too."}
+          ]
+        },
+        {
+          "title": "집안일",
+          "dialog": [
+            {"who": "Spouse", "text": "Did you do the laundry?"},
+            {"who": "You", "text": "I did. I'll do the dishes after dinner."},
+            {"who": "Spouse", "text": "Thanks. You've been doing a lot lately."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "주말 가족 활동",
+          "dialog": [
+            {"who": "Friend", "text": "What did you do over the weekend?"},
+            {"who": "You", "text": "We did a lot, actually. Took the kids to the park, did some grocery shopping."},
+            {"who": "Friend", "text": "Sounds like a busy weekend!"},
+            {"who": "You", "text": "It was. But honestly, I don't know what I'd do without weekends."},
+            {"who": "Friend", "text": "Same. Does your family do anything special on Sundays?"},
+            {"who": "You", "text": "We usually do brunch together. Nothing fancy, but it's our thing."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "외국인 동료와 점심 식사 자리에서 평소 일상, 가족 시간, 취미 활동에 대해 자연스럽게 이야기하세요.",
+        "aiRole": "Tom, a colleague visiting from the London office",
+        "aiOpening": "So tell me about life outside work in Korea! What do you usually do on weekends? Anything you do regularly with the family?"
+      }
+    }
+  }
+}

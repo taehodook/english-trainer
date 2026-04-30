@@ -1,0 +1,361 @@
+{
+  "day": 5,
+  "verb": {
+    "en": "MAKE",
+    "pron": "[메이크]",
+    "ko": "만들다 / 하게 하다 / 결정하다",
+    "forms": ["make / makes", "made", "made", "making"],
+    "frequency": "Oxford English Corpus 빈도 상위 (회화·문어 핵심)",
+    "stage": "Stage 1 · 절대 기본"
+  },
+  "meanings": [
+    {
+      "num": 1,
+      "ko": "만들다·작성하다 (생성·제작)",
+      "example": "I made a summary report for the audit team.",
+      "exampleKo": "감사팀을 위한 요약 보고서를 작성했어요."
+    },
+    {
+      "num": 2,
+      "ko": "~하게 하다 (사역·영향)",
+      "example": "This pattern made me suspicious.",
+      "exampleKo": "이 패턴이 저를 의심하게 만들었어요."
+    },
+    {
+      "num": 3,
+      "ko": "어떤 결과·상태가 되다 (성취·구성)",
+      "example": "She would make a great compliance officer.",
+      "exampleKo": "그녀는 훌륭한 컴플라이언스 담당자가 될 거예요."
+    }
+  ],
+  "chunks": [
+    {
+      "en": "make a decision",
+      "ko": "결정을 내리다",
+      "example": "We need to make a decision on this merchant by tomorrow.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "make sure",
+      "ko": "확실히 하다·반드시 ~하다",
+      "example": "Make sure all KYC documents are verified.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "make sense",
+      "ko": "말이 되다·이치에 맞다",
+      "example": "These transaction patterns don't make sense.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "make progress",
+      "ko": "진전을 보이다·진척하다",
+      "example": "We're making good progress on the cleanup project.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "make a difference",
+      "ko": "차이를 만들다·영향을 주다",
+      "example": "Strong AML controls make a real difference.",
+      "source": "Cambridge Dictionary"
+    }
+  ],
+  "pronTip": {
+    "title": "MAKE 동사 발음 핵심",
+    "points": [
+      "make [메이크] — 이중모음 'ay' 길게, k 살짝",
+      "made [메이드] — d 소리 부드럽게",
+      "making [메이킹] — '-ing' 콧소리 살리기",
+      "make sure [메익슈얼] — k+s 연음, sh 소리로!",
+      "make sense [메익센스] — k+s 연음 자연스럽게",
+      "강세: I MADE a decision (made에 강세)"
+    ]
+  },
+  "listening": {
+    "title": "AML 의사결정 회의 시나리오",
+    "source": "AML 업무 + Cambridge Dictionary 청크 검증",
+    "fullText": "Manager: We need to make a decision on this case today. Staff: I made a summary of all the red flags. The pattern doesn't make sense. Manager: What made you suspicious initially? Staff: The volume increase. Make sure we document everything. Manager: Good. We're making progress, and this kind of analysis makes a real difference.",
+    "blanks": [
+      {"prefix": "Manager: We need to", "blank": "make a decision", "suffix": "on this case today."},
+      {"prefix": "Staff: I", "blank": "made", "suffix": "a summary of all the red flags."},
+      {"prefix": "The pattern doesn't", "blank": "make sense", "suffix": "."},
+      {"prefix": "Manager: What", "blank": "made", "suffix": "you suspicious initially?"},
+      {"prefix": "Staff: The volume increase.", "blank": "Make sure", "suffix": "we document everything."},
+      {"prefix": "Manager: Good. We're", "blank": "making progress", "suffix": ", and this kind of analysis makes a real difference."}
+    ]
+  },
+  "youtube": [
+    {
+      "channel": "BBC Learning English",
+      "icon": "📺",
+      "color": "#BB1919",
+      "links": [
+        {"label": "MAKE vs DO 완벽 정리", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+make+vs+do"},
+        {"label": "\"make sure\" 활용", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+make+sure"}
+      ]
+    },
+    {
+      "channel": "Rachel's English",
+      "icon": "🎙️",
+      "color": "#E91E63",
+      "links": [
+        {"label": "make 이중모음 발음", "url": "https://www.youtube.com/results?search_query=Rachel's+English+make+pronunciation+diphthong"},
+        {"label": "\"make sure\" 연음 [메익슈얼]", "url": "https://www.youtube.com/results?search_query=Rachel's+English+make+sure+linking"}
+      ]
+    },
+    {
+      "channel": "EngVid",
+      "icon": "🎓",
+      "color": "#1E88E5",
+      "links": [
+        {"label": "MAKE 비즈니스 collocations", "url": "https://www.youtube.com/results?search_query=engvid+make+business+collocations"},
+        {"label": "\"make a decision\" 비즈니스 표현", "url": "https://www.youtube.com/results?search_query=engvid+make+a+decision+business+English"}
+      ]
+    },
+    {
+      "channel": "AML 실전 ⭐",
+      "icon": "🛡️",
+      "color": "#7C3AED",
+      "links": [
+        {"label": "AML Decision-Making Framework", "url": "https://www.youtube.com/results?search_query=AML+decision+making+framework+compliance"},
+        {"label": "Risk Assessment Documentation", "url": "https://www.youtube.com/results?search_query=AML+risk+assessment+documentation"}
+      ]
+    }
+  ],
+  "examples5": [
+    {"category": "일상", "label": "작성", "color": "blue", "en": "I made a checklist for tomorrow's audit visit.", "ko": "내일 감사 방문을 위한 체크리스트를 만들었어요."},
+    {"category": "업무", "label": "결정", "color": "orange", "en": "Let's make a decision on the new vendor by Friday.", "ko": "금요일까지 새 벤더에 대한 결정을 내립시다."},
+    {"category": "AML", "label": "확인", "color": "green", "en": "Make sure all PEP screenings are documented.", "ko": "모든 PEP 스크리닝이 문서화됐는지 반드시 확인하세요."},
+    {"category": "의견", "label": "이치", "color": "purple", "en": "These flagged transactions don't make sense as legitimate business.", "ko": "이 신고된 거래들은 정상 비즈니스로는 말이 안 돼요."},
+    {"category": "감정", "label": "영향", "color": "red", "en": "Our team's work is making a real difference in fraud detection.", "ko": "우리 팀의 업무는 사기 탐지에 실질적인 차이를 만들고 있어요."}
+  ],
+  "writing5": [
+    {"ko": "감사팀을 위한 요약 보고서를 작성했어요.", "en": "I made a summary report for the audit team.", "hint": "MAKE 동사 + 작성 (의미①)"},
+    {"ko": "내일까지 이 가맹점에 대한 결정을 내려야 합니다.", "en": "We need to make a decision on this merchant by tomorrow.", "hint": "청크: make a decision"},
+    {"ko": "모든 KYC 서류가 검증됐는지 반드시 확인하세요.", "en": "Make sure all KYC documents are verified.", "hint": "청크: make sure"},
+    {"ko": "이 거래 패턴은 말이 안 돼요.", "en": "These transaction patterns don't make sense.", "hint": "청크: make sense"},
+    {"ko": "정리 프로젝트에서 좋은 진전을 보이고 있어요.", "en": "We're making good progress on the cleanup project.", "hint": "청크: make progress"}
+  ],
+  "challenge3sec": [
+    {"ko": "결정을 내려야 합니다.", "en": "We need to make a decision."},
+    {"ko": "반드시 문서화하세요.", "en": "Make sure to document it."},
+    {"ko": "이건 말이 안 돼요.", "en": "This doesn't make sense."},
+    {"ko": "좋은 진전을 보이고 있어요.", "en": "We're making good progress."},
+    {"ko": "큰 차이를 만들어요.", "en": "It makes a big difference."},
+    {"ko": "보고서 작성했어요.", "en": "I made the report."},
+    {"ko": "이 패턴이 의심스러워요.", "en": "This pattern makes me suspicious."}
+  ],
+  "freewrite": {
+    "situation": "최근 본인 팀이 내린 중요한 컴플라이언스 의사결정에 대해 영어로 설명하세요. 어떤 분석을 했고, 무엇을 확인했고, 어떤 차이를 만들었는지 MAKE 동사 + 오늘 배운 청크를 사용해서 3-5문장으로 작성해보세요.",
+    "hint": "활용: make a decision, make sure, make sense, make progress, make a difference",
+    "placeholder": "예: Last month our team had to make a difficult decision about offboarding a long-term merchant. The transaction patterns simply didn't make sense anymore..."
+  },
+  "situations": {
+    "office": {
+      "color": "#FFE5E5",
+      "textColor": "#C62828",
+      "info": "🏢 사내 미팅<br>의사결정, 검토 확인, 진행 보고 — MAKE 동사가 결정·확인의 핵심!",
+      "lv1": [
+        {
+          "title": "의사결정 회의",
+          "dialog": [
+            {"who": "Mgr", "text": "Have we made a decision on the new screening vendor?"},
+            {"who": "You", "text": "Not yet. I'll make sure to finalize it this week."},
+            {"who": "Mgr", "text": "Good. The current setup doesn't make sense anymore."}
+          ]
+        },
+        {
+          "title": "진행 보고",
+          "dialog": [
+            {"who": "Mgr", "text": "Are we making progress on the merchant cleanup?"},
+            {"who": "You", "text": "Yes, we've made significant progress this quarter."},
+            {"who": "Mgr", "text": "That makes a big difference for our risk profile."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "분기 전략 회의",
+          "dialog": [
+            {"who": "You", "text": "I've made a draft of our Q3 priorities. The current process doesn't make sense for our scale."},
+            {"who": "Team", "text": "What changes are you proposing?"},
+            {"who": "You", "text": "First, make sure we automate the screening. Second, we need to make a decision on the offshore data clause."},
+            {"who": "Team", "text": "Will this really make a difference?"},
+            {"who": "You", "text": "It will. We'd cut review time by 40% and make real progress on the backlog."},
+            {"who": "Team", "text": "Let's make sure we have buy-in from operations before finalizing."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "분기 컴플라이언스 전략 회의에서 본인이 제안하는 프로세스 개선안을 본부장에게 설득하세요. 현재 문제점, 결정이 필요한 사항, 기대 효과를 MAKE 동사로 풀어내세요.",
+        "aiRole": "VP of Compliance",
+        "aiOpening": "Alright, you've got 15 minutes. Walk me through what you want to change, what decision you need from me, and how this is going to make a real difference."
+      }
+    },
+    "email": {
+      "color": "#E3F2FD",
+      "textColor": "#1565C0",
+      "info": "📧 이메일·메시지<br>안내, 확인 요청, 진행 보고 — 격식 갖춘 MAKE 동사 활용!",
+      "lv1": [
+        {
+          "title": "확인 요청 메일",
+          "dialog": [
+            {"who": "You", "text": "Hi, please make sure the report is reviewed before submission."},
+            {"who": "Them", "text": "Will do. I'll make a final check this afternoon."},
+            {"who": "You", "text": "Thanks. That makes my day easier."}
+          ]
+        },
+        {
+          "title": "결정 안내",
+          "dialog": [
+            {"who": "Them", "text": "Have you made a decision on our proposal?"},
+            {"who": "You", "text": "Yes, we've made our decision. I'll send the formal response today."},
+            {"who": "Them", "text": "Great. Looking forward to it."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "외부 감사 답변",
+          "dialog": [
+            {"who": "Audit", "text": "We need clarification on the decisions made during Q1 cleanup."},
+            {"who": "You", "text": "Thank you. We made our decisions based on a tiered risk framework — let me explain."},
+            {"who": "You", "text": "First, we made sure each merchant was scored against our updated risk matrix."},
+            {"who": "Audit", "text": "Did the new matrix make a meaningful difference compared to the old one?"},
+            {"who": "You", "text": "It did. We made progress in identifying 30% more high-risk cases that previously didn't make sense to flag."},
+            {"who": "Audit", "text": "Understood. Please make sure the methodology document is shared by Friday."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "외부 감사인이 본인 팀의 Q1 컴플라이언스 의사결정에 대한 추가 자료를 이메일로 요청했습니다. 어떤 결정을, 어떤 근거로, 어떤 효과를 보고 내렸는지 MAKE 동사로 명확히 답변하세요.",
+        "aiRole": "External Auditor (Big 4 firm)",
+        "aiOpening": "Following our on-site visit, we'd like clarification on the offboarding decisions made in Q1. Please walk us through the rationale and confirm how you made sure each decision was properly documented."
+      }
+    },
+    "aml": {
+      "color": "#FFF3E0",
+      "textColor": "#E65100",
+      "info": "🚨 AML 실무<br>STR 결정, 패턴 분석, 문서 확인 — MAKE 동사 핵심 활용!",
+      "lv1": [
+        {
+          "title": "STR 결정",
+          "dialog": [
+            {"who": "Mgr", "text": "Have you made a decision on whether to file?"},
+            {"who": "You", "text": "Yes. The volume pattern doesn't make sense — I'm filing."},
+            {"who": "Mgr", "text": "Good. Make sure to document the rationale."}
+          ]
+        },
+        {
+          "title": "분석 보고",
+          "dialog": [
+            {"who": "Audit", "text": "What made you flag this account?"},
+            {"who": "You", "text": "Three transactions made no sense given the merchant's stated business."},
+            {"who": "Audit", "text": "That's a clear basis. Make sure it's in the case file."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "FIU 케이스 의사결정 인터뷰",
+          "dialog": [
+            {"who": "FIU", "text": "Walk me through how the team made the decision to file this STR."},
+            {"who": "You", "text": "We made the decision based on three factors. First, the transaction velocity made no sense for the merchant's stated business model."},
+            {"who": "FIU", "text": "And the second factor?"},
+            {"who": "You", "text": "The counterparty network. I made a relationship map and it showed clear layering signs."},
+            {"who": "FIU", "text": "Did the data make a clear case?"},
+            {"who": "You", "text": "It did. We made sure to cross-reference with sanctions lists and watchlists before filing."},
+            {"who": "FIU", "text": "Strong analysis. This kind of work makes a real difference for our investigations."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "FIU 검사관이 본인 팀의 STR 의사결정 프로세스에 대한 심층 인터뷰를 진행합니다. 어떤 분석으로, 어떤 근거로, 어떤 검증을 거쳐 결정을 내렸는지 MAKE 동사로 답변하세요.",
+        "aiRole": "FIU Senior Examiner",
+        "aiOpening": "Today I'd like to focus on decision-making. For the case 2026-0419, walk me through how your team made the decision to file, what you did to make sure the analysis was sound, and what made you confident in the conclusion."
+      }
+    },
+    "social": {
+      "color": "#F3E5F5",
+      "textColor": "#6A1B9A",
+      "info": "🌍 비즈니스 사교<br>의견 교환, 업계 영향 토론, 의사결정 공유 — 부드러운 MAKE 동사!",
+      "lv1": [
+        {
+          "title": "패널 후 대화",
+          "dialog": [
+            {"who": "Peer", "text": "Your panel made a lot of sense to me."},
+            {"who": "You", "text": "Thanks! I tried to make a few practical points."},
+            {"who": "Peer", "text": "It made a real difference compared to the usual theoretical talks."}
+          ]
+        },
+        {
+          "title": "업계 의견",
+          "dialog": [
+            {"who": "Peer", "text": "Has Korea made progress on FATF recommendations?"},
+            {"who": "You", "text": "We've made significant progress, but there's still work to do."},
+            {"who": "Peer", "text": "Same in Singapore. We need to make sure the gaps close fast."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "업계 깊은 토론",
+          "dialog": [
+            {"who": "Peer", "text": "How do Korean PGs make decisions on offboarding high-risk merchants?"},
+            {"who": "You", "text": "We've made our framework more data-driven recently. The old gut-feel approach didn't make sense at our scale."},
+            {"who": "Peer", "text": "Did the change make a measurable difference?"},
+            {"who": "You", "text": "Definitely. We've made about 40% faster decisions, with fewer reversals."},
+            {"who": "Peer", "text": "That's impressive. What made you push for the change?"},
+            {"who": "You", "text": "Honestly, the regulatory pressure. But it made our team's work more meaningful."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "ACAMS 컨퍼런스 자리에서 다른 나라 컴플라이언스 리더와 각국 의사결정 프레임워크에 대해 깊이 있게 의견을 교환하세요. 본인 회사의 변화, 결정 기준, 효과를 MAKE 동사로 자연스럽게 풀어내세요.",
+        "aiRole": "Anjali, Head of Compliance at a major Indian PG",
+        "aiOpening": "I really enjoyed your session. We're trying to make our offboarding framework more rigorous and your approach made a lot of sense. Mind sharing more about how you made the shift?"
+      }
+    },
+    "daily": {
+      "color": "#E8F5E9",
+      "textColor": "#2E7D32",
+      "info": "😊 일상 응용<br>결정, 식사 준비, 가족 약속 — 가장 친숙한 MAKE 동사 패턴!",
+      "lv1": [
+        {
+          "title": "주말 결정",
+          "dialog": [
+            {"who": "Spouse", "text": "Have you made a decision about the trip?"},
+            {"who": "You", "text": "Not yet. Let me make sure I can take Friday off first."},
+            {"who": "Spouse", "text": "Sure, take your time."}
+          ]
+        },
+        {
+          "title": "식사 준비",
+          "dialog": [
+            {"who": "Friend", "text": "Did you make dinner already?"},
+            {"who": "You", "text": "I made pasta. Want to grab a plate?"},
+            {"who": "Friend", "text": "That makes my day. Thanks!"}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "가족 일상 대화",
+          "dialog": [
+            {"who": "Friend", "text": "Are you making time for yourself with the new baby?"},
+            {"who": "You", "text": "Honestly, not as much as I should. But we made a rule — Sundays are family-only."},
+            {"who": "Friend", "text": "That makes sense. Routines really make a difference."},
+            {"who": "You", "text": "They do. We're making slow progress in finding our rhythm."},
+            {"who": "Friend", "text": "Make sure you and your spouse take turns to rest."},
+            {"who": "You", "text": "We try. It makes all the difference when we do."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "친구와 카페에서 만나 최근 가족 변화, 일상의 결정, 잘 지내고 있는지에 대해 자연스럽게 대화하세요.",
+        "aiRole": "Yuki, a close friend you haven't seen in months",
+        "aiOpening": "Long time no see! How have you been making it work with the baby and full-time work? Have you made any big changes lately?"
+      }
+    }
+  }
+}

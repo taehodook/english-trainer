@@ -1,0 +1,361 @@
+{
+  "day": 4,
+  "verb": {
+    "en": "GET",
+    "pron": "[겟]",
+    "ko": "받다 / 얻다 / 도달하다 / ~되다",
+    "forms": ["get / gets", "got", "got / gotten", "getting"],
+    "frequency": "Oxford English Corpus 빈도 상위 (회화 1위 동사)",
+    "stage": "Stage 1 · 절대 기본"
+  },
+  "meanings": [
+    {
+      "num": 1,
+      "ko": "받다·얻다 (수령·획득)",
+      "example": "I got the audit report this morning.",
+      "exampleKo": "오늘 아침에 감사 보고서를 받았습니다."
+    },
+    {
+      "num": 2,
+      "ko": "도달하다·~에 가다 (이동·진행)",
+      "example": "I'll get to the office by 9.",
+      "exampleKo": "9시까지 사무실에 도착하겠습니다."
+    },
+    {
+      "num": 3,
+      "ko": "~되다·~한 상태가 되다 (수동·변화)",
+      "example": "The case got escalated to the head of compliance.",
+      "exampleKo": "그 케이스는 컴플라이언스 본부장에게 에스컬레이션 됐어요."
+    }
+  ],
+  "chunks": [
+    {
+      "en": "get in touch with",
+      "ko": "~에게 연락하다",
+      "example": "I'll get in touch with the merchant for clarification.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "get rid of",
+      "ko": "~를 없애다·제거하다",
+      "example": "We need to get rid of duplicate KYC records.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "get back to",
+      "ko": "~에게 다시 연락하다·답변하다",
+      "example": "I'll get back to you with the analysis by Friday.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "get involved in",
+      "ko": "~에 관여하다·연루되다",
+      "example": "The merchant got involved in suspicious cross-border activity.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "get something done",
+      "ko": "~을 끝내다·완료시키다",
+      "example": "Let's get the STR filing done before the deadline.",
+      "source": "Cambridge Dictionary"
+    }
+  ],
+  "pronTip": {
+    "title": "GET 동사 발음 핵심",
+    "points": [
+      "get [겟] — 짧은 e 소리, t 살짝 끊기",
+      "got [갓] — 영국식 [고트] / 미국식 [갓]",
+      "gotten [가튼] — 미국식만 사용 (영국은 got)",
+      "getting [게링] — 미국식 t는 d 비슷하게 (flap T)",
+      "축약: I've got / I've gotta = have to (구어체)",
+      "get to [게투] — t 한 번만, 부드럽게 연결"
+    ]
+  },
+  "listening": {
+    "title": "AML 케이스 후속 조치 시나리오",
+    "source": "AML 업무 + Cambridge Dictionary 청크 검증",
+    "fullText": "Manager: Did you get the merchant's response yet? Staff: Not yet. I'll get in touch with them today. Manager: Good. We need to get rid of the outdated KYC files first. Staff: Already on it. I'll get back to you once it's done. Manager: This case got escalated, so let's get it done quickly. Staff: Understood. The merchant got involved in three flagged transactions last month.",
+    "blanks": [
+      {"prefix": "Manager: Did you", "blank": "get", "suffix": "the merchant's response yet?"},
+      {"prefix": "Staff: Not yet. I'll", "blank": "get in touch", "suffix": "with them today."},
+      {"prefix": "Manager: Good. We need to", "blank": "get rid of", "suffix": "the outdated KYC files first."},
+      {"prefix": "Staff: Already on it. I'll", "blank": "get back to", "suffix": "you once it's done."},
+      {"prefix": "Manager: This case", "blank": "got", "suffix": "escalated, so let's get it done quickly."},
+      {"prefix": "Staff: Understood. The merchant", "blank": "got involved in", "suffix": "three flagged transactions last month."}
+    ]
+  },
+  "youtube": [
+    {
+      "channel": "BBC Learning English",
+      "icon": "📺",
+      "color": "#BB1919",
+      "links": [
+        {"label": "GET 동사 8가지 의미", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+get+verb+meanings"},
+        {"label": "\"get rid of\" 표현 정복", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+get+rid+of"}
+      ]
+    },
+    {
+      "channel": "Rachel's English",
+      "icon": "🎙️",
+      "color": "#E91E63",
+      "links": [
+        {"label": "GET 발음 + Flap T", "url": "https://www.youtube.com/results?search_query=Rachel's+English+get+flap+t+pronunciation"},
+        {"label": "I've gotta / I've got to", "url": "https://www.youtube.com/results?search_query=Rachel's+English+gotta+got+to"}
+      ]
+    },
+    {
+      "channel": "EngVid",
+      "icon": "🎓",
+      "color": "#1E88E5",
+      "links": [
+        {"label": "GET 비즈니스 phrasal verbs", "url": "https://www.youtube.com/results?search_query=engvid+get+phrasal+verbs+business"},
+        {"label": "\"get back to you\" 비즈니스 표현", "url": "https://www.youtube.com/results?search_query=engvid+get+back+to+you+business+English"}
+      ]
+    },
+    {
+      "channel": "AML 실전 ⭐",
+      "icon": "🛡️",
+      "color": "#7C3AED",
+      "links": [
+        {"label": "AML Escalation Process", "url": "https://www.youtube.com/results?search_query=AML+escalation+process+compliance"},
+        {"label": "Suspicious Activity Follow-up", "url": "https://www.youtube.com/results?search_query=AML+suspicious+activity+follow+up+procedures"}
+      ]
+    }
+  ],
+  "examples5": [
+    {"category": "일상", "label": "수령", "color": "blue", "en": "I got an email from the FIU this morning.", "ko": "오늘 아침에 FIU에서 이메일을 받았어요."},
+    {"category": "업무", "label": "이동·도달", "color": "orange", "en": "I'll get to the meeting room in 5 minutes.", "ko": "5분 안에 회의실로 가겠습니다."},
+    {"category": "AML", "label": "연루", "color": "green", "en": "The merchant got involved in a layering scheme.", "ko": "그 가맹점은 자금세탁의 레이어링에 연루됐습니다."},
+    {"category": "의견", "label": "후속 답변", "color": "purple", "en": "Let me check and get back to you by EOD.", "ko": "확인 후 EOD까지 답변드릴게요."},
+    {"category": "감정", "label": "완료", "color": "red", "en": "Let's get this report done before the audit visit.", "ko": "감사 방문 전에 이 보고서를 끝내죠."}
+  ],
+  "writing5": [
+    {"ko": "오늘 아침에 감사 보고서를 받았습니다.", "en": "I got the audit report this morning.", "hint": "GET 동사 + 수령 (의미①)"},
+    {"ko": "그 케이스는 컴플라이언스 본부장에게 에스컬레이션 됐어요.", "en": "The case got escalated to the head of compliance.", "hint": "GET 동사 + 수동 (의미③)"},
+    {"ko": "확인을 위해 가맹점에 연락하겠습니다.", "en": "I'll get in touch with the merchant for clarification.", "hint": "청크: get in touch with"},
+    {"ko": "중복된 KYC 기록을 없애야 합니다.", "en": "We need to get rid of duplicate KYC records.", "hint": "청크: get rid of"},
+    {"ko": "마감일 전에 STR 제출을 끝냅시다.", "en": "Let's get the STR filing done before the deadline.", "hint": "청크: get something done"}
+  ],
+  "challenge3sec": [
+    {"ko": "감사 보고서 받았어요.", "en": "I got the audit report."},
+    {"ko": "오늘까지 답변드리겠습니다.", "en": "I'll get back to you today."},
+    {"ko": "가맹점에 연락해볼게요.", "en": "I'll get in touch with the merchant."},
+    {"ko": "이 케이스 빨리 끝내죠.", "en": "Let's get this case done quickly."},
+    {"ko": "그 가맹점은 의심거래에 연루됐어요.", "en": "The merchant got involved in suspicious transactions."},
+    {"ko": "오래된 데이터를 정리해야 해요.", "en": "We need to get rid of old data."},
+    {"ko": "곧 도착해요.", "en": "I'll get there soon."}
+  ],
+  "freewrite": {
+    "situation": "최근 본인이 처리한 의심거래 케이스의 후속 조치 과정을 영어로 설명하세요. 누구에게 연락했고, 무엇을 받았으며, 어떻게 마무리됐는지 GET 동사 + 오늘 배운 청크를 사용해서 3-5문장으로 작성해보세요.",
+    "hint": "활용: get in touch with, get back to, get involved in, get something done",
+    "placeholder": "예: Last week I got an alert about an unusual cross-border transfer. I got in touch with the merchant immediately to verify..."
+  },
+  "situations": {
+    "office": {
+      "color": "#FFE5E5",
+      "textColor": "#C62828",
+      "info": "🏢 사내 미팅<br>업무 진행, 후속 조치, 일정 조율 — GET 동사가 행동·결과의 핵심!",
+      "lv1": [
+        {
+          "title": "후속 조치",
+          "dialog": [
+            {"who": "Mgr", "text": "Did you get a response from the legal team?"},
+            {"who": "You", "text": "Not yet. I'll get in touch with them again today."},
+            {"who": "Mgr", "text": "Good. Let's get this resolved by Friday."}
+          ]
+        },
+        {
+          "title": "회의 일정",
+          "dialog": [
+            {"who": "Coll", "text": "When can we get together to review the new policy?"},
+            {"who": "You", "text": "I can get to the meeting room around 3."},
+            {"who": "Coll", "text": "Perfect. I'll get the slides ready before then."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "프로젝트 진행 회의",
+          "dialog": [
+            {"who": "Mgr", "text": "Where are we on the merchant cleanup project?"},
+            {"who": "You", "text": "We got rid of about 200 inactive accounts last week. Another 500 to go."},
+            {"who": "Mgr", "text": "Did the data team get involved in the analysis?"},
+            {"who": "You", "text": "Yes, they did. They got back to me yesterday with their findings."},
+            {"who": "Mgr", "text": "Great. Let's get the final report done by month-end."},
+            {"who": "You", "text": "Understood. I'll get in touch with each team lead to align."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "AML 팀의 분기 프로젝트 진행 상황을 컴플라이언스 본부장에게 보고하세요. 무엇을 받았고, 누구와 협업했고, 무엇을 끝냈는지 GET 동사로 정리하세요.",
+        "aiRole": "Compliance Director",
+        "aiOpening": "Thanks for the update. Let me cut to the chase — where are we on the cleanup project, and what did we get from the data team's analysis? I want to get this wrapped up before Q-end."
+      }
+    },
+    "email": {
+      "color": "#E3F2FD",
+      "textColor": "#1565C0",
+      "info": "📧 이메일·메시지<br>응답, 연락, 회신 약속 — 격식 갖춘 GET 동사 활용!",
+      "lv1": [
+        {
+          "title": "회신 약속",
+          "dialog": [
+            {"who": "Them", "text": "Could you confirm the KYC status of merchant #842?"},
+            {"who": "You", "text": "Let me check and get back to you within an hour."},
+            {"who": "Them", "text": "Thanks, much appreciated."}
+          ]
+        },
+        {
+          "title": "자료 수령 확인",
+          "dialog": [
+            {"who": "You", "text": "Hi, I just got your file. Thanks for sending it over."},
+            {"who": "Them", "text": "Did you get all the attachments?"},
+            {"who": "You", "text": "Yes, I got everything. I'll get started on the review now."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "외부 컨설턴트 후속 답변",
+          "dialog": [
+            {"who": "Cnslt", "text": "Hi, just following up — did you get a chance to review the proposal?"},
+            {"who": "You", "text": "Yes, I got it last Friday. Sorry for the delay in getting back to you."},
+            {"who": "Cnslt", "text": "No worries. Did your team get involved in evaluating it?"},
+            {"who": "You", "text": "We did. The legal team got involved and raised a few concerns about data residency."},
+            {"who": "Cnslt", "text": "Understood. What would help you get this approved internally?"},
+            {"who": "You", "text": "If we could get rid of the offshore data clause, that would help significantly. Can we get that done in the next round?"}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "외부 컨설팅사가 제안한 KYC 자동화 솔루션에 대해 후속 검토 답변을 보내야 합니다. 받은 자료, 내부 검토 결과, 추가 요청사항을 GET 동사로 정중하게 전달하세요.",
+        "aiRole": "James, Senior Consultant at an international advisory firm",
+        "aiOpening": "Hi, just circling back on the proposal we sent last week. Did you get a chance to review it with your team? Let me know what we can do to get this moving forward."
+      }
+    },
+    "aml": {
+      "color": "#FFF3E0",
+      "textColor": "#E65100",
+      "info": "🚨 AML 실무<br>알람 수신, 케이스 에스컬레이션, 연루 분석 — GET 동사 핵심 활용!",
+      "lv1": [
+        {
+          "title": "알람 수신",
+          "dialog": [
+            {"who": "You", "text": "I just got an alert on merchant #2026-815."},
+            {"who": "Mgr", "text": "What did you get from the initial review?"},
+            {"who": "You", "text": "The transaction got flagged for unusual volume."}
+          ]
+        },
+        {
+          "title": "에스컬레이션",
+          "dialog": [
+            {"who": "Mgr", "text": "Has this case gotten any worse since last week?"},
+            {"who": "You", "text": "It has. Two more transactions got flagged yesterday."},
+            {"who": "Mgr", "text": "Then we need to get this escalated immediately."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "FIU 케이스 후속 인터뷰",
+          "dialog": [
+            {"who": "FIU", "text": "Walk me through how the case got flagged initially."},
+            {"who": "You", "text": "We got an automated alert based on threshold breach. The volume got 3x the usual within 7 days."},
+            {"who": "FIU", "text": "Did anyone external get involved at that stage?"},
+            {"who": "You", "text": "Not external — but we got our data team involved to validate the pattern."},
+            {"who": "FIU", "text": "How quickly did you get the STR filed after that?"},
+            {"who": "You", "text": "We got it done within 48 hours. The merchant didn't get back to us, so we filed without their input."},
+            {"who": "FIU", "text": "Good. We'll get back to you if we need additional information."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "FIU에서 본인이 신고한 STR 케이스의 진행 과정에 대해 인터뷰를 진행합니다. 알람을 어떻게 받았고, 누가 관여했고, 어떻게 마무리됐는지 GET 동사로 답변하세요.",
+        "aiRole": "FIU Senior Investigator",
+        "aiOpening": "Thank you for making time. I want to walk through the timeline of case 2026-0419. How did the case first get flagged, and at what point did your team get the head of compliance involved?"
+      }
+    },
+    "social": {
+      "color": "#F3E5F5",
+      "textColor": "#6A1B9A",
+      "info": "🌍 비즈니스 사교<br>네트워킹, 연락처 교환, 후속 약속 — 부드러운 GET 동사!",
+      "lv1": [
+        {
+          "title": "연락처 교환",
+          "dialog": [
+            {"who": "Peer", "text": "Let me get your contact info before we leave."},
+            {"who": "You", "text": "Sure! Here's my card. Let's get in touch next week."},
+            {"who": "Peer", "text": "Definitely. I'll get back to you on that webinar idea."}
+          ]
+        },
+        {
+          "title": "근황 토크",
+          "dialog": [
+            {"who": "Peer", "text": "How did you get into AML originally?"},
+            {"who": "You", "text": "I got involved through a fraud investigation project, then never left."},
+            {"who": "Peer", "text": "Funny how things work out!"}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "네트워킹 깊은 대화",
+          "dialog": [
+            {"who": "Peer", "text": "I heard Korean PGs are getting more strict on merchant onboarding. Is that true?"},
+            {"who": "You", "text": "It's true. We've gotten more cautious since the FATF mutual evaluation."},
+            {"who": "Peer", "text": "How do you get rid of high-risk merchants once they're onboarded?"},
+            {"who": "You", "text": "It's tricky. We get our risk team involved early, and we have an offboarding protocol."},
+            {"who": "Peer", "text": "Could you get a few of us together for a roundtable on this?"},
+            {"who": "You", "text": "I'd love to. Let me get in touch with my counterparts and get something organized."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "ACAMS 컨퍼런스에서 다른 나라 컴플라이언스 담당자와 깊이 있는 업계 토론을 나누세요. 본인 경력, 한국 PG 동향, 향후 협업 가능성을 GET 동사로 자연스럽게 풀어내세요.",
+        "aiRole": "Hannah, Head of AML at a global PG headquartered in Singapore",
+        "aiOpening": "Great panel earlier! I've been wanting to get in touch with someone from a Korean PG. We're getting more deal flow from Korea and I want to get a sense of how local players approach merchant risk. Mind if we chat for a bit?"
+      }
+    },
+    "daily": {
+      "color": "#E8F5E9",
+      "textColor": "#2E7D32",
+      "info": "😊 일상 응용<br>이동, 일상 상태 변화, 친구와 약속 — 가장 친숙한 GET 동사!",
+      "lv1": [
+        {
+          "title": "약속 조율",
+          "dialog": [
+            {"who": "Friend", "text": "What time can you get there?"},
+            {"who": "You", "text": "I'll get there around 7. Got stuck in a meeting."},
+            {"who": "Friend", "text": "No worries, take your time."}
+          ]
+        },
+        {
+          "title": "건강 변화",
+          "dialog": [
+            {"who": "Friend", "text": "You look tired — are you getting enough sleep?"},
+            {"who": "You", "text": "Not really. I get about 5 hours these days."},
+            {"who": "Friend", "text": "You should get some rest this weekend."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "가족 변화 이야기",
+          "dialog": [
+            {"who": "Friend", "text": "How's the baby? Getting bigger?"},
+            {"who": "You", "text": "She's getting huge! And she finally got her first tooth last week."},
+            {"who": "Friend", "text": "Aww! Are you getting any sleep at all?"},
+            {"who": "You", "text": "Not much. But we got a night nurse to help on weekdays."},
+            {"who": "Friend", "text": "Smart move. Let's get together for dinner soon — I want to see her."},
+            {"who": "You", "text": "Definitely. Let me get back to you with some dates."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "오랜만에 만난 외국인 친구와 근황을 나누는 자리입니다. 최근 변화, 일상의 흐름, 향후 약속을 GET 동사로 자연스럽게 풀어내세요.",
+        "aiRole": "Mike, an old friend now living in Australia",
+        "aiOpening": "Hey! It's been ages. How have you been getting on? Last I heard you got a promotion and the family got bigger — give me the rundown!"
+      }
+    }
+  }
+}

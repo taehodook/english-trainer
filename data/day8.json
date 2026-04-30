@@ -1,0 +1,364 @@
+{
+  "day": 8,
+  "verb": {
+    "en": "COME",
+    "pron": "[컴]",
+    "ko": "오다 / 도달하다 / ~하게 되다",
+    "forms": ["come / comes", "came", "come", "coming"],
+    "frequency": "Oxford English Corpus 빈도 상위 (이동 동사 1위)",
+    "stage": "Stage 1 · 절대 기본"
+  },
+  "meanings": [
+    {
+      "num": 1,
+      "ko": "오다·도착하다 (이동)",
+      "example": "The auditor will come at 10 AM.",
+      "exampleKo": "감사관은 오전 10시에 올 거예요."
+    },
+    {
+      "num": 2,
+      "ko": "(결과·상황이) 발생하다·생기다 (전개)",
+      "example": "The flag came from a routine review.",
+      "exampleKo": "그 신고는 일상적인 검토에서 나왔어요."
+    },
+    {
+      "num": 3,
+      "ko": "~하게 되다·이르다 (도달·결론)",
+      "example": "We came to the conclusion that filing was necessary.",
+      "exampleKo": "신고가 필요하다는 결론에 이르렀어요."
+    }
+  ],
+  "chunks": [
+    {
+      "en": "come up with",
+      "ko": "(아이디어·해결책을) 떠올리다·생각해내다",
+      "example": "We came up with a new screening approach.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "come across",
+      "ko": "우연히 마주치다·발견하다",
+      "example": "I came across an unusual transaction pattern.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "come into effect",
+      "ko": "(법·규정이) 시행되다·발효되다",
+      "example": "The new FATF guidance comes into effect next month.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "come to a conclusion",
+      "ko": "결론에 이르다",
+      "example": "The team came to a conclusion after a 3-day review.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "come under scrutiny",
+      "ko": "조사·검토 대상이 되다",
+      "example": "This merchant came under scrutiny last quarter.",
+      "source": "Cambridge Dictionary"
+    }
+  ],
+  "pronTip": {
+    "title": "COME 동사 발음 핵심",
+    "points": [
+      "come [컴] — 짧은 'uh' 소리 (콤 X, 캄 X)",
+      "came [케임] — 이중모음 'ay' 길게",
+      "coming [커밍] — '-ing' 콧소리",
+      "come on [커먼] — n 연음, 자연스럽게",
+      "come up with [커먹윗] — 빠른 회화체",
+      "강세: WHERE did it come FROM (의문문 강세)"
+    ]
+  },
+  "listening": {
+    "title": "AML 감사 대응 시나리오",
+    "source": "AML 업무 + Cambridge Dictionary 청크 검증",
+    "fullText": "Manager: When does the auditor come tomorrow? Staff: She'll come at 10. We came up with a structured response plan yesterday. Manager: Good. Did anything new come up in the case file? Staff: Yes, I came across one more red flag. Manager: That merchant has come under scrutiny before. The new FATF rules come into effect soon, so we need to come to a conclusion fast.",
+    "blanks": [
+      {"prefix": "Manager: When does the auditor", "blank": "come", "suffix": "tomorrow?"},
+      {"prefix": "Staff: She'll", "blank": "come", "suffix": "at 10. We came up with a structured response plan yesterday."},
+      {"prefix": "We", "blank": "came up with", "suffix": "a structured response plan yesterday."},
+      {"prefix": "Manager: Good. Did anything new", "blank": "come up", "suffix": "in the case file?"},
+      {"prefix": "Staff: Yes, I", "blank": "came across", "suffix": "one more red flag."},
+      {"prefix": "Manager: That merchant has", "blank": "come under scrutiny", "suffix": "before."},
+      {"prefix": "The new FATF rules", "blank": "come into effect", "suffix": "soon, so we need to come to a conclusion fast."}
+    ]
+  },
+  "youtube": [
+    {
+      "channel": "BBC Learning English",
+      "icon": "📺",
+      "color": "#BB1919",
+      "links": [
+        {"label": "COME phrasal verbs 정복", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+come+phrasal+verbs"},
+        {"label": "\"come up with\" 활용", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+come+up+with"}
+      ]
+    },
+    {
+      "channel": "Rachel's English",
+      "icon": "🎙️",
+      "color": "#E91E63",
+      "links": [
+        {"label": "COME 발음 (uh 소리)", "url": "https://www.youtube.com/results?search_query=Rachel's+English+come+pronunciation+uh+sound"},
+        {"label": "\"come on\" 연음 발음", "url": "https://www.youtube.com/results?search_query=Rachel's+English+come+on+linking"}
+      ]
+    },
+    {
+      "channel": "EngVid",
+      "icon": "🎓",
+      "color": "#1E88E5",
+      "links": [
+        {"label": "COME 비즈니스 표현", "url": "https://www.youtube.com/results?search_query=engvid+come+business+expressions"},
+        {"label": "\"come into effect\" 법률 영어", "url": "https://www.youtube.com/results?search_query=engvid+come+into+effect+legal+English"}
+      ]
+    },
+    {
+      "channel": "AML 실전 ⭐",
+      "icon": "🛡️",
+      "color": "#7C3AED",
+      "links": [
+        {"label": "FATF Recommendations Updates", "url": "https://www.youtube.com/results?search_query=FATF+recommendations+updates+2025"},
+        {"label": "AML Audit Preparation", "url": "https://www.youtube.com/results?search_query=AML+audit+preparation+compliance"}
+      ]
+    }
+  ],
+  "examples5": [
+    {"category": "일상", "label": "도착", "color": "blue", "en": "The legal team will come to our floor at 2 PM.", "ko": "법무팀이 오후 2시에 우리 층으로 올 거예요."},
+    {"category": "업무", "label": "발견", "color": "orange", "en": "I came across a duplicate KYC entry yesterday.", "ko": "어제 중복된 KYC 항목을 발견했어요."},
+    {"category": "AML", "label": "조사 대상", "color": "green", "en": "Three merchants came under scrutiny this quarter.", "ko": "이번 분기에 세 가맹점이 조사 대상이 됐습니다."},
+    {"category": "의견", "label": "결론", "color": "purple", "en": "We've come to a conclusion on the offboarding decision.", "ko": "오프보딩 결정에 대한 결론에 이르렀어요."},
+    {"category": "감정", "label": "발효", "color": "red", "en": "The new sanctions list comes into effect tomorrow.", "ko": "새 제재 명단이 내일 발효됩니다."}
+  ],
+  "writing5": [
+    {"ko": "감사관은 오전 10시에 올 거예요.", "en": "The auditor will come at 10 AM.", "hint": "COME 동사 + 도착 (의미①)"},
+    {"ko": "신고가 필요하다는 결론에 이르렀어요.", "en": "We came to the conclusion that filing was necessary.", "hint": "청크: come to a conclusion"},
+    {"ko": "새로운 스크리닝 방식을 떠올렸어요.", "en": "We came up with a new screening approach.", "hint": "청크: come up with"},
+    {"ko": "비정상적인 거래 패턴을 발견했어요.", "en": "I came across an unusual transaction pattern.", "hint": "청크: come across"},
+    {"ko": "새 FATF 가이드는 다음 달에 시행됩니다.", "en": "The new FATF guidance comes into effect next month.", "hint": "청크: come into effect"}
+  ],
+  "challenge3sec": [
+    {"ko": "오전 10시에 올 거예요.", "en": "I'll come at 10 AM."},
+    {"ko": "결론에 이르렀어요.", "en": "We came to a conclusion."},
+    {"ko": "좋은 아이디어 떠올렸어요.", "en": "I came up with a good idea."},
+    {"ko": "어제 이상한 패턴을 발견했어요.", "en": "I came across an unusual pattern yesterday."},
+    {"ko": "새 규정이 다음 달 시행돼요.", "en": "The new rule comes into effect next month."},
+    {"ko": "그 가맹점이 조사 대상이 됐어요.", "en": "That merchant came under scrutiny."},
+    {"ko": "잠깐 와주실래요?", "en": "Could you come over for a minute?"}
+  ],
+  "freewrite": {
+    "situation": "최근 본인이 발견한 이상 거래 패턴 또는 새로 시행되는 규정에 대한 대응 과정을 영어로 설명하세요. 어떻게 발견했고, 어떤 해결책을 떠올렸고, 어떤 결론에 이르렀는지 COME 동사 + 오늘 배운 청크를 사용해서 3-5문장으로 작성해보세요.",
+    "hint": "활용: come up with, come across, come into effect, come to a conclusion, come under scrutiny",
+    "placeholder": "예: Last week I came across a series of unusual transactions on a long-standing merchant. The pattern came under scrutiny once we ran our updated screening rules..."
+  },
+  "situations": {
+    "office": {
+      "color": "#FFE5E5",
+      "textColor": "#C62828",
+      "info": "🏢 사내 미팅<br>일정 조율, 아이디어 제시, 결론 도출 — COME 동사가 도달·전개의 핵심!",
+      "lv1": [
+        {
+          "title": "방문 일정",
+          "dialog": [
+            {"who": "Mgr", "text": "When are the auditors coming?"},
+            {"who": "You", "text": "They're coming Tuesday at 9."},
+            {"who": "Mgr", "text": "Good. Come prepared with the case files."}
+          ]
+        },
+        {
+          "title": "아이디어 제시",
+          "dialog": [
+            {"who": "Mgr", "text": "Did you come up with any ideas for the new policy?"},
+            {"who": "You", "text": "I came up with three options."},
+            {"who": "Mgr", "text": "Great. Come by my office and walk me through them."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "정책 결론 회의",
+          "dialog": [
+            {"who": "You", "text": "We've come to a conclusion on the merchant offboarding policy."},
+            {"who": "Team", "text": "What did you come up with?"},
+            {"who": "You", "text": "A tiered approach. The trigger criteria came from our 2-year case data."},
+            {"who": "Team", "text": "When does it come into effect?"},
+            {"who": "You", "text": "Next quarter. Any high-risk merchants will come under scrutiny first."},
+            {"who": "Team", "text": "Sounds solid. Let's come back next week to finalize."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "분기 정책 회의에서 새 가맹점 오프보딩 정책의 결론과 시행 일정을 본부장에게 보고하세요. 어떻게 결론에 이르렀고, 무엇을 떠올렸고, 언제 시행되는지 COME 동사로 풀어내세요.",
+        "aiRole": "Compliance Director",
+        "aiOpening": "I heard your team came to a conclusion on the offboarding policy. Walk me through what you came up with, where the criteria came from, and when this comes into effect."
+      }
+    },
+    "email": {
+      "color": "#E3F2FD",
+      "textColor": "#1565C0",
+      "info": "📧 이메일·메시지<br>일정 안내, 발견 보고, 규정 안내 — 격식 갖춘 COME 동사 활용!",
+      "lv1": [
+        {
+          "title": "방문 안내",
+          "dialog": [
+            {"who": "You", "text": "Hi, the audit team will come on Tuesday at 9 AM."},
+            {"who": "Them", "text": "Got it. Should I come earlier to set up?"},
+            {"who": "You", "text": "Yes, come at 8:30 if you can."}
+          ]
+        },
+        {
+          "title": "발견 보고",
+          "dialog": [
+            {"who": "You", "text": "Hi, I came across a discrepancy in the merchant data."},
+            {"who": "Them", "text": "What came up exactly?"},
+            {"who": "You", "text": "A duplicated KYC entry. I'll come by your desk to show you."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "외부 규제 안내",
+          "dialog": [
+            {"who": "Vendor", "text": "Hi, we heard new FATF rules are coming. Could you give us details?"},
+            {"who": "You", "text": "Thanks for reaching out. The updated guidance comes into effect on June 1."},
+            {"who": "Vendor", "text": "What are the main changes?"},
+            {"who": "You", "text": "Cross-border merchants will come under stricter scrutiny. We've come up with a transition plan to help you adjust."},
+            {"who": "Vendor", "text": "Have you come to a conclusion on documentation requirements?"},
+            {"who": "You", "text": "Yes. We came to a conclusion last week — I'll attach the checklist."},
+            {"who": "Vendor", "text": "Thanks. We'll come back if we have questions."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "외국 가맹점이 새 FATF 규정 시행에 대해 안내 요청을 했습니다. 시행 시기, 영향, 본인 회사의 대응 방안을 COME 동사로 정중하게 설명하세요.",
+        "aiRole": "International Vendor Compliance Lead",
+        "aiOpening": "Hi, we heard there are new FATF rules coming for cross-border merchants. Could you let us know when they come into effect, what comes under stricter review, and how your team has come to a conclusion on the practical implementation?"
+      }
+    },
+    "aml": {
+      "color": "#FFF3E0",
+      "textColor": "#E65100",
+      "info": "🚨 AML 실무<br>알람 발견, 결론 도출, 조사 대상 — COME 동사 핵심 활용!",
+      "lv1": [
+        {
+          "title": "알람 발견",
+          "dialog": [
+            {"who": "You", "text": "I just came across a high-risk pattern."},
+            {"who": "Mgr", "text": "Where did it come from?"},
+            {"who": "You", "text": "From a routine batch review."}
+          ]
+        },
+        {
+          "title": "결론 도출",
+          "dialog": [
+            {"who": "Mgr", "text": "Have you come to a conclusion on the merchant?"},
+            {"who": "You", "text": "Yes. We've come to the conclusion that filing is necessary."},
+            {"who": "Mgr", "text": "Good. They've come under scrutiny before, so document everything."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "FIU 조사 인터뷰",
+          "dialog": [
+            {"who": "FIU", "text": "How did this case first come to your attention?"},
+            {"who": "You", "text": "It came from an automated alert. Then I came across additional red flags during manual review."},
+            {"who": "FIU", "text": "Has this merchant come under scrutiny before?"},
+            {"who": "You", "text": "Yes, twice in the past 18 months. Both times we came to a conclusion that monitoring was sufficient."},
+            {"who": "FIU", "text": "What changed this time?"},
+            {"who": "You", "text": "We came up with a new pattern model that flagged the structuring behavior."},
+            {"who": "FIU", "text": "When did the new model come into effect?"},
+            {"who": "You", "text": "Three months ago. This is one of the first cases that came out of it."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "FIU 검사관이 본인 팀의 케이스 발견 경위와 결론 도출 과정에 대해 인터뷰를 진행합니다. 어떻게 발견했고, 어떤 도구가 시행됐고, 어떤 결론에 이르렀는지 COME 동사로 답변하세요.",
+        "aiRole": "FIU Senior Investigator",
+        "aiOpening": "Today's focus is detection and decision flow. Walk me through how this case first came to light, what tools have come into effect since the previous review, and how your team came to its final conclusion."
+      }
+    },
+    "social": {
+      "color": "#F3E5F5",
+      "textColor": "#6A1B9A",
+      "info": "🌍 비즈니스 사교<br>업계 트렌드, 규정 변화, 사례 공유 — 부드러운 COME 동사!",
+      "lv1": [
+        {
+          "title": "컨퍼런스 만남",
+          "dialog": [
+            {"who": "Peer", "text": "Where did you come from?"},
+            {"who": "You", "text": "I came from Seoul. First time at this conference."},
+            {"who": "Peer", "text": "Welcome! Glad you could come."}
+          ]
+        },
+        {
+          "title": "업계 변화",
+          "dialog": [
+            {"who": "Peer", "text": "Have new rules come into effect in Korea recently?"},
+            {"who": "You", "text": "Yes, the updated AML framework came into effect in March."},
+            {"who": "Peer", "text": "Has it come with a lot of pushback from the industry?"}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "업계 깊은 토론",
+          "dialog": [
+            {"who": "Peer", "text": "What's coming next in Korean AML regulation?"},
+            {"who": "You", "text": "More cross-border scrutiny. Crypto-linked merchants are coming under heavier review."},
+            {"who": "Peer", "text": "Have you come up with a way to handle the volume?"},
+            {"who": "You", "text": "We came up with a tiered automation model. It came from looking at 18 months of case data."},
+            {"who": "Peer", "text": "Did you come to a conclusion on what works best?"},
+            {"who": "You", "text": "We did — automate tier 3 fully, but keep tier 1 manual. The decision came from a long internal debate."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "ACAMS 컨퍼런스에서 다른 나라 컴플라이언스 동료와 각국의 규정 시행 동향과 자동화 모델에 대해 깊이 토론하세요. 본인 회사의 결론, 발견, 전략을 COME 동사로 자연스럽게 풀어내세요.",
+        "aiRole": "Patricia, AML Lead at a Brazilian fintech",
+        "aiOpening": "I'd love to hear what's coming in Korean AML. Have new rules come into effect recently, and how did your team come up with the response? We're at a similar inflection point in Brazil."
+      }
+    },
+    "daily": {
+      "color": "#E8F5E9",
+      "textColor": "#2E7D32",
+      "info": "😊 일상 응용<br>방문, 일상 발견, 가족 — 가장 친숙한 COME 동사 패턴!",
+      "lv1": [
+        {
+          "title": "친구 방문",
+          "dialog": [
+            {"who": "Friend", "text": "Can I come over this weekend?"},
+            {"who": "You", "text": "Sure! Come whenever works for you."},
+            {"who": "Friend", "text": "Great. I'll come Saturday afternoon."}
+          ]
+        },
+        {
+          "title": "일상 발견",
+          "dialog": [
+            {"who": "Spouse", "text": "I came across an old photo today."},
+            {"who": "You", "text": "Where did it come from?"},
+            {"who": "Spouse", "text": "From the box in the closet. Brought back memories."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "친구와 가족 이야기",
+          "dialog": [
+            {"who": "Friend", "text": "How are you coming along with the new baby?"},
+            {"who": "You", "text": "We're getting there. We came up with a routine that mostly works."},
+            {"who": "Friend", "text": "Did the routine come from books or did you just figure it out?"},
+            {"who": "You", "text": "A bit of both. We came across a great podcast that helped."},
+            {"who": "Friend", "text": "When does parental leave come to an end for you?"},
+            {"who": "You", "text": "Next month. Honestly, I came to the conclusion that I'd take more if I could."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "친구와 카페에서 만나 최근 가족·일상의 변화에 대해 자연스럽게 대화하세요. 무엇을 발견했고, 어떤 결론에 이르렀고, 무엇이 바뀌었는지 COME 동사로 풀어내세요.",
+        "aiRole": "Hannah, a friend who recently moved abroad",
+        "aiOpening": "It's so good to see you! How have you been coming along since I left? Has anything new come up with the family or work? Tell me everything!"
+      }
+    }
+  }
+}

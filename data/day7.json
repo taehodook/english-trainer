@@ -1,0 +1,362 @@
+{
+  "day": 7,
+  "verb": {
+    "en": "GIVE",
+    "pron": "[기브]",
+    "ko": "주다 / 제공하다 / 제시하다",
+    "forms": ["give / gives", "gave", "given", "giving"],
+    "frequency": "Oxford English Corpus 빈도 상위 (회화·문어 핵심)",
+    "stage": "Stage 1 · 절대 기본"
+  },
+  "meanings": [
+    {
+      "num": 1,
+      "ko": "주다·전달하다 (수여)",
+      "example": "I'll give you the report by Friday.",
+      "exampleKo": "금요일까지 보고서를 드릴게요."
+    },
+    {
+      "num": 2,
+      "ko": "제공하다·할당하다 (정보·시간)",
+      "example": "Could you give me a few minutes to explain?",
+      "exampleKo": "설명할 시간을 잠시만 주실래요?"
+    },
+    {
+      "num": 3,
+      "ko": "(이유·예시를) 제시하다 (사례·설명)",
+      "example": "Let me give you an example of layering.",
+      "exampleKo": "레이어링의 예시를 들어드릴게요."
+    }
+  ],
+  "chunks": [
+    {
+      "en": "give priority to",
+      "ko": "~에 우선순위를 두다",
+      "example": "We give priority to high-risk merchant reviews.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "give an example",
+      "ko": "예를 들다",
+      "example": "Let me give you an example of structuring.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "give feedback",
+      "ko": "피드백을 주다",
+      "example": "Could you give me feedback on this CDD form?",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "give consent",
+      "ko": "동의하다·승인하다",
+      "example": "The customer must give consent for data sharing.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "give rise to",
+      "ko": "~을 야기하다·일으키다",
+      "example": "Unusual transaction patterns gave rise to concerns.",
+      "source": "Cambridge Dictionary"
+    }
+  ],
+  "pronTip": {
+    "title": "GIVE 동사 발음 핵심",
+    "points": [
+      "give [기브] — 짧은 'i', v 소리 살리기 (giв)",
+      "gave [게이브] — 이중모음 'ay', v 분명하게",
+      "given [기븐] — 'gi-vn', n 소리 살짝",
+      "giving [기빙] — '-ing' 콧소리",
+      "give me [김미] — 빠른 회화체 (informal)",
+      "강세: I'll GIVE you a hand (give에 강세)"
+    ]
+  },
+  "listening": {
+    "title": "AML 신입 교육·피드백 시나리오",
+    "source": "AML 업무 + Cambridge Dictionary 청크 검증",
+    "fullText": "Manager: Could you give the new hire some feedback on her first STR? Staff: Sure. I'll give her a few examples of well-written cases. Manager: Good. We give priority to training quality. Staff: Understood. The customer didn't give consent for additional checks, so I'll explain that part too. Manager: That kind of issue gives rise to compliance gaps. Make sure she knows.",
+    "blanks": [
+      {"prefix": "Manager: Could you", "blank": "give", "suffix": "the new hire some feedback on her first STR?"},
+      {"prefix": "Staff: Sure. I'll", "blank": "give", "suffix": "her a few examples of well-written cases."},
+      {"prefix": "Manager: Good. We", "blank": "give priority", "suffix": "to training quality."},
+      {"prefix": "Staff: Understood. The customer didn't", "blank": "give consent", "suffix": "for additional checks, so I'll explain that part too."},
+      {"prefix": "Manager: That kind of issue", "blank": "gives rise to", "suffix": "compliance gaps."}
+    ]
+  },
+  "youtube": [
+    {
+      "channel": "BBC Learning English",
+      "icon": "📺",
+      "color": "#BB1919",
+      "links": [
+        {"label": "GIVE 동사 phrasal verbs", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+give+phrasal+verbs"},
+        {"label": "\"give priority to\" 활용", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+give+priority+to"}
+      ]
+    },
+    {
+      "channel": "Rachel's English",
+      "icon": "🎙️",
+      "color": "#E91E63",
+      "links": [
+        {"label": "GIVE 발음 + v 소리", "url": "https://www.youtube.com/results?search_query=Rachel's+English+give+pronunciation+v+sound"},
+        {"label": "\"give me\" → \"gimme\" 발음", "url": "https://www.youtube.com/results?search_query=Rachel's+English+gimme+give+me"}
+      ]
+    },
+    {
+      "channel": "EngVid",
+      "icon": "🎓",
+      "color": "#1E88E5",
+      "links": [
+        {"label": "GIVE 비즈니스 collocations", "url": "https://www.youtube.com/results?search_query=engvid+give+business+collocations"},
+        {"label": "\"give feedback\" 비즈니스 표현", "url": "https://www.youtube.com/results?search_query=engvid+give+feedback+business+English"}
+      ]
+    },
+    {
+      "channel": "AML 실전 ⭐",
+      "icon": "🛡️",
+      "color": "#7C3AED",
+      "links": [
+        {"label": "AML Training & Feedback", "url": "https://www.youtube.com/results?search_query=AML+training+feedback+compliance"},
+        {"label": "Customer Consent in KYC", "url": "https://www.youtube.com/results?search_query=KYC+customer+consent+data+sharing"}
+      ]
+    }
+  ],
+  "examples5": [
+    {"category": "일상", "label": "전달", "color": "blue", "en": "I'll give you the meeting notes by 3 PM.", "ko": "3시까지 회의록을 드릴게요."},
+    {"category": "업무", "label": "우선순위", "color": "orange", "en": "We give priority to PEP-related cases.", "ko": "PEP 관련 케이스를 우선순위로 처리합니다."},
+    {"category": "AML", "label": "예시 제시", "color": "green", "en": "Let me give an example of how layering works.", "ko": "레이어링이 어떻게 작동하는지 예시를 들어드릴게요."},
+    {"category": "의견", "label": "피드백", "color": "purple", "en": "Could you give me feedback on the new SOP?", "ko": "새 SOP에 대한 피드백을 주실 수 있나요?"},
+    {"category": "감정", "label": "야기", "color": "red", "en": "Repeated false positives give rise to alert fatigue.", "ko": "반복된 false positive는 알람 피로를 야기합니다."}
+  ],
+  "writing5": [
+    {"ko": "금요일까지 보고서를 드릴게요.", "en": "I'll give you the report by Friday.", "hint": "GIVE 동사 + 전달 (의미①)"},
+    {"ko": "고위험 가맹점 검토를 우선순위로 둡니다.", "en": "We give priority to high-risk merchant reviews.", "hint": "청크: give priority to"},
+    {"ko": "스트럭처링의 예시를 들어드릴게요.", "en": "Let me give you an example of structuring.", "hint": "청크: give an example"},
+    {"ko": "이 CDD 양식에 대한 피드백 좀 주실 수 있나요?", "en": "Could you give me feedback on this CDD form?", "hint": "청크: give feedback"},
+    {"ko": "고객은 데이터 공유에 반드시 동의해야 합니다.", "en": "The customer must give consent for data sharing.", "hint": "청크: give consent"}
+  ],
+  "challenge3sec": [
+    {"ko": "내일 보고서 드릴게요.", "en": "I'll give you the report tomorrow."},
+    {"ko": "예시 하나 들어드릴게요.", "en": "Let me give you an example."},
+    {"ko": "피드백 좀 주실래요?", "en": "Could you give me feedback?"},
+    {"ko": "이 케이스를 우선순위로 두죠.", "en": "Let's give priority to this case."},
+    {"ko": "고객이 동의해야 해요.", "en": "The customer must give consent."},
+    {"ko": "이 패턴이 우려를 야기해요.", "en": "This pattern gives rise to concerns."},
+    {"ko": "잠깐 시간 좀 주실래요?", "en": "Could you give me a moment?"}
+  ],
+  "freewrite": {
+    "situation": "신입 동료에게 본인이 진행한 케이스에 대해 설명하고 피드백을 주는 상황을 영어로 작성하세요. 어떤 예시를 들고, 어떤 우선순위를 알려주고, 어떤 동의가 필요한지 GIVE 동사 + 오늘 배운 청크를 사용해서 3-5문장으로 작성해보세요.",
+    "hint": "활용: give priority to, give an example, give feedback, give consent, give rise to",
+    "placeholder": "예: When training new analysts, I always give an example of a real case I've worked on. I give priority to teaching how to recognize structuring patterns..."
+  },
+  "situations": {
+    "office": {
+      "color": "#FFE5E5",
+      "textColor": "#C62828",
+      "info": "🏢 사내 미팅<br>피드백 교환, 우선순위 정리, 예시 공유 — GIVE 동사가 전달의 핵심!",
+      "lv1": [
+        {
+          "title": "피드백 요청",
+          "dialog": [
+            {"who": "You", "text": "Could you give me feedback on this draft?"},
+            {"who": "Mgr", "text": "Sure. Let me give it a quick read."},
+            {"who": "You", "text": "Thanks. I'll give you the final version after lunch."}
+          ]
+        },
+        {
+          "title": "우선순위 정리",
+          "dialog": [
+            {"who": "Mgr", "text": "Which cases should we give priority to this week?"},
+            {"who": "You", "text": "Let me give you the top three."},
+            {"who": "Mgr", "text": "Good. Give me the list by EOD."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "신입 트레이닝 회의",
+          "dialog": [
+            {"who": "Mgr", "text": "How's the new hire doing? Have you given her feedback?"},
+            {"who": "You", "text": "I gave her detailed feedback on her first STR. I also gave her several examples to study."},
+            {"who": "Mgr", "text": "What gave rise to her main mistakes?"},
+            {"who": "You", "text": "She wasn't giving priority to the counterparty network analysis."},
+            {"who": "Mgr", "text": "Good catch. Give her a chance to redo it."},
+            {"who": "You", "text": "Already done. She's giving it another pass this week."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "본부장과 신입 컴플라이언스 직원의 멘토링 진행 상황을 논의하세요. 어떤 피드백을 줬고, 어떤 예시를 활용했고, 어떤 우선순위를 강조했는지 GIVE 동사로 풀어내세요.",
+        "aiRole": "Compliance Director",
+        "aiOpening": "Quick check-in on the new hire. Have you given her structured feedback yet, and what examples are you giving her to learn from? I want to make sure we're giving priority to the right skills early on."
+      }
+    },
+    "email": {
+      "color": "#E3F2FD",
+      "textColor": "#1565C0",
+      "info": "📧 이메일·메시지<br>자료 송부, 피드백 요청, 동의 안내 — 격식 갖춘 GIVE 동사 활용!",
+      "lv1": [
+        {
+          "title": "자료 송부",
+          "dialog": [
+            {"who": "You", "text": "Hi, I'll give you the updated KYC template by EOD."},
+            {"who": "Them", "text": "Thanks! Could you also give me an example of a completed one?"},
+            {"who": "You", "text": "Sure, I'll give you one from last quarter."}
+          ]
+        },
+        {
+          "title": "피드백 요청",
+          "dialog": [
+            {"who": "You", "text": "Hi, attached is the new SOP. Could you give it a review?"},
+            {"who": "Them", "text": "I'll give you my feedback by Wednesday."},
+            {"who": "You", "text": "Much appreciated. Take your time."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "고객 동의 절차 답변",
+          "dialog": [
+            {"who": "Vendor", "text": "Hi, our merchant is asking why they need to give consent for additional verification."},
+            {"who": "You", "text": "Thank you for reaching out. Let me give you the regulatory context."},
+            {"who": "You", "text": "Under our AML obligations, we must give priority to customer consent before sharing data."},
+            {"who": "Vendor", "text": "Could you give us an example of what triggers this?"},
+            {"who": "You", "text": "Sure. Cross-border transactions over a threshold give rise to enhanced verification requirements."},
+            {"who": "Vendor", "text": "Got it. We'll give the merchant the full explanation."},
+            {"who": "You", "text": "Thanks. Please give me feedback if they have follow-up questions."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "외국 가맹점이 추가 검증 동의 절차에 대해 문의 이메일을 보냈습니다. 규정 배경, 예시, 동의가 필요한 이유를 GIVE 동사로 정중하게 안내하세요.",
+        "aiRole": "Account Manager at an overseas merchant",
+        "aiOpening": "Hi, our merchant is pushing back on giving consent for the additional KYC checks. Could you give us a clear explanation we can pass on, and maybe an example of when this is required? They want to understand what gives rise to the extra step."
+      }
+    },
+    "aml": {
+      "color": "#FFF3E0",
+      "textColor": "#E65100",
+      "info": "🚨 AML 실무<br>우선순위 부여, 패턴 예시, 동의 검증 — GIVE 동사 핵심 활용!",
+      "lv1": [
+        {
+          "title": "우선순위 결정",
+          "dialog": [
+            {"who": "Mgr", "text": "Which alerts should we give priority to today?"},
+            {"who": "You", "text": "I'd give priority to the cross-border ones."},
+            {"who": "Mgr", "text": "Agreed. Give me a status update by 4 PM."}
+          ]
+        },
+        {
+          "title": "패턴 예시",
+          "dialog": [
+            {"who": "Junior", "text": "Could you give me an example of layering?"},
+            {"who": "You", "text": "Sure. Let me give you a real case from last quarter."},
+            {"who": "Junior", "text": "Thanks. That gives me a much clearer picture."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "FIU 절차 인터뷰",
+          "dialog": [
+            {"who": "FIU", "text": "How does your team give priority to alerts?"},
+            {"who": "You", "text": "We give priority based on a tiered scoring model. Let me give you an example."},
+            {"who": "FIU", "text": "Please do."},
+            {"who": "You", "text": "A merchant with PEP exposure and cross-border activity gives rise to top priority."},
+            {"who": "FIU", "text": "Did the customer give consent for the data sharing in this case?"},
+            {"who": "You", "text": "They gave consent at onboarding. We always give consent forms with clear scope."},
+            {"who": "FIU", "text": "Good. Could you give me a copy of your prioritization SOP?"},
+            {"who": "You", "text": "Of course. I'll give it to you with redactions for client data."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "FIU 검사관이 본인 팀의 알람 우선순위 부여 프로세스에 대해 인터뷰를 진행합니다. 어떤 기준으로, 어떤 예시로, 어떤 동의 절차로 운영하는지 GIVE 동사로 답변하세요.",
+        "aiRole": "FIU Senior Examiner",
+        "aiOpening": "Today I'd like to focus on alert prioritization and customer consent. Could you give me an overview of how your team gives priority to alerts, give me a concrete example of a high-priority case, and explain how customer consent is handled?"
+      }
+    },
+    "social": {
+      "color": "#F3E5F5",
+      "textColor": "#6A1B9A",
+      "info": "🌍 비즈니스 사교<br>의견 공유, 사례 제시, 조언 교환 — 부드러운 GIVE 동사!",
+      "lv1": [
+        {
+          "title": "의견 요청",
+          "dialog": [
+            {"who": "Peer", "text": "Could you give me your honest opinion?"},
+            {"who": "You", "text": "Sure, let me give you my take."},
+            {"who": "Peer", "text": "Appreciate the feedback."}
+          ]
+        },
+        {
+          "title": "사례 공유",
+          "dialog": [
+            {"who": "Peer", "text": "Could you give an example of how Korean PGs handle this?"},
+            {"who": "You", "text": "Sure. Let me give you our approach."},
+            {"who": "Peer", "text": "Helpful. That gives me a better picture."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "업계 깊은 토론",
+          "dialog": [
+            {"who": "Peer", "text": "What gives rise to most STRs in Korean PGs?"},
+            {"who": "You", "text": "Let me give you a concrete example. Most cases give rise to filing because of cross-border anomalies."},
+            {"who": "Peer", "text": "Do you give priority to those over local cases?"},
+            {"who": "You", "text": "We give equal weight, but cross-border ones tend to get more reviewer time."},
+            {"who": "Peer", "text": "Could you give me feedback on our prioritization model? I'll send it later."},
+            {"who": "You", "text": "Happy to. I'll give you my notes within a week."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "ACAMS 컨퍼런스 자리에서 다른 나라 컴플라이언스 동료와 알람 우선순위 모델을 비교·토론하세요. 본인 회사의 사례, 결정 기준, 상호 피드백을 GIVE 동사로 풀어내세요.",
+        "aiRole": "Sofia, Head of Financial Crime at a Mexican fintech",
+        "aiOpening": "Loved your panel. Could you give me a quick rundown of how Korean PGs prioritize alerts? I'd love to give you our model in return — we're rebuilding it and could use external feedback."
+      }
+    },
+    "daily": {
+      "color": "#E8F5E9",
+      "textColor": "#2E7D32",
+      "info": "😊 일상 응용<br>선물, 조언, 부탁 — 가장 친숙한 GIVE 동사 패턴!",
+      "lv1": [
+        {
+          "title": "조언 요청",
+          "dialog": [
+            {"who": "Friend", "text": "Could you give me some advice?"},
+            {"who": "You", "text": "Sure, give me the context first."},
+            {"who": "Friend", "text": "Thanks. I'll give you the full story."}
+          ]
+        },
+        {
+          "title": "도움 제안",
+          "dialog": [
+            {"who": "Spouse", "text": "Could you give me a hand with the groceries?"},
+            {"who": "You", "text": "Sure, I'll give you a hand right now."},
+            {"who": "Spouse", "text": "Thanks, that gives me time to start dinner."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "친구 조언 대화",
+          "dialog": [
+            {"who": "Friend", "text": "I'm stuck on a career decision. Could you give me some perspective?"},
+            {"who": "You", "text": "Of course. Give me the situation."},
+            {"who": "Friend", "text": "I have two job offers, but neither feels perfect."},
+            {"who": "You", "text": "Let me give you my honest take. Which one gives you more growth?"},
+            {"who": "Friend", "text": "The startup, but it gives less stability."},
+            {"who": "You", "text": "I'd give priority to growth at this stage of your career. But give yourself time to feel it out."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "친구가 진로 고민을 털어놓습니다. 본인의 경험, 우선순위, 실제 사례를 GIVE 동사를 활용해 자연스럽게 조언하세요.",
+        "aiRole": "Jake, a college friend considering a career change",
+        "aiOpening": "Hey, I really need someone to give me a reality check. I've got two offers and I can't decide. Mind giving me your honest opinion? I just need someone to give me a different perspective."
+      }
+    }
+  }
+}
