@@ -1,6 +1,10 @@
 {
-  "totalDays": 1,
-  "available": [1],
+  "totalDays": 2,
+  "available": [1, 2],
+  "verbs": {
+    "1": "BE",
+    "2": "HAVE"
+  },
   "stages": {
     "stage1": {"name": "Stage 1 · 절대 기본", "days": [1, 2, 3, 4, 5], "verbs": ["BE", "HAVE", "DO", "GET", "MAKE"]},
     "stage2": {"name": "Stage 2 · 행동 동사", "days": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "verbs": ["TAKE", "GIVE", "GO", "COME", "SEE", "LOOK", "FIND", "KEEP", "PUT", "복습"]},

@@ -178,7 +178,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
       <div class="hd-title">🌳 영어 트레이너</div>
       <div class="hd-sub"><span class="dot"></span>자동 저장 · 동사 50개 마스터</div>
     </div>
-    <div class="day-chip">DAY <span id="day-num">1</span></div>
+    <div class="day-chip" onclick="toggleDaySelector()" style="cursor:pointer;display:flex;align-items:center;gap:4px;">
+      <span>DAY <span id="day-num">1</span></span>
+      <span style="font-size:9px;">▼</span>
+    </div>
+    <div id="day-selector" style="display:none;position:absolute;top:55px;right:14px;background:white;border:1px solid var(--border);border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:20;min-width:180px;max-height:300px;overflow-y:auto;">
+      <div style="padding:10px 12px;border-bottom:1px solid var(--border);font-size:11px;color:var(--text2);font-weight:700;">📚 학습할 Day 선택</div>
+      <div id="day-list"></div>
+      <div style="padding:8px 12px;border-top:1px solid var(--border);font-size:10px;color:var(--text3);background:var(--bg);" id="day-info">
+        오늘 자동: Day <span id="day-auto">1</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -547,9 +557,31 @@ function todayKey(){
 }
 
 function getDay(){
+  // 사용자가 수동 선택한 Day가 있으면 우선
+  if (DATA.selectedDay) return DATA.selectedDay;
+
   if(!DATA.startDate){ DATA.startDate = todayKey(); saveData(); return 1;}
   var diff = Math.floor((new Date() - new Date(DATA.startDate))/(1000*60*60*24));
   return diff + 1;
+}
+
+function getAutoDay(){
+  // 자동 계산된 Day (수동 선택 무시)
+  if(!DATA.startDate) return 1;
+  var diff = Math.floor((new Date() - new Date(DATA.startDate))/(1000*60*60*24));
+  return diff + 1;
+}
+
+function setDay(dayNum){
+  DATA.selectedDay = dayNum;
+  saveData();
+  location.reload(); // 새 Day 콘텐츠 다시 로드
+}
+
+function clearSelectedDay(){
+  delete DATA.selectedDay;
+  saveData();
+  location.reload();
 }
 
 function getToday(){
@@ -570,8 +602,8 @@ function getToday(){
 // JSON 파일에서 day 콘텐츠 로드
 async function loadDayContent(dayNum){
   try {
-    // 사용 가능한 day 확인
-    const idxRes = await fetch('/data/index.json');
+    // 사용 가능한 day 확인 (캐시 회피)
+    const idxRes = await fetch('/data/index.json?t=' + Date.now());
     const idx = await idxRes.json();
 
     // 사용 가능한 가장 최근 day
@@ -581,7 +613,7 @@ async function loadDayContent(dayNum){
       targetDay = idx.available[idx.available.length - 1] || 1;
     }
 
-    const res = await fetch('/data/day' + targetDay + '.json');
+    const res = await fetch('/data/day' + targetDay + '.json?t=' + Date.now());
     if (!res.ok) throw new Error('데이터 로드 실패');
     DAY_DATA = await res.json();
 
@@ -1497,6 +1529,59 @@ async function init(){
 
 window.addEventListener('load', init);
 
+// ═══════════════════════════════
+// Day 선택 UI
+// ═══════════════════════════════
+async function renderDaySelector(){
+  try {
+    const idxRes = await fetch('/data/index.json?t=' + Date.now());
+    const idx = await idxRes.json();
+    var available = idx.available || [1];
+    var verbs = idx.verbs || {};
+    var current = getDay();
+    var auto = getAutoDay();
+
+    var html = available.map(function(d){
+      var verb = verbs[d] || '?';
+      var isCurrent = (d === current);
+      var bg = isCurrent ? 'var(--blue-light)' : 'white';
+      var col = isCurrent ? 'var(--blue)' : 'var(--text)';
+      var weight = isCurrent ? '700' : '500';
+      return '<div onclick="setDay('+d+')" style="padding:10px 12px;cursor:pointer;font-size:13px;color:'+col+';font-weight:'+weight+';background:'+bg+';border-bottom:1px solid var(--border2);display:flex;justify-content:space-between;align-items:center;"><span>Day '+d+' · '+verb+'</span>'+(isCurrent ? '<span style="font-size:10px;">✓ 현재</span>' : '')+'</div>';
+    }).join('');
+
+    if (current !== auto) {
+      html += '<div onclick="clearSelectedDay()" style="padding:8px 12px;cursor:pointer;font-size:11px;color:var(--orange);background:var(--orange-light);text-align:center;font-weight:700;">↩️ 자동(Day '+auto+')으로 돌아가기</div>';
+    }
+
+    $h('day-list', html);
+    $t('day-auto', auto);
+  } catch(e) {
+    console.error('Day 목록 로드 실패:', e);
+  }
+}
+
+function toggleDaySelector(){
+  var sel = $g('day-selector');
+  if(!sel) return;
+  if(sel.style.display === 'block'){
+    sel.style.display = 'none';
+  } else {
+    sel.style.display = 'block';
+    renderDaySelector();
+  }
+}
+
+// 다른 곳 클릭 시 셀렉터 닫기
+document.addEventListener('click', function(e){
+  var sel = $g('day-selector');
+  var chip = document.querySelector('.day-chip');
+  if (sel && sel.style.display === 'block' && !sel.contains(e.target) && !chip.contains(e.target)) {
+    sel.style.display = 'none';
+  }
+});
+
+// ═══════════════════════════════
 // 모든 onclick 함수 window 노출
 window.sw = sw;
 window.toggleCk = toggleCk;
@@ -1523,6 +1608,9 @@ window.sendRolePlay = sendRolePlay;
 window.endRolePlay = endRolePlay;
 window.resetRolePlay = resetRolePlay;
 window.requestCoach = requestCoach;
+window.toggleDaySelector = toggleDaySelector;
+window.setDay = setDay;
+window.clearSelectedDay = clearSelectedDay;
 </script>
 </body>
 </html>
