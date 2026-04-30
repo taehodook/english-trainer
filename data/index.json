@@ -1,0 +1,11 @@
+{
+  "totalDays": 1,
+  "available": [1],
+  "stages": {
+    "stage1": {"name": "Stage 1 · 절대 기본", "days": [1, 2, 3, 4, 5], "verbs": ["BE", "HAVE", "DO", "GET", "MAKE"]},
+    "stage2": {"name": "Stage 2 · 행동 동사", "days": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "verbs": ["TAKE", "GIVE", "GO", "COME", "SEE", "LOOK", "FIND", "KEEP", "PUT", "복습"]},
+    "stage3": {"name": "Stage 3 · 사고·감정", "days": [16, 17, 18, 19, 20, 21, 22, 23, 24, 25], "verbs": ["THINK", "KNOW", "MEAN", "WANT", "NEED", "FEEL", "BELIEVE", "UNDERSTAND", "SEEM", "복습"]},
+    "stage4": {"name": "Stage 4 · 소통", "days": [26, 27, 28, 29, 30, 31, 32, 33, 34, 35], "verbs": ["SAY", "TELL", "ASK", "TALK", "AGREE", "SUGGEST", "EXPLAIN", "DISCUSS", "DECIDE", "복습"]},
+    "stage5": {"name": "Stage 5 · AML 특화", "days": [36, 37, 38, 39, 40, 41, 42, 43, 44, 45], "verbs": ["IDENTIFY", "VERIFY", "FLAG", "REPORT", "MONITOR", "ESCALATE", "COMPLY", "REVIEW", "APPROVE", "복습"]}
+  }
+}

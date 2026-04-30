@@ -1,0 +1,359 @@
+{
+  "day": 1,
+  "verb": {
+    "en": "BE",
+    "pron": "[비]",
+    "ko": "~이다 / 있다 / ~한 상태이다",
+    "forms": ["am / is / are", "was / were", "been", "being"],
+    "frequency": "Oxford English Corpus 빈도 1위",
+    "stage": "Stage 1 · 절대 기본"
+  },
+  "meanings": [
+    {
+      "num": 1,
+      "ko": "~이다 (정체성·직업)",
+      "example": "I am an AML compliance officer.",
+      "exampleKo": "저는 AML 컴플라이언스 담당자입니다."
+    },
+    {
+      "num": 2,
+      "ko": "있다 (존재·위치)",
+      "example": "The report is on my desk.",
+      "exampleKo": "보고서는 제 책상에 있어요."
+    },
+    {
+      "num": 3,
+      "ko": "~한 상태이다 (감정·상태)",
+      "example": "I am concerned about this transaction.",
+      "exampleKo": "이 거래가 우려됩니다."
+    }
+  ],
+  "chunks": [
+    {
+      "en": "be in charge of",
+      "ko": "~를 담당하다",
+      "example": "I am in charge of transaction monitoring.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "be supposed to",
+      "ko": "~하기로 되어있다",
+      "example": "We are supposed to file STR within 24 hours.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "be about to",
+      "ko": "막 ~하려고 하다",
+      "example": "I am about to send the report.",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "be aware of",
+      "ko": "~를 알고 있다",
+      "example": "Are you aware of this regulation?",
+      "source": "Cambridge Dictionary"
+    },
+    {
+      "en": "be willing to",
+      "ko": "기꺼이 ~하다",
+      "example": "I am willing to take on this case.",
+      "source": "Cambridge Dictionary"
+    }
+  ],
+  "pronTip": {
+    "title": "BE 동사 발음 핵심",
+    "points": [
+      "am [엠] — 짧고 약하게 (I'm = 아임)",
+      "is [이즈] — z 소리 살리기",
+      "are [아ɹ] — r 굴리지 말고 가볍게",
+      "축약형 자주 사용: I'm, you're, he's, we're",
+      "부정: am not = 'm not / is not = isn't / are not = aren't"
+    ]
+  },
+  "listening": {
+    "title": "AML 팀 회의 시나리오",
+    "source": "AML 업무 + Preply Business English 검증",
+    "fullText": "Manager: Who is in charge of this case? Staff: I am. We are supposed to file the report by today. Manager: Are you aware of the new regulation? Staff: Yes, I am about to review it now. Manager: Good. I am willing to help if needed.",
+    "blanks": [
+      {"prefix": "Manager: Who", "blank": "is", "suffix": "in charge of this case?"},
+      {"prefix": "Staff: I", "blank": "am", "suffix": ". We"},
+      {"prefix": "We", "blank": "are", "suffix": "supposed to file the report by today."},
+      {"prefix": "Manager:", "blank": "Are", "suffix": "you aware of the new regulation?"},
+      {"prefix": "Staff: Yes, I", "blank": "am", "suffix": "about to review it now."},
+      {"prefix": "Manager: Good. I", "blank": "am", "suffix": "willing to help if needed."}
+    ]
+  },
+  "youtube": [
+    {
+      "channel": "BBC Learning English",
+      "icon": "📺",
+      "color": "#BB1919",
+      "links": [
+        {"label": "6 Minute English (비즈니스)", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+6+minute+English+business"},
+        {"label": "\"be supposed to\" 강의", "url": "https://www.youtube.com/results?search_query=BBC+Learning+English+be+supposed+to"}
+      ]
+    },
+    {
+      "channel": "Rachel's English",
+      "icon": "🎙️",
+      "color": "#E91E63",
+      "links": [
+        {"label": "BE 동사 발음 마스터", "url": "https://www.youtube.com/results?search_query=Rachel's+English+BE+verb+pronunciation"},
+        {"label": "\"be about to\" 연음", "url": "https://www.youtube.com/results?search_query=Rachel's+English+be+about+to+linking"}
+      ]
+    },
+    {
+      "channel": "EngVid",
+      "icon": "🎓",
+      "color": "#1E88E5",
+      "links": [
+        {"label": "비즈니스 미팅 영어", "url": "https://www.youtube.com/results?search_query=engvid+business+English+meetings"},
+        {"label": "\"be aware of\" 패턴", "url": "https://www.youtube.com/results?search_query=engvid+be+aware+of+phrasal"}
+      ]
+    },
+    {
+      "channel": "AML 실전 ⭐",
+      "icon": "🛡️",
+      "color": "#7C3AED",
+      "links": [
+        {"label": "AML Officer 인터뷰", "url": "https://www.youtube.com/results?search_query=AML+compliance+officer+interview"},
+        {"label": "ACAMS 웨비나 (의심거래)", "url": "https://www.youtube.com/results?search_query=ACAMS+webinar+suspicious+transaction"}
+      ]
+    }
+  ],
+  "examples5": [
+    {"category": "일상", "label": "자기소개", "color": "blue", "en": "I'm a senior compliance officer at a PG company.", "ko": "저는 PG사 시니어 컴플라이언스 담당자입니다."},
+    {"category": "업무", "label": "위치·상황", "color": "orange", "en": "The settlement file is in the shared folder.", "ko": "정산 파일은 공유 폴더에 있어요."},
+    {"category": "AML", "label": "책임", "color": "green", "en": "I'm in charge of monitoring high-risk merchants.", "ko": "고위험 가맹점 모니터링을 제가 담당합니다."},
+    {"category": "의견", "label": "인지", "color": "purple", "en": "Are you aware of the new STR threshold?", "ko": "새 STR 기준금액 알고 계세요?"},
+    {"category": "감정", "label": "상태", "color": "red", "en": "I'm concerned about this transaction pattern.", "ko": "이 거래 패턴이 우려됩니다."}
+  ],
+  "writing5": [
+    {"ko": "저는 AML 팀의 시니어 컴플라이언스 담당자입니다.", "en": "I am a senior compliance officer in the AML team.", "hint": "BE 동사 + 직업 (의미①)"},
+    {"ko": "그 보고서는 정산팀의 공유 폴더에 있습니다.", "en": "The report is in the settlement team's shared folder.", "hint": "BE 동사 + 위치 (의미②)"},
+    {"ko": "저는 고위험 가맹점 모니터링을 담당합니다.", "en": "I am in charge of monitoring high-risk merchants.", "hint": "청크: be in charge of"},
+    {"ko": "우리는 24시간 이내에 STR을 제출해야 합니다.", "en": "We are supposed to file STR within 24 hours.", "hint": "청크: be supposed to"},
+    {"ko": "새로운 규정에 대해 알고 계세요?", "en": "Are you aware of the new regulation?", "hint": "청크: be aware of"}
+  ],
+  "challenge3sec": [
+    {"ko": "저는 PG사 컴플라이언스 담당자입니다.", "en": "I'm a compliance officer at a PG company."},
+    {"ko": "이 케이스는 제가 담당입니다.", "en": "I'm in charge of this case."},
+    {"ko": "우리는 즉시 보고해야 합니다.", "en": "We are supposed to report immediately."},
+    {"ko": "저는 막 이메일을 보내려던 참이에요.", "en": "I'm about to send the email."},
+    {"ko": "이 거래 패턴이 우려됩니다.", "en": "I'm concerned about this transaction pattern."},
+    {"ko": "새 규정 알고 계세요?", "en": "Are you aware of the new regulation?"},
+    {"ko": "기꺼이 도와드릴게요.", "en": "I'm willing to help."}
+  ],
+  "freewrite": {
+    "situation": "신입 동료에게 본인의 AML 업무 역할을 영어로 소개하세요. 본인이 어느 부서 소속이고, 무엇을 담당하며, 어떤 책임을 지고 있는지 BE 동사 + 오늘 배운 청크를 사용해서 3-5문장으로 작성해보세요.",
+    "hint": "활용: be in charge of, be supposed to, be aware of",
+    "placeholder": "예: I'm a senior compliance officer in the AML team. I'm in charge of monitoring suspicious transactions..."
+  },
+  "situations": {
+    "office": {
+      "color": "#FFE5E5",
+      "textColor": "#C62828",
+      "info": "🏢 사내 미팅<br>신입 교육, 팀 회의, 부서간 협업 — 가장 자주 쓰는 BE 동사 상황!",
+      "lv1": [
+        {
+          "title": "신입사원 환영",
+          "dialog": [
+            {"who": "You", "text": "Welcome to the team! I'm Kellogg, the senior compliance officer."},
+            {"who": "New", "text": "Hi! Nice to meet you. So you are in charge of training me?"},
+            {"who": "You", "text": "Yes, I am. We are supposed to start with KYC basics today."}
+          ]
+        },
+        {
+          "title": "1:1 면담",
+          "dialog": [
+            {"who": "Mgr", "text": "How are things going with the new project?"},
+            {"who": "You", "text": "I'm about to finish the first phase. Just a few details left."},
+            {"who": "Mgr", "text": "Great. Are you aware of the new compliance deadline?"}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "부서간 협업 회의",
+          "dialog": [
+            {"who": "A", "text": "Good morning everyone. Who is leading the AML side?"},
+            {"who": "You", "text": "I am. I'm in charge of monitoring suspicious transactions."},
+            {"who": "A", "text": "Perfect. We are about to launch a new merchant program. Are you aware of the risk profile?"},
+            {"who": "You", "text": "Yes, I am. I'm willing to review the customer due diligence requirements with your team."},
+            {"who": "A", "text": "Thanks. We're supposed to align on this by Friday."},
+            {"who": "You", "text": "No problem. I'll send you the framework today."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "외국 본사에서 새 컴플라이언스 매니저(Sarah)가 부임했습니다. 처음 미팅에서 본인 역할과 PG사 AML 업무를 영어로 소개하세요.",
+        "aiRole": "Sarah, new global compliance manager from headquarters",
+        "aiOpening": "Hi! I'm Sarah, the new global compliance manager. I just arrived this week. Could you tell me a bit about yourself and your role here?"
+      }
+    },
+    "email": {
+      "color": "#E3F2FD",
+      "textColor": "#1565C0",
+      "info": "📧 이메일·메시지<br>외부 컨설턴트, 외국계 가맹점, 보고서 송부 — 격식 갖춘 BE 동사 활용!",
+      "lv1": [
+        {
+          "title": "회의 일정 조율",
+          "dialog": [
+            {"who": "Them", "text": "Are you available for a call tomorrow at 3 PM?"},
+            {"who": "You", "text": "I'm afraid I'm in another meeting. I'm available at 4 PM."},
+            {"who": "Them", "text": "4 PM works. I'll send the calendar invite."}
+          ]
+        },
+        {
+          "title": "문서 송부",
+          "dialog": [
+            {"who": "You", "text": "Hi, the report is attached. I'm willing to discuss any questions."},
+            {"who": "Them", "text": "Thanks! Are you the right person to ask about KYC details?"},
+            {"who": "You", "text": "Yes, I'm in charge of that. Let me know what you need."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "외국계 가맹점 답변 이메일",
+          "dialog": [
+            {"who": "Vendor", "text": "Hi, we are about to onboard a new international merchant. Are there specific KYC requirements?"},
+            {"who": "You", "text": "Hi, thanks for reaching out. Yes, there are specific requirements for international merchants."},
+            {"who": "You", "text": "You are supposed to submit the beneficial owner verification first. We are aware that the process can be complex."},
+            {"who": "Vendor", "text": "Got it. Are there any documents we should prepare in advance?"},
+            {"who": "You", "text": "I'm willing to send you a checklist. It is the same one we use internally."},
+            {"who": "Vendor", "text": "Perfect, much appreciated."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "외국계 컨설팅사에서 한국 PG사 KYC 절차에 대해 문의 이메일이 왔습니다. 정중하게 답변하세요.",
+        "aiRole": "James, consultant at a global advisory firm",
+        "aiOpening": "Hi, I'm James from Anderson Consulting. Our client is considering Korean PG services. Could you briefly explain your KYC process and what documents are typically required?"
+      }
+    },
+    "aml": {
+      "color": "#FFF3E0",
+      "textColor": "#E65100",
+      "info": "🚨 AML 실무<br>의심거래 보고, KYC, 규제기관 답변, 계좌 동결 — 태호님 핵심 업무!",
+      "lv1": [
+        {
+          "title": "의심거래 발견",
+          "dialog": [
+            {"who": "You", "text": "I'm concerned about this transaction pattern. The amount is unusually high."},
+            {"who": "Mgr", "text": "Are you sure it's suspicious?"},
+            {"who": "You", "text": "Yes, I am. I'm about to file an STR."}
+          ]
+        },
+        {
+          "title": "KYC 본인확인",
+          "dialog": [
+            {"who": "Cust", "text": "Why are you asking for these documents?"},
+            {"who": "You", "text": "It's part of our customer due diligence. We are supposed to verify all merchants."},
+            {"who": "Cust", "text": "Are you in charge of this verification?"}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "규제기관 답변 회의",
+          "dialog": [
+            {"who": "FIU", "text": "We need clarification on case #2024-0815. Are you the lead investigator?"},
+            {"who": "You", "text": "Yes, I am. I'm in charge of this case."},
+            {"who": "FIU", "text": "What was the trigger for the STR filing?"},
+            {"who": "You", "text": "There were multiple red flags. The merchant is supposed to operate in retail, but transaction patterns are inconsistent."},
+            {"who": "FIU", "text": "Are you aware of any cross-border activities?"},
+            {"who": "You", "text": "Yes, we are. We are about to share that data with you."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "FIU(금융정보분석원)에서 영어로 의심거래 보고 케이스에 대한 추가 질문이 왔습니다. 케이스 매니저로서 답변하세요.",
+        "aiRole": "Inspector from FIU (Financial Intelligence Unit)",
+        "aiOpening": "Good morning. We're following up on the STR you filed last week — case reference 2026-0419. Can you walk me through what initially triggered your suspicion?"
+      }
+    },
+    "social": {
+      "color": "#F3E5F5",
+      "textColor": "#6A1B9A",
+      "info": "🌍 비즈니스 사교<br>컨퍼런스 네트워킹, 점심 미팅, 자기소개 — 부드러운 BE 동사!",
+      "lv1": [
+        {
+          "title": "컨퍼런스 네트워킹",
+          "dialog": [
+            {"who": "A", "text": "Hi, I'm Mark from Singapore. What do you do?"},
+            {"who": "You", "text": "Nice to meet you! I'm an AML compliance officer at a PG company in Korea."},
+            {"who": "A", "text": "Oh interesting! Are you here for the ACAMS conference?"}
+          ]
+        },
+        {
+          "title": "점심 미팅 시작",
+          "dialog": [
+            {"who": "Them", "text": "How was your trip?"},
+            {"who": "You", "text": "It was great, thanks. I'm a bit jet-lagged but I'm doing fine."},
+            {"who": "Them", "text": "Are you ready for tomorrow's presentation?"}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "네트워킹 깊은 대화",
+          "dialog": [
+            {"who": "Peer", "text": "So tell me about your work in Korea. I'm curious about the AML scene there."},
+            {"who": "You", "text": "Sure! I'm in charge of transaction monitoring at a major PG company."},
+            {"who": "You", "text": "The Korean market is unique. We are supposed to comply with both local FIU rules and international standards."},
+            {"who": "Peer", "text": "Are you aware of the recent FATF mutual evaluation report?"},
+            {"who": "You", "text": "Yes, I am. I was about to bring that up actually. Korea is making good progress."},
+            {"who": "Peer", "text": "That's great to hear. Are you willing to share insights when you have time?"}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "국제 AML 컨퍼런스(ACAMS)에서 옆자리에 앉은 다른 나라 컴플라이언스 담당자가 말을 겁니다. 자연스럽게 네트워킹하세요.",
+        "aiRole": "Lisa, AML analyst from a Singaporean bank",
+        "aiOpening": "Hey! Mind if I sit here? I noticed your name tag — you're from Korea, right? I'm Lisa, AML analyst at DBS Singapore. How are you finding the conference so far?"
+      }
+    },
+    "daily": {
+      "color": "#E8F5E9",
+      "textColor": "#2E7D32",
+      "info": "😊 일상 응용<br>날씨, 가족, 주말, 음식 — 가장 기본적인 BE 동사 친숙해지기!",
+      "lv1": [
+        {
+          "title": "주말 계획",
+          "dialog": [
+            {"who": "Friend", "text": "Are you free this Saturday?"},
+            {"who": "You", "text": "I'm not sure yet. I'm supposed to visit my parents."},
+            {"who": "Friend", "text": "Oh got it. Maybe next week then!"}
+          ]
+        },
+        {
+          "title": "감정 표현",
+          "dialog": [
+            {"who": "Friend", "text": "You look tired. Are you okay?"},
+            {"who": "You", "text": "I'm a bit exhausted. I'm about to take a break."},
+            {"who": "Friend", "text": "Take care! I'm willing to help if you need anything."}
+          ]
+        }
+      ],
+      "lv2": [
+        {
+          "title": "가족 이야기",
+          "dialog": [
+            {"who": "Friend", "text": "How's your family doing?"},
+            {"who": "You", "text": "They're great, thanks for asking. We're about to plan a family trip."},
+            {"who": "Friend", "text": "Oh nice! Where are you thinking?"},
+            {"who": "You", "text": "I'm not sure yet. My parents are aware of a few options. Maybe Jeju Island."},
+            {"who": "Friend", "text": "Jeju is amazing! Are you willing to share photos when you go?"},
+            {"who": "You", "text": "Of course! I'll send some when we're there."}
+          ]
+        }
+      ],
+      "rolePlay": {
+        "scenario": "외국에서 온 친구와 한국에서 첫 만남입니다. 일상적인 자기소개와 한국 생활에 대해 자연스럽게 대화하세요.",
+        "aiRole": "Emma, an exchange student from Australia",
+        "aiOpening": "Hi! I'm Emma. I just moved to Seoul last month for grad school. Are you from Seoul originally? I'm still figuring out everything here!"
+      }
+    }
+  }
+}
