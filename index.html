@@ -410,14 +410,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
         <div id="voice-active-area" style="display:none;text-align:center;">
           <div id="voice-status-icon" style="font-size:42px;margin-bottom:6px;">🎙️</div>
           <div id="voice-status-text" style="font-size:13px;font-weight:700;color:#FF6F00;margin-bottom:4px;">준비 중...</div>
-          <div id="voice-last-heard" style="font-size:11px;color:#5D4037;background:white;border-radius:6px;padding:6px;margin:8px 0;min-height:20px;display:none;"></div>
+          <div id="voice-last-heard" style="font-size:13px;color:#5D4037;background:white;border-radius:8px;padding:10px;margin:8px 0;min-height:36px;display:none;text-align:left;line-height:1.5;border:1px solid #FFE082;"></div>
+          <!-- 큰 보내기 버튼 (말 다 했을 때 즉시 전송) -->
+          <button id="voice-send-now-btn" onclick="sendNowVoice()" style="display:none;background:#2E7D32;color:white;border:none;padding:12px 24px;border-radius:24px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(46,125,50,0.3);margin:6px 0;">📤 다 말했어요 (전송)</button>
           <div id="voice-turn-feedback" style="display:none;font-size:11px;color:#2E7D32;background:#E8F5E9;border-radius:6px;padding:6px;margin:6px 0;text-align:left;line-height:1.6;"></div>
           <div id="voice-retry-area" style="display:none;margin:8px 0;">
             <div id="voice-retry-msg" style="font-size:11px;color:var(--red);margin-bottom:6px;"></div>
             <button class="btn btn-s" onclick="retryListening()" style="font-size:11px;padding:6px 12px;">🔄 다시 시도</button>
           </div>
           <div class="btn-row" style="margin-top:8px;">
-            <button id="voice-mic-btn" class="btn btn-s" onclick="toggleMic()" style="font-size:11px;display:none;">⏸ 일시정지</button>
             <button class="btn btn-s" onclick="stopVoiceConversation()" style="font-size:11px;background:#FFCDD2;color:#C62828;">⏹ 음성 종료</button>
           </div>
         </div>
@@ -1466,7 +1467,15 @@ var VOICE_STATE = {
   listenTimer: null,     // "더 크게 말해주세요" 안내 타이머
   turnCount: 0,          // 사용자 발화 누적 (피드백 인덱스용)
   lastUserText: '',      // 마지막 사용자 발화 (API 재시도용)
-  retryMode: null        // 'api' = API 재호출, null = 마이크 재시도
+  retryMode: null,       // 'api' = API 재호출, null = 마이크 재시도
+  // 🆕 침묵 감지 (continuous 모드)
+  finalTranscript: '',   // 확정된 인식 텍스트
+  interimTranscript: '', // 실시간 인식 텍스트
+  lastSpeechAt: 0,       // 마지막 발화 감지 시각
+  silenceWatcher: null,  // 침묵 감지 인터벌
+  silenceCountdownStart: 0,
+  processingFinal: false,// finalizeAndSend 중복 방지
+  lowConfidence: false   // 인식 신뢰도 낮음
 };
 
 function isVoiceSupported(){
@@ -1635,80 +1644,237 @@ function startListening(){
     try { VOICE_STATE.recognition.abort(); } catch(e){}
   }
   // 기존 timer 정리
-  if(VOICE_STATE.listenTimer){
-    clearTimeout(VOICE_STATE.listenTimer);
-    VOICE_STATE.listenTimer = null;
-  }
+  clearVoiceTimers();
+
   var rec = new SR();
   rec.lang = 'en-US';
-  rec.interimResults = false;
+  rec.interimResults = true;     // 실시간 인식 결과
   rec.maxAlternatives = 1;
-  rec.continuous = false;
+  rec.continuous = true;          // 멈춰도 계속 듣기
+
+  // 인식 누적 상태
+  VOICE_STATE.finalTranscript = '';
+  VOICE_STATE.interimTranscript = '';
+  VOICE_STATE.lastSpeechAt = Date.now();
+  VOICE_STATE.silenceCountdownStart = 0;
+  VOICE_STATE.lowConfidence = false;
 
   setVoiceStatus('🎙️', '듣는 중... 영어로 말하세요', '#FF6F00');
   $s('voice-retry-area','display','none');
-
-  // 5초 경과 시 동적 안내
-  VOICE_STATE.listenStartedAt = Date.now();
-  VOICE_STATE.listenTimer = setTimeout(function(){
-    if(VOICE_STATE.isListening){
-      setVoiceStatus('🎙️', '더 크게, 또박또박 말해주세요', '#FF6F00');
-    }
-  }, 5000);
+  // [📤 보내기] 버튼 표시
+  $s('voice-send-now-btn','display','inline-block');
+  // interim 표시 영역 초기화
+  var lh = $g('voice-last-heard');
+  if(lh){ lh.innerHTML = '<span style="color:#999;font-style:italic;">말씀하시면 여기에 실시간으로 표시됩니다...</span>'; lh.style.display = 'block'; }
 
   rec.onresult = function(ev){
-    if(VOICE_STATE.listenTimer){ clearTimeout(VOICE_STATE.listenTimer); VOICE_STATE.listenTimer = null; }
-    var transcript = '';
-    var confidence = 1;
-    for(var i=0; i<ev.results.length; i++){
-      transcript += ev.results[i][0].transcript;
-      if(typeof ev.results[i][0].confidence === 'number'){
-        confidence = Math.min(confidence, ev.results[i][0].confidence);
+    var finalT = '';
+    var interimT = '';
+    var lowConf = false;
+    for(var i=ev.resultIndex; i<ev.results.length; i++){
+      var trans = ev.results[i][0].transcript;
+      var conf = ev.results[i][0].confidence;
+      if(ev.results[i].isFinal){
+        finalT += trans;
+        if(typeof conf === 'number' && conf < 0.7) lowConf = true;
+      } else {
+        interimT += trans;
       }
     }
-    transcript = transcript.trim();
-    if(!transcript){
-      handleListeningError('인식된 말이 없어요');
-      return;
+    if(finalT){
+      VOICE_STATE.finalTranscript += finalT;
+      if(lowConf) VOICE_STATE.lowConfidence = true;
     }
-    VOICE_STATE.errorCount = 0;
-    var lh = $g('voice-last-heard');
-    if(lh){
-      var conMark = confidence < 0.7 ? ' <span style="color:var(--red);font-size:10px;">⚠️ 발음 점검?</span>' : '';
-      lh.innerHTML = '"' + transcript + '"' + conMark;
-      lh.style.display = 'block';
+    VOICE_STATE.interimTranscript = interimT;
+    VOICE_STATE.lastSpeechAt = Date.now();
+
+    // 화면에 실시간 표시
+    var combined = (VOICE_STATE.finalTranscript + ' ' + interimT).trim();
+    if(lh && combined){
+      var conMark = VOICE_STATE.lowConfidence ? ' <span style="color:var(--red);font-size:10px;">⚠️ 발음 점검?</span>' : '';
+      lh.innerHTML = '<span style="color:#1A1A1A;font-weight:600;">' + escapeHtml(VOICE_STATE.finalTranscript) + '</span>' +
+                     '<span style="color:#999;">' + escapeHtml(interimT) + '</span>' + conMark;
     }
-    handleSpeechResult(transcript);
   };
+
   rec.onerror = function(ev){
-    if(VOICE_STATE.listenTimer){ clearTimeout(VOICE_STATE.listenTimer); VOICE_STATE.listenTimer = null; }
     if(ev.error === 'aborted'){
       return;
     }
     if(ev.error === 'no-speech'){
-      handleListeningError('말소리가 감지되지 않았어요');
+      // continuous 모드에서도 가끔 발생 → 경고만, 아직 살아있으면 그냥 둠
       return;
     }
     if(ev.error === 'not-allowed' || ev.error === 'service-not-allowed'){
+      clearVoiceTimers();
       setVoiceStatus('⚠️', '마이크 권한이 차단되어 있어요', 'var(--red)');
       $g('voice-retry-msg').textContent = '브라우저 설정에서 마이크 권한을 허용해주세요';
       $s('voice-retry-area','display','block');
       return;
     }
+    if(ev.error === 'audio-capture'){
+      clearVoiceTimers();
+      setVoiceStatus('⚠️', '마이크를 찾을 수 없어요', 'var(--red)');
+      $g('voice-retry-msg').textContent = '마이크 연결을 확인해주세요';
+      $s('voice-retry-area','display','block');
+      return;
+    }
     handleListeningError('인식 오류: ' + ev.error);
   };
+
   rec.onend = function(){
     VOICE_STATE.isListening = false;
-    if(VOICE_STATE.listenTimer){ clearTimeout(VOICE_STATE.listenTimer); VOICE_STATE.listenTimer = null; }
+    // continuous 모드에서 종료되면 자동 재시작 (사용자가 멈추지 않은 한)
+    if(VOICE_STATE.active && !VOICE_STATE.manualStop && !VOICE_STATE.processingFinal){
+      // 누적된 게 있으면 처리, 없으면 재시작
+      if(VOICE_STATE.finalTranscript.trim()){
+        finalizeAndSend();
+      } else {
+        // 아무것도 못 들었으면 잠시 후 재시작
+        setTimeout(function(){
+          if(VOICE_STATE.active && !VOICE_STATE.manualStop && !VOICE_STATE.isSpeaking){
+            startListening();
+          }
+        }, 300);
+      }
+    }
   };
 
   VOICE_STATE.recognition = rec;
   VOICE_STATE.isListening = true;
+  VOICE_STATE.processingFinal = false;
   try {
     rec.start();
+    // 침묵 감지 인터벌 시작 (200ms마다 체크)
+    startSilenceWatcher();
   } catch(e){
     handleListeningError('마이크 시작 실패. 권한을 확인하세요.');
   }
+}
+
+// 200ms마다 침묵 시간 체크 → 2.5초 넘으면 자동 전송
+function startSilenceWatcher(){
+  if(VOICE_STATE.silenceWatcher){
+    clearInterval(VOICE_STATE.silenceWatcher);
+  }
+  var SILENCE_THRESHOLD = 2500; // 2.5초
+  var COUNTDOWN_START = 1500;   // 1.5초 침묵부터 카운트다운 표시
+
+  VOICE_STATE.silenceWatcher = setInterval(function(){
+    if(!VOICE_STATE.isListening || VOICE_STATE.processingFinal){
+      clearInterval(VOICE_STATE.silenceWatcher);
+      VOICE_STATE.silenceWatcher = null;
+      return;
+    }
+    var elapsed = Date.now() - VOICE_STATE.lastSpeechAt;
+    var combined = (VOICE_STATE.finalTranscript + VOICE_STATE.interimTranscript).trim();
+
+    // 아직 아무 말도 안 했으면 침묵 무시 (사용자가 시작 안 한 것)
+    if(!combined){
+      // 듣기 시작 후 8초 이상 무발화면 안내
+      var listenElapsed = Date.now() - VOICE_STATE.listenStartedAt;
+      if(listenElapsed > 5000 && listenElapsed < 5500){
+        setVoiceStatus('🎙️', '더 크게, 또박또박 말해주세요', '#FF6F00');
+      }
+      return;
+    }
+
+    // 카운트다운 표시 (1.5초~2.5초 구간)
+    if(elapsed >= COUNTDOWN_START && elapsed < SILENCE_THRESHOLD){
+      var remaining = Math.ceil((SILENCE_THRESHOLD - elapsed) / 1000);
+      var dots = '●'.repeat(remaining) + '○'.repeat(3 - remaining);
+      setVoiceStatus('💭', '곧 전송 ' + dots, '#FFA000');
+    } else if(elapsed < COUNTDOWN_START){
+      // 다시 말하기 시작했으면 상태 복귀
+      var icon = $g('voice-status-icon');
+      if(icon && icon.textContent === '💭'){
+        setVoiceStatus('🎙️', '듣는 중...', '#FF6F00');
+      }
+    }
+
+    // 침묵 임계 도달 → 자동 전송
+    if(elapsed >= SILENCE_THRESHOLD){
+      clearInterval(VOICE_STATE.silenceWatcher);
+      VOICE_STATE.silenceWatcher = null;
+      finalizeAndSend();
+    }
+  }, 200);
+
+  VOICE_STATE.listenStartedAt = Date.now();
+}
+
+// 누적된 발화를 확정하고 API로 전송
+function finalizeAndSend(){
+  if(VOICE_STATE.processingFinal) return;
+  VOICE_STATE.processingFinal = true;
+
+  // 인터벌/타이머 정리
+  if(VOICE_STATE.silenceWatcher){
+    clearInterval(VOICE_STATE.silenceWatcher);
+    VOICE_STATE.silenceWatcher = null;
+  }
+
+  // 마이크 종료
+  if(VOICE_STATE.recognition){
+    try { VOICE_STATE.recognition.stop(); } catch(e){}
+  }
+
+  // final + interim 합치기 (interim도 사용자가 말한 내용이므로 포함)
+  var transcript = (VOICE_STATE.finalTranscript + ' ' + VOICE_STATE.interimTranscript).trim().replace(/\s+/g, ' ');
+
+  // [📤 보내기] 버튼 숨김
+  $s('voice-send-now-btn','display','none');
+
+  if(!transcript){
+    VOICE_STATE.processingFinal = false;
+    handleListeningError('인식된 말이 없어요');
+    return;
+  }
+
+  // 너무 짧고 의미없는 입력은 무시 (필러 단어만)
+  var fillers = ['um','uh','uhm','ah','er','hmm','yeah','okay'];
+  var words = transcript.toLowerCase().split(/\s+/).filter(function(w){ return w.length > 0; });
+  var meaningfulWords = words.filter(function(w){ return fillers.indexOf(w) === -1; });
+  if(meaningfulWords.length === 0){
+    VOICE_STATE.processingFinal = false;
+    setVoiceStatus('🎙️', '다시 한번 말씀해주세요', '#FF6F00');
+    setTimeout(startListening, 500);
+    return;
+  }
+
+  VOICE_STATE.errorCount = 0;
+  // 최종 인식 텍스트 표시 (음성 모드 영역)
+  var lh = $g('voice-last-heard');
+  if(lh){
+    var conMark = VOICE_STATE.lowConfidence ? ' <span style="color:var(--red);font-size:10px;">⚠️ 발음 점검?</span>' : '';
+    lh.innerHTML = '"' + escapeHtml(transcript) + '"' + conMark;
+  }
+
+  handleSpeechResult(transcript);
+}
+
+// 사용자가 [📤 보내기] 버튼 누름 → 즉시 전송
+function sendNowVoice(){
+  if(!VOICE_STATE.isListening) return;
+  finalizeAndSend();
+}
+
+// 모든 음성 관련 타이머 정리
+function clearVoiceTimers(){
+  if(VOICE_STATE.silenceWatcher){
+    clearInterval(VOICE_STATE.silenceWatcher);
+    VOICE_STATE.silenceWatcher = null;
+  }
+  if(VOICE_STATE.listenTimer){
+    clearTimeout(VOICE_STATE.listenTimer);
+    VOICE_STATE.listenTimer = null;
+  }
+}
+
+// HTML escape (XSS 방지)
+function escapeHtml(s){
+  if(!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function handleListeningError(msg){
@@ -1879,6 +2045,9 @@ function stopVoiceConversation(){
   VOICE_STATE.isListening = false;
   VOICE_STATE.isSpeaking = false;
   VOICE_STATE.turnCount = 0;
+  VOICE_STATE.processingFinal = false;
+  VOICE_STATE.finalTranscript = '';
+  VOICE_STATE.interimTranscript = '';
   if(VOICE_STATE.recognition){
     try { VOICE_STATE.recognition.abort(); } catch(e){}
     VOICE_STATE.recognition = null;
@@ -1887,6 +2056,10 @@ function stopVoiceConversation(){
     clearInterval(VOICE_STATE.ttsKeepAlive);
     VOICE_STATE.ttsKeepAlive = null;
   }
+  if(VOICE_STATE.silenceWatcher){
+    clearInterval(VOICE_STATE.silenceWatcher);
+    VOICE_STATE.silenceWatcher = null;
+  }
   if(VOICE_STATE.listenTimer){
     clearTimeout(VOICE_STATE.listenTimer);
     VOICE_STATE.listenTimer = null;
@@ -1894,6 +2067,7 @@ function stopVoiceConversation(){
   if('speechSynthesis' in window) window.speechSynthesis.cancel();
   $s('voice-active-area','display','none');
   $s('voice-start-options','display','block');
+  $s('voice-send-now-btn','display','none');
 
   // 토글도 정리
   VOICE_STATE.enabled = false;
@@ -2323,7 +2497,7 @@ window.toggleVoiceMode = toggleVoiceMode;
 window.setVoiceRate = setVoiceRate;
 window.startVoiceConversation = startVoiceConversation;
 window.retryListening = retryListening;
-window.toggleMic = toggleMic;
+window.sendNowVoice = sendNowVoice;
 window.stopVoiceConversation = stopVoiceConversation;
 </script>
 </body>
