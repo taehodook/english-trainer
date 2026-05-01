@@ -427,24 +427,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
         <div id="voice-screen-user-turn" style="display:none;text-align:center;">
           <div style="font-size:14px;font-weight:700;color:#2E7D32;margin-bottom:12px;">🎤 당신 차례입니다</div>
           <button onclick="startListeningOnce()" style="background:#4CAF50;color:white;border:none;padding:18px 32px;border-radius:32px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 3px 10px rgba(76,175,80,0.4);margin:6px 0;">🎙️ 말하기 시작</button>
-          <div style="font-size:11px;color:#5D4037;margin-top:10px;">버튼 누른 후 영어로 말하세요</div>
+          <div style="font-size:11px;color:#5D4037;margin-top:10px;line-height:1.5;">버튼 누른 후 영어로 말하세요<br>⏱ <strong>시간 제한 없음</strong> — 다 말한 후 [⏹ 다 말했어요] 누르기</div>
         </div>
 
         <!-- 화면 4: 듣는 중 -->
         <div id="voice-screen-listening" style="display:none;text-align:center;">
           <div id="voice-mic-icon" style="font-size:64px;margin-bottom:6px;animation:voice-pulse 1.5s ease-in-out infinite;">🎙️</div>
           <div style="font-size:16px;font-weight:700;color:#FF6F00;margin-bottom:8px;">듣는 중... 말하세요</div>
-          <button onclick="stopListeningManual()" style="background:#FFB300;color:white;border:none;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;">⏹ 멈추기 (말 끝남)</button>
+          <div id="voice-listening-text" style="font-size:13px;color:#1A1A1A;background:white;border-radius:8px;padding:10px;margin:8px 0;min-height:36px;text-align:left;line-height:1.5;border:1px solid #FFE082;"><span style="color:#999;font-style:italic;">실시간으로 인식되는 내용이 여기 표시됩니다...</span></div>
+          <div style="font-size:11px;color:#5D4037;margin-bottom:8px;">💡 다 말한 후 아래 버튼을 누르세요 (시간 제한 없음)</div>
+          <button onclick="stopListeningManual()" style="background:#2E7D32;color:white;border:none;padding:14px 24px;border-radius:24px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(46,125,50,0.3);">⏹ 다 말했어요</button>
         </div>
 
-        <!-- 화면 5: 인식 결과 확인 -->
-        <div id="voice-screen-confirm" style="display:none;text-align:center;">
-          <div style="font-size:13px;font-weight:700;color:#5D4037;margin-bottom:8px;">📝 인식된 내용</div>
-          <div id="voice-recognized-text" style="font-size:14px;color:#1A1A1A;background:white;border-radius:8px;padding:12px;margin:8px 0;min-height:40px;text-align:left;line-height:1.5;border:1px solid #FFE082;font-weight:600;"></div>
-          <div id="voice-confidence-warning" style="display:none;font-size:11px;color:var(--red);margin-bottom:8px;">⚠️ 발음이 명확하지 않아요. 다시 말하기 권장</div>
+        <!-- 화면 5: 인식 결과 확인 (편집 가능) -->
+        <div id="voice-screen-confirm" style="display:none;">
+          <div style="text-align:center;font-size:13px;font-weight:700;color:#5D4037;margin-bottom:8px;">📝 인식된 내용 (수정 가능)</div>
+          <textarea id="voice-recognized-text" style="width:100%;font-size:14px;color:#1A1A1A;background:white;border-radius:8px;padding:12px;margin:8px 0;min-height:80px;line-height:1.5;border:2px solid #FFB300;font-weight:600;font-family:inherit;box-sizing:border-box;resize:vertical;"></textarea>
+          <div id="voice-confidence-warning" style="display:none;font-size:11px;color:var(--red);margin-bottom:8px;text-align:center;">⚠️ 발음이 명확하지 않아요 — 위 박스에서 직접 수정 가능합니다</div>
+          <div style="font-size:10px;color:#5D4037;background:#FFF8E1;border-radius:6px;padding:6px;margin-bottom:8px;line-height:1.4;">💡 <strong>잘못 인식됐으면 위 박스에서 직접 수정 후 전송하세요</strong></div>
           <div class="btn-row" style="margin-top:8px;">
             <button onclick="sendRecognizedText()" style="background:#2E7D32;color:white;border:none;padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;flex:1;">📤 전송</button>
-            <button onclick="startListeningOnce()" class="btn btn-s" style="font-size:12px;flex:1;">🔄 다시</button>
+            <button onclick="startListeningOnce()" class="btn btn-s" style="font-size:12px;flex:1;">🔄 다시 말하기</button>
           </div>
         </div>
 
@@ -1513,12 +1516,19 @@ var VOICE_STATE = {
   recognizedConfidence: 1,
   ttsKeepAlive: null,
   turnCount: 0,
-  manualStop: false
+  manualStop: false,
+  userStopped: false  // 사용자가 [⏹ 다 말했어요] 눌렀는지
 };
 
 function isVoiceSupported(){
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   return !!SR && ('speechSynthesis' in window);
+}
+
+// XSS 방지용 HTML 이스케이프
+function escapeHtml(s){
+  if(!s) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
 // 화면 전환 헬퍼
@@ -1671,29 +1681,65 @@ function startListeningOnce(){
     VOICE_STATE.recognition = null;
   }
 
+  // 누적 상태 초기화
   VOICE_STATE.recognizedText = '';
   VOICE_STATE.recognizedConfidence = 1;
+  VOICE_STATE.userStopped = false;  // 사용자가 [다 말했어요] 눌렀는지
 
   var rec = new SR();
   rec.lang = 'en-US';
-  rec.continuous = false;
-  rec.interimResults = false;
+  rec.continuous = true;        // 🔑 사용자가 멈출 때까지 계속 듣기
+  rec.interimResults = true;    // 실시간 표시
   rec.maxAlternatives = 1;
 
   showVoiceScreen('listening');
+  // 듣기 영역 초기화
+  var lt = $g('voice-listening-text');
+  if(lt) lt.innerHTML = '<span style="color:#999;font-style:italic;">실시간으로 인식되는 내용이 여기 표시됩니다...</span>';
 
   rec.onresult = function(ev){
-    if(ev.results.length > 0){
-      var r = ev.results[0][0];
-      VOICE_STATE.recognizedText = (r.transcript || '').trim();
-      VOICE_STATE.recognizedConfidence = (typeof r.confidence === 'number') ? r.confidence : 1;
+    // 누적된 final + 현재 interim 모두 합치기
+    var allFinal = '';
+    var allInterim = '';
+    var minConf = 1;
+    for(var i=0; i<ev.results.length; i++){
+      var r = ev.results[i][0];
+      var trans = r.transcript || '';
+      if(ev.results[i].isFinal){
+        allFinal += trans + ' ';
+        if(typeof r.confidence === 'number' && r.confidence > 0 && r.confidence < minConf){
+          minConf = r.confidence;
+        }
+      } else {
+        allInterim += trans;
+      }
+    }
+    allFinal = allFinal.replace(/\s+/g, ' ').trim();
+    allInterim = allInterim.replace(/\s+/g, ' ').trim();
+
+    VOICE_STATE.recognizedText = allFinal;
+    VOICE_STATE.recognizedConfidence = minConf;
+
+    // 화면에 실시간 표시
+    var lt = $g('voice-listening-text');
+    if(lt){
+      var finalPart = allFinal ? '<span style="color:#1A1A1A;font-weight:600;">' + escapeHtml(allFinal) + '</span>' : '';
+      var interimPart = allInterim ? ' <span style="color:#999;font-style:italic;">' + escapeHtml(allInterim) + '</span>' : '';
+      if(finalPart || interimPart){
+        lt.innerHTML = finalPart + interimPart;
+      }
     }
   };
 
   var errorShown = false;
   rec.onerror = function(ev){
     var err = ev.error;
-    if(err === 'aborted') return; // stop() 또는 abort() 호출 → onend에서 처리
+    if(err === 'aborted') return;
+    if(err === 'no-speech'){
+      // continuous 모드에선 no-speech가 자주 발생할 수 있는데
+      // 사용자가 멈추지 않았으면 그냥 무시 (계속 대기)
+      if(!VOICE_STATE.userStopped) return;
+    }
     errorShown = true;
     if(err === 'no-speech'){
       showError('말소리가 감지되지 않았어요. 마이크 가까이서 다시 시도하세요.');
@@ -1711,12 +1757,37 @@ function startListeningOnce(){
     if(VOICE_STATE.manualStop || !VOICE_STATE.enabled) return;
     if(errorShown) return;
 
-    if(VOICE_STATE.recognizedText){
-      showConfirmScreen();
-    } else {
-      // 결과 없음 + 에러도 없음 → 말 안 한 케이스
-      if(VOICE_STATE.screen === 'listening'){
+    // continuous 모드는 사용자가 멈추지 않아도 가끔 자동 종료됨
+    // 사용자가 명시적으로 멈춘 경우만 confirm으로 진행
+    if(VOICE_STATE.userStopped){
+      if(VOICE_STATE.recognizedText){
+        showConfirmScreen();
+      } else {
         showError('인식된 내용이 없어요. 다시 시도해주세요.');
+      }
+    } else {
+      // 사용자가 안 멈췄는데 자동 종료된 경우 → 자동 재시작 (누적 유지)
+      if(VOICE_STATE.screen === 'listening'){
+        try {
+          var rec2 = new SR();
+          rec2.lang = 'en-US';
+          rec2.continuous = true;
+          rec2.interimResults = true;
+          rec2.maxAlternatives = 1;
+          // 같은 핸들러 재사용을 위해 동일하게 설정
+          rec2.onresult = rec.onresult;
+          rec2.onerror = rec.onerror;
+          rec2.onend = rec.onend;
+          VOICE_STATE.recognition = rec2;
+          rec2.start();
+        } catch(e){
+          // 재시작 실패하면 현재까지 인식된 거로 confirm
+          if(VOICE_STATE.recognizedText){
+            showConfirmScreen();
+          } else {
+            showError('마이크가 멈췄어요. 다시 시도해주세요.');
+          }
+        }
       }
     }
   };
@@ -1730,16 +1801,25 @@ function startListeningOnce(){
 }
 
 function stopListeningManual(){
+  // 사용자가 [⏹ 다 말했어요] 눌렀을 때
+  VOICE_STATE.userStopped = true;
   if(VOICE_STATE.recognition){
     try { VOICE_STATE.recognition.stop(); } catch(e){}
-    // stop()은 결과 onresult 호출 후 onend로 진행
+    // onend에서 confirm 화면으로 진행
+  } else {
+    // recognition이 이미 끝났으면 직접 진행
+    if(VOICE_STATE.recognizedText){
+      showConfirmScreen();
+    } else {
+      showError('인식된 내용이 없어요. 다시 시도해주세요.');
+    }
   }
 }
 
 function showConfirmScreen(){
   showVoiceScreen('confirm');
   var box = $g('voice-recognized-text');
-  if(box) box.textContent = '"' + VOICE_STATE.recognizedText + '"';
+  if(box) box.value = VOICE_STATE.recognizedText;
   var warn = $g('voice-confidence-warning');
   if(warn) warn.style.display = (VOICE_STATE.recognizedConfidence > 0 && VOICE_STATE.recognizedConfidence < 0.7) ? 'block' : 'none';
 }
@@ -1751,7 +1831,9 @@ function showError(msg){
 }
 
 async function sendRecognizedText(){
-  var text = VOICE_STATE.recognizedText;
+  // textarea에서 최종값 읽기 (사용자가 수정한 경우 반영)
+  var box = $g('voice-recognized-text');
+  var text = box ? box.value.trim() : VOICE_STATE.recognizedText;
   if(!text){ showError('전송할 텍스트가 없어요'); return; }
 
   showVoiceScreen('processing');
