@@ -1464,7 +1464,9 @@ var VOICE_STATE = {
   ttsKeepAlive: null,    // Chrome TTS 14초 버그 회피용 인터벌
   listenStartedAt: 0,    // 듣기 시작 시각 (timeout 안내용)
   listenTimer: null,     // "더 크게 말해주세요" 안내 타이머
-  turnCount: 0           // 사용자 발화 누적 (피드백 인덱스용)
+  turnCount: 0,          // 사용자 발화 누적 (피드백 인덱스용)
+  lastUserText: '',      // 마지막 사용자 발화 (API 재시도용)
+  retryMode: null        // 'api' = API 재호출, null = 마이크 재시도
 };
 
 function isVoiceSupported(){
@@ -1728,6 +1730,23 @@ function handleListeningError(msg){
 
 function retryListening(){
   $s('voice-retry-area','display','none');
+  // API 실패 재시도면 → 마지막 발화로 API 재호출
+  if(VOICE_STATE.retryMode === 'api' && VOICE_STATE.lastUserText){
+    VOICE_STATE.retryMode = null;
+    setVoiceStatus('💭', '재시도 중...', '#FF6F00');
+    // 로딩 표시
+    var chat = $g('rp-chat');
+    var loading = document.createElement('div');
+    loading.className = 'rp-msg ai';
+    loading.id = 'rp-loading';
+    loading.innerHTML = '<div class="rp-avatar">🤖</div><div class="rp-bubble" style="opacity:.6;"><span class="spinner"></span> 다시 시도 중...</div>';
+    chat.appendChild(loading);
+    chat.scrollTop = chat.scrollHeight;
+    callRolePlayAPI();
+    return;
+  }
+  // 일반 마이크 재시도
+  VOICE_STATE.retryMode = null;
   startListening();
 }
 
@@ -1741,8 +1760,10 @@ async function handleSpeechResult(transcript){
   addRpMessage('user', transcript, { feedbackSlotId: slotId });
   rpHistory.push({role:'user', content:transcript});
 
-  // 매 턴 작은 피드백 (병렬 호출, 슬롯에 채워짐)
-  requestTurnFeedback(transcript, slotId);
+  // 매 턴 작은 피드백 (메인 응답 후 0.8초 지연으로 부하 분산)
+  setTimeout(function(){
+    if(VOICE_STATE.active) requestTurnFeedback(transcript, slotId);
+  }, 800);
 
   // AI 응답 받기
   var chat = $g('rp-chat');
@@ -1753,6 +1774,18 @@ async function handleSpeechResult(transcript){
   chat.appendChild(loading);
   chat.scrollTop = chat.scrollHeight;
 
+  // 마지막 사용자 발화 보관 (재시도용)
+  VOICE_STATE.lastUserText = transcript;
+
+  var success = await callRolePlayAPI();
+  if(!success){
+    // 실패해도 마이크 흐름 유지: 사용자가 다시 시도 버튼 누르거나 새 발화 가능
+    return;
+  }
+}
+
+// AI 응답 호출 (성공 시 true) - 재시도 가능하게 분리
+async function callRolePlayAPI(){
   try {
     var res = await fetch('/api/roleplay', {
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -1769,26 +1802,37 @@ async function handleSpeechResult(transcript){
     var l = $g('rp-loading'); if(l) l.remove();
 
     if(d.error){
-      addRpMessage('ai', '⚠️ ' + d.error);
-      setVoiceStatus('⚠️', '오류 발생', 'var(--red)');
-      return;
+      var errMsg = d.error;
+      addRpMessage('ai', '⚠️ ' + errMsg);
+      setVoiceStatus('⚠️', '일시적 오류', 'var(--red)');
+      // 재시도 가능 플래그가 있으면 안내
+      if(d.retryable !== false){
+        $g('voice-retry-msg').innerHTML = errMsg + '<br><small>잠시 후 [🔄 다시 시도] 누르세요</small>';
+        $s('voice-retry-area','display','block');
+        // 재시도 버튼 동작 변경: API 재호출
+        VOICE_STATE.retryMode = 'api';
+      }
+      return false;
     }
     addRpMessage('ai', d.message);
     rpHistory.push({role:'assistant', content:d.message});
 
-    if(!VOICE_STATE.active || VOICE_STATE.manualStop) return;
+    if(!VOICE_STATE.active || VOICE_STATE.manualStop) return true;
     setVoiceStatus('🤖', 'AI 응답 중...', '#FF6F00');
     speakText(d.message, function(){
       if(!VOICE_STATE.active || VOICE_STATE.manualStop) return;
       if(VOICE_STATE.paused) return;
       startListening();
     });
+    return true;
   } catch(e){
     var l = $g('rp-loading'); if(l) l.remove();
-    addRpMessage('ai', '⚠️ 연결 오류. 다시 시도!');
+    addRpMessage('ai', '⚠️ 연결 오류. 인터넷 확인 후 다시 시도해주세요.');
     setVoiceStatus('⚠️', '연결 오류', 'var(--red)');
-    $g('voice-retry-msg').textContent = '서버 연결 실패';
+    $g('voice-retry-msg').innerHTML = '서버 연결 실패<br><small>[🔄 다시 시도]를 눌러주세요</small>';
     $s('voice-retry-area','display','block');
+    VOICE_STATE.retryMode = 'api';
+    return false;
   }
 }
 

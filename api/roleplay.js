@@ -104,26 +104,24 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: systemPrompt }] },
-          contents: contents,
-          generationConfig: {
-            temperature: (mode === 'feedback' || mode === 'turn_feedback') ? 0.2 : 0.7,
-            maxOutputTokens: mode === 'feedback' ? 1500 : (mode === 'turn_feedback' ? 100 : 300),
-            ...((mode === 'feedback' || mode === 'turn_feedback') && { responseMimeType: 'application/json' })
-          }
-        })
+    const data = await callGeminiWithRetry(apiKey, systemPrompt, contents, mode);
+    if (data.error) {
+      // 사용자 친화적 에러 메시지
+      const msg = data.error.message || '';
+      let userMsg = 'AI 호출 실패';
+      if (msg.includes('high demand') || msg.includes('overloaded') || msg.includes('UNAVAILABLE')) {
+        userMsg = '⏳ AI 서버가 잠시 바빠요. 5초 후 다시 시도해주세요.';
+      } else if (msg.includes('quota') || msg.includes('RESOURCE_EXHAUSTED')) {
+        userMsg = '⏳ 일일 사용량 초과. 잠시 후 다시 시도해주세요.';
+      } else if (msg.includes('SAFETY')) {
+        userMsg = '⚠️ 부적절한 내용이 감지되었어요. 다른 표현으로 시도해주세요.';
+      } else {
+        userMsg = 'AI 호출 실패: ' + msg;
       }
-    );
-    const data = await response.json();
-    if (data.error) return res.status(500).json({ error: 'AI 호출 실패: ' + data.error.message });
+      return res.status(503).json({ error: userMsg, retryable: true });
+    }
     const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!responseText) return res.status(500).json({ error: '응답 없음' });
+    if (!responseText) return res.status(500).json({ error: '응답 없음', retryable: true });
 
     if (mode === 'feedback') {
       let parsed;
@@ -142,6 +140,66 @@ export default async function handler(req, res) {
       return res.status(200).json({ message: responseText.trim() });
     }
   } catch (err) {
-    return res.status(500).json({ error: '서버 오류: ' + err.message });
+    return res.status(503).json({ error: '서버 오류: ' + err.message, retryable: true });
   }
+}
+
+// Gemini API 호출 - 재시도 + 모델 fallback
+async function callGeminiWithRetry(apiKey, systemPrompt, contents, mode) {
+  // 시도할 모델 순서 (속도 빠른 것 → 안정적인 것)
+  const models = ['gemini-2.5-flash-lite', 'gemini-2.0-flash', 'gemini-2.5-flash'];
+  const generationConfig = {
+    temperature: (mode === 'feedback' || mode === 'turn_feedback') ? 0.2 : 0.7,
+    maxOutputTokens: mode === 'feedback' ? 1500 : (mode === 'turn_feedback' ? 100 : 300),
+    ...((mode === 'feedback' || mode === 'turn_feedback') && { responseMimeType: 'application/json' })
+  };
+  const body = JSON.stringify({
+    systemInstruction: { parts: [{ text: systemPrompt }] },
+    contents: contents,
+    generationConfig
+  });
+
+  let lastError = null;
+  // 각 모델로 최대 2회씩 시도 (총 최대 6회)
+  for (const model of models) {
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body
+        });
+        const data = await response.json();
+        // 성공
+        if (!data.error && data.candidates) {
+          return data;
+        }
+        // 재시도 가능한 에러인지 확인
+        const errMsg = data.error?.message || '';
+        const status = data.error?.status || '';
+        const retryable =
+          errMsg.includes('high demand') ||
+          errMsg.includes('overloaded') ||
+          status === 'UNAVAILABLE' ||
+          status === 'RESOURCE_EXHAUSTED' ||
+          status === 'INTERNAL';
+        lastError = data;
+        if (!retryable) {
+          // 재시도해도 의미 없는 에러 → 즉시 반환
+          return data;
+        }
+        // 재시도: 지수 백오프 (500ms, 1500ms)
+        if (attempt === 0) {
+          await new Promise(r => setTimeout(r, 500 + Math.random() * 500));
+        }
+      } catch (e) {
+        lastError = { error: { message: e.message } };
+        await new Promise(r => setTimeout(r, 500));
+      }
+    }
+    // 다음 모델로 전환 시 짧은 대기
+    await new Promise(r => setTimeout(r, 300));
+  }
+  return lastError || { error: { message: '모든 모델 호출 실패' } };
 }
