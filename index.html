@@ -408,6 +408,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
             <button class="btn btn-p" onclick="startVoiceConversation('ai_first')" style="background:#FFB300;font-size:12px;">🤖 AI 먼저 인사</button>
             <button class="btn btn-s" onclick="startVoiceConversation('user_first')" style="font-size:12px;">🎙️ 내가 먼저</button>
           </div>
+          <div style="font-size:11px;color:#5D4037;margin-bottom:6px;">📤 입력 방식</div>
+          <div class="btn-row" style="margin-bottom:10px;">
+            <button id="input-manual" class="btn btn-p" onclick="setInputMode('manual')" style="font-size:11px;padding:6px;background:#FFB300;color:white;">👆 수동 (추천)</button>
+            <button id="input-auto" class="btn btn-s" onclick="setInputMode('auto')" style="font-size:11px;padding:6px;">🚦 자동 침묵감지</button>
+          </div>
+          <div id="input-mode-desc" style="font-size:10px;color:#5D4037;background:white;border-radius:6px;padding:6px;margin-bottom:10px;line-height:1.5;">
+            👆 <strong>수동:</strong> 다 말한 후 [📤 보내기] 버튼 누르세요 (안정적)
+          </div>
           <div style="font-size:11px;color:#5D4037;margin-bottom:6px;">⚡ AI 응답 속도</div>
           <div class="btn-row">
             <button id="rate-09" class="btn btn-s" onclick="setVoiceRate(0.9)" style="font-size:11px;padding:6px;">🐢 0.9</button>
@@ -1474,6 +1482,8 @@ var VOICE_STATE = {
   manualStop: false,     // 사용자가 명시적으로 멈춤
   ttsKeepAlive: null,    // Chrome TTS 14초 버그 회피용 인터벌
   ttsFallbackTimer: null, // 갤럭시/Samsung Internet onend 미발화 대응
+  ttsCheckInterval: null, // 발화 진행 여부 주기 체크
+  inputMode: 'manual',   // 'manual' = 사용자 버튼 눌러야 전송, 'auto' = 침묵 감지 자동 전송
   listenStartedAt: 0,    // 듣기 시작 시각 (timeout 안내용)
   listenTimer: null,     // "더 크게 말해주세요" 안내 타이머
   turnCount: 0,          // 사용자 발화 누적 (피드백 인덱스용)
@@ -1560,6 +1570,27 @@ function setVoiceRate(rate){
   if(ab){ ab.className = 'btn btn-p'; ab.style.background = '#FFB300'; ab.style.color = 'white'; }
 }
 
+function setInputMode(mode){
+  VOICE_STATE.inputMode = mode;
+  // 버튼 하이라이트
+  ['input-manual','input-auto'].forEach(function(id){
+    var b = $g(id);
+    if(b){ b.className = 'btn btn-s'; b.style.background = ''; b.style.color = ''; }
+  });
+  var activeId = mode === 'manual' ? 'input-manual' : 'input-auto';
+  var ab = $g(activeId);
+  if(ab){ ab.className = 'btn btn-p'; ab.style.background = '#FFB300'; ab.style.color = 'white'; }
+  // 설명 갱신
+  var desc = $g('input-mode-desc');
+  if(desc){
+    if(mode === 'manual'){
+      desc.innerHTML = '👆 <strong>수동:</strong> 다 말한 후 [📤 보내기] 버튼 누르세요 (안정적)';
+    } else {
+      desc.innerHTML = '🚦 <strong>자동:</strong> 3.5초 침묵 시 자동 전송 (자연스러운 대화)';
+    }
+  }
+}
+
 function speakText(text, onEnd){
   if(!('speechSynthesis' in window)){
     if(onEnd) onEnd();
@@ -1606,6 +1637,10 @@ function speakText(text, onEnd){
       clearTimeout(VOICE_STATE.ttsFallbackTimer);
       VOICE_STATE.ttsFallbackTimer = null;
     }
+    if(VOICE_STATE.ttsCheckInterval){
+      clearInterval(VOICE_STATE.ttsCheckInterval);
+      VOICE_STATE.ttsCheckInterval = null;
+    }
     // echo loop 방지: TTS 종료 후 250ms 마이크 시작 지연 (스피커 잔향 회피)
     if(onEnd) setTimeout(onEnd, 250);
   };
@@ -1613,10 +1648,37 @@ function speakText(text, onEnd){
   utt.onerror = function(){ finish('onerror'); };
 
   // 🛡️ Fallback 타이머: 갤럭시 Chrome / Samsung Internet에서 onend 미발화 케이스 대응
-  // 예상 발화 시간 = (글자수 / 속도 / 12) * 1000ms + 2초 여유
-  // 영어 평균 발화 속도: rate 1.0 기준 초당 약 12자
-  var estimatedMs = (text.length / VOICE_STATE.rate / 12) * 1000;
-  var fallbackMs = Math.max(estimatedMs + 2000, 4000);  // 최소 4초
+  // 예상 발화 시간 = (글자수 / 속도 / 10) * 1000ms (보수적: 초당 10자 가정)
+  // + 5초 여유 (발화 중간 강제 cancel 방지)
+  // + 응답이 길면 더 큰 여유
+  var estimatedMs = (text.length / VOICE_STATE.rate / 10) * 1000;
+  var bufferMs = 5000;
+  // 50자 이상이면 추가 여유 (긴 응답일수록 갤럭시에서 더 느려짐)
+  if(text.length > 50) bufferMs += 3000;
+  if(text.length > 100) bufferMs += 3000;
+  var fallbackMs = Math.max(estimatedMs + bufferMs, 8000);  // 최소 8초
+
+  // 발화가 정말 진행 중인지 주기적으로 체크 (1초마다)
+  // 진행 중이면 fallback을 연장하고, 멈췄으면 그때 강제 종료
+  var lastCheckTime = Date.now();
+  var checkInterval = setInterval(function(){
+    if(finished){
+      clearInterval(checkInterval);
+      return;
+    }
+    // speechSynthesis.speaking이 false면 → 발화 끝났는데 onend 안 옴
+    if(!window.speechSynthesis.speaking && !window.speechSynthesis.pending){
+      clearInterval(checkInterval);
+      // 200ms 대기 후 진짜 끝났는지 확인
+      setTimeout(function(){
+        if(!finished && !window.speechSynthesis.speaking){
+          finish('check-detected-end');
+        }
+      }, 200);
+    }
+  }, 1000);
+  VOICE_STATE.ttsCheckInterval = checkInterval;
+
   VOICE_STATE.ttsFallbackTimer = setTimeout(function(){
     // 아직 isSpeaking이면 onend가 안 옴 → 강제 종료
     if(VOICE_STATE.isSpeaking && !finished){
@@ -1717,7 +1779,12 @@ function startListening(){
   VOICE_STATE.silenceCountdownStart = 0;
   VOICE_STATE.lowConfidence = false;
 
-  setVoiceStatus('🎙️', '말하세요!', '#FF6F00');
+  // 모드별 안내
+  if(VOICE_STATE.inputMode === 'manual'){
+    setVoiceStatus('🎙️', '말하세요! (다 말한 후 📤 누르기)', '#FF6F00');
+  } else {
+    setVoiceStatus('🎙️', '말하세요!', '#FF6F00');
+  }
   $s('voice-retry-area','display','none');
   // [📤 보내기] 버튼 표시
   $s('voice-send-now-btn','display','inline-block');
@@ -1816,20 +1883,22 @@ function startListening(){
   if(area) area.classList.add('voice-listening');
   try {
     rec.start();
-    // 침묵 감지 인터벌 시작 (200ms마다 체크)
-    startSilenceWatcher();
+    // 자동 모드일 때만 침묵 감지 인터벌 시작
+    if(VOICE_STATE.inputMode === 'auto'){
+      startSilenceWatcher();
+    }
   } catch(e){
     handleListeningError('마이크 시작 실패. 권한을 확인하세요.');
   }
 }
 
-// 200ms마다 침묵 시간 체크 → 2.5초 넘으면 자동 전송
+// 200ms마다 침묵 시간 체크 → 3.5초 넘으면 자동 전송 (자동 모드만)
 function startSilenceWatcher(){
   if(VOICE_STATE.silenceWatcher){
     clearInterval(VOICE_STATE.silenceWatcher);
   }
-  var SILENCE_THRESHOLD = 2500; // 2.5초
-  var COUNTDOWN_START = 1500;   // 1.5초 침묵부터 카운트다운 표시
+  var SILENCE_THRESHOLD = 3500; // 3.5초 (한국인 영어 사고 시간 고려)
+  var COUNTDOWN_START = 2000;   // 2초 침묵부터 카운트다운 표시
 
   VOICE_STATE.silenceWatcher = setInterval(function(){
     if(!VOICE_STATE.isListening || VOICE_STATE.processingFinal){
@@ -2193,6 +2262,10 @@ function stopVoiceConversation(){
   if(VOICE_STATE.ttsFallbackTimer){
     clearTimeout(VOICE_STATE.ttsFallbackTimer);
     VOICE_STATE.ttsFallbackTimer = null;
+  }
+  if(VOICE_STATE.ttsCheckInterval){
+    clearInterval(VOICE_STATE.ttsCheckInterval);
+    VOICE_STATE.ttsCheckInterval = null;
   }
   if(VOICE_STATE.silenceWatcher){
     clearInterval(VOICE_STATE.silenceWatcher);
@@ -2636,6 +2709,7 @@ window.toggleChunkFav = toggleChunkFav;
 // 🎙️ 음성 대화 모드
 window.toggleVoiceMode = toggleVoiceMode;
 window.setVoiceRate = setVoiceRate;
+window.setInputMode = setInputMode;
 window.startVoiceConversation = startVoiceConversation;
 window.retryListening = retryListening;
 window.sendNowVoice = sendNowVoice;
