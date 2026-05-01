@@ -151,6 +151,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
+/* 🎙️ 마이크 활성 깜빡임 (말하라는 신호) */
+.voice-flash{animation:voice-flash-anim .8s ease-out;}
+@keyframes voice-flash-anim{
+  0%{background:#4CAF50 !important;transform:scale(1.02);box-shadow:0 0 20px rgba(76,175,80,0.5);}
+  100%{background:#FFF8E1;transform:scale(1);box-shadow:none;}
+}
+/* 음성 모드 듣는 중 마이크 아이콘 펄스 */
+.voice-listening #voice-status-icon{animation:voice-pulse 1.5s ease-in-out infinite;}
+@keyframes voice-pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.2);opacity:0.7;}}
+
 /* 발음 평가 단어 점수 바 */
 .word-score{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;}
 .word-score .word{min-width:60px;font-weight:700;}
@@ -408,8 +418,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 
         <!-- 대화 진행 중 상태 표시 -->
         <div id="voice-active-area" style="display:none;text-align:center;">
-          <div id="voice-status-icon" style="font-size:42px;margin-bottom:6px;">🎙️</div>
-          <div id="voice-status-text" style="font-size:13px;font-weight:700;color:#FF6F00;margin-bottom:4px;">준비 중...</div>
+          <div id="voice-status-icon" style="font-size:48px;margin-bottom:6px;">🎙️</div>
+          <div id="voice-status-text" style="font-size:16px;font-weight:700;color:#FF6F00;margin-bottom:6px;">준비 중...</div>
           <div id="voice-last-heard" style="font-size:13px;color:#5D4037;background:white;border-radius:8px;padding:10px;margin:8px 0;min-height:36px;display:none;text-align:left;line-height:1.5;border:1px solid #FFE082;"></div>
           <!-- 큰 보내기 버튼 (말 다 했을 때 즉시 전송) -->
           <button id="voice-send-now-btn" onclick="sendNowVoice()" style="display:none;background:#2E7D32;color:white;border:none;padding:12px 24px;border-radius:24px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(46,125,50,0.3);margin:6px 0;">📤 다 말했어요 (전송)</button>
@@ -1463,6 +1473,7 @@ var VOICE_STATE = {
   paused: false,         // 일시정지 상태
   manualStop: false,     // 사용자가 명시적으로 멈춤
   ttsKeepAlive: null,    // Chrome TTS 14초 버그 회피용 인터벌
+  ttsFallbackTimer: null, // 갤럭시/Samsung Internet onend 미발화 대응
   listenStartedAt: 0,    // 듣기 시작 시각 (timeout 안내용)
   listenTimer: null,     // "더 크게 말해주세요" 안내 타이머
   turnCount: 0,          // 사용자 발화 누적 (피드백 인덱스용)
@@ -1559,6 +1570,11 @@ function speakText(text, onEnd){
     clearInterval(VOICE_STATE.ttsKeepAlive);
     VOICE_STATE.ttsKeepAlive = null;
   }
+  // 기존 fallback 타이머 정리
+  if(VOICE_STATE.ttsFallbackTimer){
+    clearTimeout(VOICE_STATE.ttsFallbackTimer);
+    VOICE_STATE.ttsFallbackTimer = null;
+  }
   window.speechSynthesis.cancel();
   var utt = new SpeechSynthesisUtterance(text);
   utt.lang = 'en-US';
@@ -1577,18 +1593,59 @@ function speakText(text, onEnd){
     }
   }, 10000);
 
-  var finish = function(){
+  var finished = false;
+  var finish = function(reason){
+    if(finished) return;  // 중복 호출 방지 (fallback + onend 동시 발화 케이스)
+    finished = true;
     VOICE_STATE.isSpeaking = false;
     if(VOICE_STATE.ttsKeepAlive){
       clearInterval(VOICE_STATE.ttsKeepAlive);
       VOICE_STATE.ttsKeepAlive = null;
     }
+    if(VOICE_STATE.ttsFallbackTimer){
+      clearTimeout(VOICE_STATE.ttsFallbackTimer);
+      VOICE_STATE.ttsFallbackTimer = null;
+    }
     // echo loop 방지: TTS 종료 후 250ms 마이크 시작 지연 (스피커 잔향 회피)
     if(onEnd) setTimeout(onEnd, 250);
   };
-  utt.onend = finish;
-  utt.onerror = finish;
+  utt.onend = function(){ finish('onend'); };
+  utt.onerror = function(){ finish('onerror'); };
+
+  // 🛡️ Fallback 타이머: 갤럭시 Chrome / Samsung Internet에서 onend 미발화 케이스 대응
+  // 예상 발화 시간 = (글자수 / 속도 / 12) * 1000ms + 2초 여유
+  // 영어 평균 발화 속도: rate 1.0 기준 초당 약 12자
+  var estimatedMs = (text.length / VOICE_STATE.rate / 12) * 1000;
+  var fallbackMs = Math.max(estimatedMs + 2000, 4000);  // 최소 4초
+  VOICE_STATE.ttsFallbackTimer = setTimeout(function(){
+    // 아직 isSpeaking이면 onend가 안 옴 → 강제 종료
+    if(VOICE_STATE.isSpeaking && !finished){
+      try { window.speechSynthesis.cancel(); } catch(e){}
+      finish('fallback');
+    }
+  }, fallbackMs);
+
   window.speechSynthesis.speak(utt);
+}
+
+// 모바일 진동 (지원 시만)
+function vibrateMic(){
+  if('vibrate' in navigator){
+    try { navigator.vibrate(50); } catch(e){}
+  }
+}
+
+// 마이크 활성 시 시각 신호 (배경 깜빡임)
+function flashMicReady(){
+  var area = $g('voice-control-area');
+  if(!area) return;
+  area.classList.remove('voice-flash');
+  // 강제 reflow로 애니메이션 재시작
+  void area.offsetWidth;
+  area.classList.add('voice-flash');
+  setTimeout(function(){
+    area.classList.remove('voice-flash');
+  }, 800);
 }
 
 function setVoiceStatus(icon, text, color){
@@ -1619,6 +1676,7 @@ function startVoiceConversation(startMode){
     setVoiceStatus('🤖', 'AI 인사 중...', '#FF6F00');
     speakText(opening, function(){
       if(!VOICE_STATE.active || VOICE_STATE.manualStop) return;
+      setVoiceStatus('🎙️', '이제 말하세요!', '#4CAF50');
       startListening();
     });
   } else {
@@ -1659,13 +1717,17 @@ function startListening(){
   VOICE_STATE.silenceCountdownStart = 0;
   VOICE_STATE.lowConfidence = false;
 
-  setVoiceStatus('🎙️', '듣는 중... 영어로 말하세요', '#FF6F00');
+  setVoiceStatus('🎙️', '말하세요!', '#FF6F00');
   $s('voice-retry-area','display','none');
   // [📤 보내기] 버튼 표시
   $s('voice-send-now-btn','display','inline-block');
   // interim 표시 영역 초기화
   var lh = $g('voice-last-heard');
   if(lh){ lh.innerHTML = '<span style="color:#999;font-style:italic;">말씀하시면 여기에 실시간으로 표시됩니다...</span>'; lh.style.display = 'block'; }
+
+  // 📳 진동 + 마이크 활성 시각 신호
+  vibrateMic();
+  flashMicReady();
 
   rec.onresult = function(ev){
     // 매번 전체 results를 처음부터 재계산 (누적 X)
@@ -1749,6 +1811,9 @@ function startListening(){
   VOICE_STATE.recognition = rec;
   VOICE_STATE.isListening = true;
   VOICE_STATE.processingFinal = false;
+  // 마이크 아이콘 펄스 효과
+  var area = $g('voice-active-area');
+  if(area) area.classList.add('voice-listening');
   try {
     rec.start();
     // 침묵 감지 인터벌 시작 (200ms마다 체크)
@@ -2051,10 +2116,12 @@ async function callRolePlayAPI(){
     rpHistory.push({role:'assistant', content:d.message});
 
     if(!VOICE_STATE.active || VOICE_STATE.manualStop) return true;
-    setVoiceStatus('🤖', 'AI 응답 중...', '#FF6F00');
+    setVoiceStatus('🤖', 'AI가 답하는 중...', '#FF6F00');
     speakText(d.message, function(){
       if(!VOICE_STATE.active || VOICE_STATE.manualStop) return;
       if(VOICE_STATE.paused) return;
+      // AI 발화 끝 → 사용자 차례임을 명확히 알림
+      setVoiceStatus('🎙️', '이제 말하세요!', '#4CAF50');
       startListening();
     });
     return true;
@@ -2123,6 +2190,10 @@ function stopVoiceConversation(){
     clearInterval(VOICE_STATE.ttsKeepAlive);
     VOICE_STATE.ttsKeepAlive = null;
   }
+  if(VOICE_STATE.ttsFallbackTimer){
+    clearTimeout(VOICE_STATE.ttsFallbackTimer);
+    VOICE_STATE.ttsFallbackTimer = null;
+  }
   if(VOICE_STATE.silenceWatcher){
     clearInterval(VOICE_STATE.silenceWatcher);
     VOICE_STATE.silenceWatcher = null;
@@ -2135,6 +2206,9 @@ function stopVoiceConversation(){
   $s('voice-active-area','display','none');
   $s('voice-start-options','display','block');
   $s('voice-send-now-btn','display','none');
+  // 마이크 펄스 제거
+  var area = $g('voice-active-area');
+  if(area) area.classList.remove('voice-listening');
 
   // 토글도 정리
   VOICE_STATE.enabled = false;
