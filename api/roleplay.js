@@ -83,7 +83,7 @@ export default async function handler(req, res) {
 
 [규칙]
 1. **자연스러운 대화 유지** (캐릭터 깨지 X)
-2. 짧고 자연스럽게 답변 (2-3문장)
+2. **답변은 반드시 2-3문장 이내, 50단어 이하** (음성으로 들려주기 좋게)
 3. 학습자가 명백한 실수를 했을 때:
    - 자연스럽게 정정한 표현으로 받아쳐 사용 (recasting)
    - 예: 학습자 "I am charge of KYC"
@@ -93,7 +93,8 @@ export default async function handler(req, res) {
 5. 가끔 ${verb} 동사 + 청크를 자연스럽게 사용
 6. 학습자 레벨에 맞춰 너무 어렵지 않게
 7. 한국어 절대 금지, 100% 영어
-8. 자연스럽게 다음 질문 던지기`;
+8. 자연스럽게 다음 질문 1개만 던지기 (여러 질문 X)
+9. 응답이 잘리지 않도록 짧고 완결된 문장으로`;
 
     contents = (history || []).map(msg => ({
       role: msg.role === 'assistant' ? 'model' : 'user',
@@ -150,7 +151,7 @@ async function callGeminiWithRetry(apiKey, systemPrompt, contents, mode) {
   const models = ['gemini-2.5-flash-lite', 'gemini-2.0-flash', 'gemini-2.5-flash'];
   const generationConfig = {
     temperature: (mode === 'feedback' || mode === 'turn_feedback') ? 0.2 : 0.7,
-    maxOutputTokens: mode === 'feedback' ? 1500 : (mode === 'turn_feedback' ? 100 : 300),
+    maxOutputTokens: mode === 'feedback' ? 1500 : (mode === 'turn_feedback' ? 100 : 500),
     ...((mode === 'feedback' || mode === 'turn_feedback') && { responseMimeType: 'application/json' })
   };
   const body = JSON.stringify({
