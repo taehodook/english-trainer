@@ -8,13 +8,31 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { mode, scenario, aiRole, history, userMessages, verb, chunks } = req.body;
+  const { mode, scenario, aiRole, history, userMessages, userText, verb, chunks } = req.body;
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: 'API 키 미설정' });
 
   let systemPrompt, contents;
 
-  if (mode === 'feedback') {
+  if (mode === 'turn_feedback') {
+    // 🎙️ 음성 대화 매 턴 즉각 피드백 (짧고 빠르게)
+    systemPrompt = `당신은 한국인 영어 학습자의 즉각 피드백 코치입니다.
+사용자가 방금 영어로 한 말 한 마디에 대해 **딱 한 줄(40자 이내)** 짧은 피드백만 주세요.
+
+[원칙]
+1. 잘했으면: "✅ Good! '청크' 잘 썼어요" 또는 "✅ Natural!" 같이 간결히
+2. 실수가 있으면: "❌ X → ✅ Y" 형식 (한 가지만, 가장 큰 것)
+3. 한국어로, 30~50자 이내
+4. 음성 인식 오류 가능성 있으니 너무 trivial한 건 무시
+5. JSON 외 다른 출력 금지
+
+반드시 JSON으로만 응답:
+{ "feedback": "한 줄 피드백" }`;
+
+    const userPrompt = `[학습자 발화] "${userText || ''}"\n[오늘 동사] ${verb || 'BE'}\n[청크] ${(chunks || []).slice(0,5).join(', ')}\n\n한 줄 피드백 주세요.`;
+    contents = [{ role: 'user', parts: [{ text: userPrompt }] }];
+
+  } else if (mode === 'feedback') {
     systemPrompt = `당신은 태호님의 **엄격하고 솔직한** 영어 트레이너입니다.
 역할극에서 태호님이 한 영어 답변들을 종합 평가하세요.
 
@@ -95,9 +113,9 @@ export default async function handler(req, res) {
           systemInstruction: { parts: [{ text: systemPrompt }] },
           contents: contents,
           generationConfig: {
-            temperature: mode === 'feedback' ? 0.2 : 0.7,
-            maxOutputTokens: mode === 'feedback' ? 1500 : 300,
-            ...(mode === 'feedback' && { responseMimeType: 'application/json' })
+            temperature: (mode === 'feedback' || mode === 'turn_feedback') ? 0.2 : 0.7,
+            maxOutputTokens: mode === 'feedback' ? 1500 : (mode === 'turn_feedback' ? 100 : 300),
+            ...((mode === 'feedback' || mode === 'turn_feedback') && { responseMimeType: 'application/json' })
           }
         })
       }
@@ -111,6 +129,13 @@ export default async function handler(req, res) {
       let parsed;
       try { parsed = JSON.parse(responseText); } catch (e) {
         return res.status(500).json({ error: 'JSON 파싱 실패', raw: responseText });
+      }
+      return res.status(200).json(parsed);
+    } else if (mode === 'turn_feedback') {
+      let parsed;
+      try { parsed = JSON.parse(responseText); } catch (e) {
+        // 파싱 실패 시 raw text를 그대로 fallback
+        return res.status(200).json({ feedback: responseText.trim().slice(0, 80) });
       }
       return res.status(200).json(parsed);
     } else {

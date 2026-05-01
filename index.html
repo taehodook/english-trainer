@@ -376,6 +376,53 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 
       <div id="rp-chat" style="background:#F5F5F5;border-radius:10px;padding:12px;max-height:400px;overflow-y:auto;margin-bottom:12px;"></div>
 
+      <!-- 🎙️ 음성 모드 토글 -->
+      <div id="voice-toggle-area" style="background:white;border-radius:10px;padding:10px;margin-bottom:10px;border:1px solid var(--border);">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+          <div style="font-size:12px;font-weight:700;color:#5D4037;">🎙️ 음성 대화 모드</div>
+          <button id="voice-toggle-btn" class="btn btn-s" onclick="toggleVoiceMode()" style="padding:6px 12px;font-size:11px;">OFF</button>
+        </div>
+        <div id="voice-tip" style="display:none;margin-top:8px;padding:8px;background:#FFF8E1;border-radius:6px;font-size:10px;color:#5D4037;line-height:1.6;">
+          💡 <strong>Chrome 권장</strong> · 또박또박 천천히 · 인식 안 되면 텍스트로 입력 가능<br>
+          📱 모바일은 Chrome(Android) / Safari(iOS) 권장
+        </div>
+      </div>
+
+      <!-- 🎙️ 음성 모드 컨트롤 (토글 ON 시 표시) -->
+      <div id="voice-control-area" style="display:none;background:#FFF8E1;border-radius:10px;padding:14px;margin-bottom:10px;border:2px solid #FFB300;">
+        <div id="voice-scenario-label" style="font-size:11px;color:#5D4037;background:white;border-radius:6px;padding:6px 8px;margin-bottom:10px;line-height:1.5;"></div>
+        <!-- 시작 방식 선택 (대화 시작 전) -->
+        <div id="voice-start-options" style="text-align:center;">
+          <div style="font-size:12px;font-weight:700;color:#5D4037;margin-bottom:10px;">대화 시작 방식</div>
+          <div class="btn-row" style="margin-bottom:10px;">
+            <button class="btn btn-p" onclick="startVoiceConversation('ai_first')" style="background:#FFB300;font-size:12px;">🤖 AI 먼저 인사</button>
+            <button class="btn btn-s" onclick="startVoiceConversation('user_first')" style="font-size:12px;">🎙️ 내가 먼저</button>
+          </div>
+          <div style="font-size:11px;color:#5D4037;margin-bottom:6px;">⚡ AI 응답 속도</div>
+          <div class="btn-row">
+            <button id="rate-09" class="btn btn-s" onclick="setVoiceRate(0.9)" style="font-size:11px;padding:6px;">🐢 0.9</button>
+            <button id="rate-10" class="btn btn-p" onclick="setVoiceRate(1.0)" style="font-size:11px;padding:6px;background:#FFB300;">▶ 1.0</button>
+            <button id="rate-12" class="btn btn-s" onclick="setVoiceRate(1.2)" style="font-size:11px;padding:6px;">⚡ 1.2</button>
+          </div>
+        </div>
+
+        <!-- 대화 진행 중 상태 표시 -->
+        <div id="voice-active-area" style="display:none;text-align:center;">
+          <div id="voice-status-icon" style="font-size:42px;margin-bottom:6px;">🎙️</div>
+          <div id="voice-status-text" style="font-size:13px;font-weight:700;color:#FF6F00;margin-bottom:4px;">준비 중...</div>
+          <div id="voice-last-heard" style="font-size:11px;color:#5D4037;background:white;border-radius:6px;padding:6px;margin:8px 0;min-height:20px;display:none;"></div>
+          <div id="voice-turn-feedback" style="display:none;font-size:11px;color:#2E7D32;background:#E8F5E9;border-radius:6px;padding:6px;margin:6px 0;text-align:left;line-height:1.6;"></div>
+          <div id="voice-retry-area" style="display:none;margin:8px 0;">
+            <div id="voice-retry-msg" style="font-size:11px;color:var(--red);margin-bottom:6px;"></div>
+            <button class="btn btn-s" onclick="retryListening()" style="font-size:11px;padding:6px 12px;">🔄 다시 시도</button>
+          </div>
+          <div class="btn-row" style="margin-top:8px;">
+            <button id="voice-mic-btn" class="btn btn-s" onclick="toggleMic()" style="font-size:11px;display:none;">⏸ 일시정지</button>
+            <button class="btn btn-s" onclick="stopVoiceConversation()" style="font-size:11px;background:#FFCDD2;color:#C62828;">⏹ 음성 종료</button>
+          </div>
+        </div>
+      </div>
+
       <div id="rp-input-area">
         <textarea id="rp-input" class="out-area" placeholder="영어로 답변하세요..." style="min-height:60px;margin-bottom:8px;"></textarea>
         <div class="btn-row">
@@ -1262,15 +1309,25 @@ function startRolePlay(){
   rpHistory.push({role:'assistant', content:rpScenario.aiOpening});
 }
 
-function addRpMessage(who, text){
+function addRpMessage(who, text, opts){
   var chat = $g('rp-chat');
-  if(!chat) return;
+  if(!chat) return null;
   var avatar = who === 'ai' ? '🤖' : '👤';
   var wrapper = document.createElement('div');
   wrapper.className = 'rp-msg ' + who;
+  if(opts && opts.id) wrapper.id = opts.id;
   wrapper.innerHTML = '<div class="rp-avatar">'+avatar+'</div><div class="rp-bubble">'+text+'</div>';
   chat.appendChild(wrapper);
+  // 사용자 메시지면 피드백 슬롯 미리 추가 (음성 모드에서 채워짐)
+  if(who === 'user' && opts && opts.feedbackSlotId){
+    var slot = document.createElement('div');
+    slot.id = opts.feedbackSlotId;
+    slot.className = 'rp-turn-fb';
+    slot.style.cssText = 'margin:-4px 0 8px 44px;font-size:11px;color:#2E7D32;background:#E8F5E9;border-radius:6px;padding:6px 8px;line-height:1.5;display:none;';
+    chat.appendChild(slot);
+  }
   chat.scrollTop = chat.scrollHeight;
+  return wrapper;
 }
 
 async function sendRolePlay(){
@@ -1387,6 +1444,430 @@ function resetRolePlay(){
   $s('rp-feedback','display','none');
   var inp = $g('rp-input');
   if(inp){ inp.value=''; inp.disabled=false; }
+  // 음성 모드 정리
+  if(VOICE_STATE.active) stopVoiceConversation();
+}
+
+// ═══════════════════════════════
+// 🎙️ 음성 대화 모드
+// ═══════════════════════════════
+var VOICE_STATE = {
+  enabled: false,        // 토글 ON/OFF
+  active: false,         // 대화 진행 중
+  rate: 1.0,             // TTS 속도
+  recognition: null,     // SpeechRecognition 인스턴스
+  isListening: false,    // 현재 듣는 중
+  isSpeaking: false,     // AI가 말하는 중
+  errorCount: 0,         // 연속 인식 실패 횟수
+  paused: false,         // 일시정지 상태
+  manualStop: false,     // 사용자가 명시적으로 멈춤
+  ttsKeepAlive: null,    // Chrome TTS 14초 버그 회피용 인터벌
+  listenStartedAt: 0,    // 듣기 시작 시각 (timeout 안내용)
+  listenTimer: null,     // "더 크게 말해주세요" 안내 타이머
+  turnCount: 0           // 사용자 발화 누적 (피드백 인덱스용)
+};
+
+function isVoiceSupported(){
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  return !!SR && ('speechSynthesis' in window);
+}
+
+function isIOS(){
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+function toggleVoiceMode(){
+  if(!isVoiceSupported()){
+    alert('이 브라우저는 음성 대화를 지원하지 않아요.\nChrome(PC/Android) 권장!');
+    return;
+  }
+  // 역할극이 시작되지 않았으면 먼저 시작 안내
+  if(!rpScenario){
+    alert('먼저 [▶ 역할극 시작하기] 버튼을 눌러주세요!');
+    return;
+  }
+  VOICE_STATE.enabled = !VOICE_STATE.enabled;
+  var btn = $g('voice-toggle-btn');
+  var tip = $g('voice-tip');
+  var ctrl = $g('voice-control-area');
+  if(VOICE_STATE.enabled){
+    btn.textContent = 'ON';
+    btn.style.background = '#FFB300';
+    btn.style.color = 'white';
+    tip.style.display = 'block';
+    // iOS면 추가 경고
+    if(isIOS()){
+      tip.innerHTML = '⚠️ <strong>iPhone은 자동 대화가 제한적</strong>입니다. Android Chrome 권장!<br>📱 화면이 꺼지면 음성 인식이 멈출 수 있어요';
+    } else {
+      tip.innerHTML = '💡 <strong>Chrome 권장</strong> · 또박또박 천천히 · 인식 안 되면 텍스트로 입력 가능<br>📱 화면 자동 꺼짐 방지를 위해 화면을 가끔 터치해주세요';
+    }
+    ctrl.style.display = 'block';
+    // 시나리오 라벨 표시
+    updateVoiceScenarioLabel();
+    $s('voice-start-options','display','block');
+    $s('voice-active-area','display','none');
+  } else {
+    btn.textContent = 'OFF';
+    btn.style.background = '';
+    btn.style.color = '';
+    tip.style.display = 'none';
+    ctrl.style.display = 'none';
+    if(VOICE_STATE.active) stopVoiceConversation();
+  }
+}
+
+function updateVoiceScenarioLabel(){
+  var lbl = $g('voice-scenario-label');
+  if(!lbl || !rpScenario || !DAY_DATA) return;
+  var catNames = { office:'🏢 Office', email:'📧 Email', aml:'💰 AML', social:'☕ Social', daily:'🌤 Daily' };
+  var catLabel = catNames[currentCat] || currentCat;
+  // 시나리오 첫 줄만 짧게
+  var sc = (rpScenario.scenario || '').split('\n')[0].slice(0, 50);
+  lbl.innerHTML = '<strong>' + catLabel + '</strong> · ' + sc;
+}
+
+function setVoiceRate(rate){
+  VOICE_STATE.rate = rate;
+  // 버튼 하이라이트 갱신
+  ['rate-09','rate-10','rate-12'].forEach(function(id){
+    var b = $g(id);
+    if(b){ b.className = 'btn btn-s'; b.style.background = ''; b.style.color = ''; }
+  });
+  var activeId = rate===0.9 ? 'rate-09' : (rate===1.2 ? 'rate-12' : 'rate-10');
+  var ab = $g(activeId);
+  if(ab){ ab.className = 'btn btn-p'; ab.style.background = '#FFB300'; ab.style.color = 'white'; }
+}
+
+function speakText(text, onEnd){
+  if(!('speechSynthesis' in window)){
+    if(onEnd) onEnd();
+    return;
+  }
+  // 기존 keep-alive 정리
+  if(VOICE_STATE.ttsKeepAlive){
+    clearInterval(VOICE_STATE.ttsKeepAlive);
+    VOICE_STATE.ttsKeepAlive = null;
+  }
+  window.speechSynthesis.cancel();
+  var utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'en-US';
+  utt.rate = VOICE_STATE.rate;
+  var voices = window.speechSynthesis.getVoices();
+  var enVoice = voices.find(function(v){ return v.lang.startsWith('en') && v.name.indexOf('Google') >= 0; })
+              || voices.find(function(v){ return v.lang.startsWith('en'); });
+  if(enVoice) utt.voice = enVoice;
+  VOICE_STATE.isSpeaking = true;
+
+  // Chrome 14초 끊김 버그 회피: pause/resume keep-alive
+  VOICE_STATE.ttsKeepAlive = setInterval(function(){
+    if(window.speechSynthesis.speaking){
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }
+  }, 10000);
+
+  var finish = function(){
+    VOICE_STATE.isSpeaking = false;
+    if(VOICE_STATE.ttsKeepAlive){
+      clearInterval(VOICE_STATE.ttsKeepAlive);
+      VOICE_STATE.ttsKeepAlive = null;
+    }
+    // echo loop 방지: TTS 종료 후 250ms 마이크 시작 지연 (스피커 잔향 회피)
+    if(onEnd) setTimeout(onEnd, 250);
+  };
+  utt.onend = finish;
+  utt.onerror = finish;
+  window.speechSynthesis.speak(utt);
+}
+
+function setVoiceStatus(icon, text, color){
+  var ic = $g('voice-status-icon');
+  var tx = $g('voice-status-text');
+  if(ic) ic.textContent = icon;
+  if(tx){
+    tx.textContent = text;
+    tx.style.color = color || '#FF6F00';
+  }
+}
+
+function startVoiceConversation(startMode){
+  if(!rpScenario){ alert('먼저 역할극을 시작하세요!'); return; }
+  VOICE_STATE.active = true;
+  VOICE_STATE.errorCount = 0;
+  VOICE_STATE.paused = false;
+  VOICE_STATE.manualStop = false;
+  VOICE_STATE.turnCount = 0;
+  $s('voice-start-options','display','none');
+  $s('voice-active-area','display','block');
+  $s('voice-retry-area','display','none');
+  $s('voice-last-heard','display','none');
+
+  if(startMode === 'ai_first'){
+    // AI 첫 인사를 음성으로 (이미 채팅에 있는 첫 메시지 활용)
+    var opening = rpScenario.aiOpening;
+    setVoiceStatus('🤖', 'AI 인사 중...', '#FF6F00');
+    speakText(opening, function(){
+      if(!VOICE_STATE.active || VOICE_STATE.manualStop) return;
+      startListening();
+    });
+  } else {
+    // 사용자가 먼저 말하기
+    startListening();
+  }
+}
+
+function startListening(){
+  if(!VOICE_STATE.active || VOICE_STATE.manualStop) return;
+  // echo loop 방지: AI가 말하는 중이면 절대 마이크 켜지 않음
+  if(VOICE_STATE.isSpeaking){
+    setTimeout(startListening, 300);
+    return;
+  }
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    setVoiceStatus('⚠️', '브라우저가 음성 인식을 지원하지 않습니다', 'var(--red)');
+    return;
+  }
+  // 기존 인스턴스 정리
+  if(VOICE_STATE.recognition){
+    try { VOICE_STATE.recognition.abort(); } catch(e){}
+  }
+  // 기존 timer 정리
+  if(VOICE_STATE.listenTimer){
+    clearTimeout(VOICE_STATE.listenTimer);
+    VOICE_STATE.listenTimer = null;
+  }
+  var rec = new SR();
+  rec.lang = 'en-US';
+  rec.interimResults = false;
+  rec.maxAlternatives = 1;
+  rec.continuous = false;
+
+  setVoiceStatus('🎙️', '듣는 중... 영어로 말하세요', '#FF6F00');
+  $s('voice-retry-area','display','none');
+
+  // 5초 경과 시 동적 안내
+  VOICE_STATE.listenStartedAt = Date.now();
+  VOICE_STATE.listenTimer = setTimeout(function(){
+    if(VOICE_STATE.isListening){
+      setVoiceStatus('🎙️', '더 크게, 또박또박 말해주세요', '#FF6F00');
+    }
+  }, 5000);
+
+  rec.onresult = function(ev){
+    if(VOICE_STATE.listenTimer){ clearTimeout(VOICE_STATE.listenTimer); VOICE_STATE.listenTimer = null; }
+    var transcript = '';
+    var confidence = 1;
+    for(var i=0; i<ev.results.length; i++){
+      transcript += ev.results[i][0].transcript;
+      if(typeof ev.results[i][0].confidence === 'number'){
+        confidence = Math.min(confidence, ev.results[i][0].confidence);
+      }
+    }
+    transcript = transcript.trim();
+    if(!transcript){
+      handleListeningError('인식된 말이 없어요');
+      return;
+    }
+    VOICE_STATE.errorCount = 0;
+    var lh = $g('voice-last-heard');
+    if(lh){
+      var conMark = confidence < 0.7 ? ' <span style="color:var(--red);font-size:10px;">⚠️ 발음 점검?</span>' : '';
+      lh.innerHTML = '"' + transcript + '"' + conMark;
+      lh.style.display = 'block';
+    }
+    handleSpeechResult(transcript);
+  };
+  rec.onerror = function(ev){
+    if(VOICE_STATE.listenTimer){ clearTimeout(VOICE_STATE.listenTimer); VOICE_STATE.listenTimer = null; }
+    if(ev.error === 'aborted'){
+      return;
+    }
+    if(ev.error === 'no-speech'){
+      handleListeningError('말소리가 감지되지 않았어요');
+      return;
+    }
+    if(ev.error === 'not-allowed' || ev.error === 'service-not-allowed'){
+      setVoiceStatus('⚠️', '마이크 권한이 차단되어 있어요', 'var(--red)');
+      $g('voice-retry-msg').textContent = '브라우저 설정에서 마이크 권한을 허용해주세요';
+      $s('voice-retry-area','display','block');
+      return;
+    }
+    handleListeningError('인식 오류: ' + ev.error);
+  };
+  rec.onend = function(){
+    VOICE_STATE.isListening = false;
+    if(VOICE_STATE.listenTimer){ clearTimeout(VOICE_STATE.listenTimer); VOICE_STATE.listenTimer = null; }
+  };
+
+  VOICE_STATE.recognition = rec;
+  VOICE_STATE.isListening = true;
+  try {
+    rec.start();
+  } catch(e){
+    handleListeningError('마이크 시작 실패. 권한을 확인하세요.');
+  }
+}
+
+function handleListeningError(msg){
+  VOICE_STATE.isListening = false;
+  VOICE_STATE.errorCount++;
+  if(VOICE_STATE.errorCount >= 5){
+    // 5회 연속 실패 → 텍스트 모드로 전환
+    setVoiceStatus('⚠️', '인식 5회 실패. 텍스트 모드로 전환합니다', 'var(--red)');
+    setTimeout(function(){
+      stopVoiceConversation();
+      alert('음성 인식이 5회 연속 실패했어요.\n텍스트로 입력하거나, 종료 버튼을 눌러주세요.');
+    }, 1500);
+    return;
+  }
+  setVoiceStatus('🔄', '인식 실패 (' + VOICE_STATE.errorCount + '/5)', 'var(--red)');
+  $g('voice-retry-msg').textContent = msg + ' — 다시 시도해보세요';
+  $s('voice-retry-area','display','block');
+}
+
+function retryListening(){
+  $s('voice-retry-area','display','none');
+  startListening();
+}
+
+async function handleSpeechResult(transcript){
+  if(!VOICE_STATE.active || VOICE_STATE.manualStop) return;
+  setVoiceStatus('💭', '처리 중...', '#FF6F00');
+
+  // 채팅창에 사용자 메시지 추가 + 피드백 슬롯 미리 생성
+  VOICE_STATE.turnCount++;
+  var slotId = 'turn-fb-' + VOICE_STATE.turnCount;
+  addRpMessage('user', transcript, { feedbackSlotId: slotId });
+  rpHistory.push({role:'user', content:transcript});
+
+  // 매 턴 작은 피드백 (병렬 호출, 슬롯에 채워짐)
+  requestTurnFeedback(transcript, slotId);
+
+  // AI 응답 받기
+  var chat = $g('rp-chat');
+  var loading = document.createElement('div');
+  loading.className = 'rp-msg ai';
+  loading.id = 'rp-loading';
+  loading.innerHTML = '<div class="rp-avatar">🤖</div><div class="rp-bubble" style="opacity:.6;"><span class="spinner"></span> 생각 중...</div>';
+  chat.appendChild(loading);
+  chat.scrollTop = chat.scrollHeight;
+
+  try {
+    var res = await fetch('/api/roleplay', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        mode: 'chat',
+        scenario: rpScenario.scenario,
+        aiRole: rpScenario.aiRole,
+        history: rpHistory,
+        verb: DAY_DATA.verb.en,
+        chunks: DAY_DATA.chunks.map(function(c){return c.en;})
+      })
+    });
+    var d = await res.json();
+    var l = $g('rp-loading'); if(l) l.remove();
+
+    if(d.error){
+      addRpMessage('ai', '⚠️ ' + d.error);
+      setVoiceStatus('⚠️', '오류 발생', 'var(--red)');
+      return;
+    }
+    addRpMessage('ai', d.message);
+    rpHistory.push({role:'assistant', content:d.message});
+
+    if(!VOICE_STATE.active || VOICE_STATE.manualStop) return;
+    setVoiceStatus('🤖', 'AI 응답 중...', '#FF6F00');
+    speakText(d.message, function(){
+      if(!VOICE_STATE.active || VOICE_STATE.manualStop) return;
+      if(VOICE_STATE.paused) return;
+      startListening();
+    });
+  } catch(e){
+    var l = $g('rp-loading'); if(l) l.remove();
+    addRpMessage('ai', '⚠️ 연결 오류. 다시 시도!');
+    setVoiceStatus('⚠️', '연결 오류', 'var(--red)');
+    $g('voice-retry-msg').textContent = '서버 연결 실패';
+    $s('voice-retry-area','display','block');
+  }
+}
+
+async function requestTurnFeedback(userText, slotId){
+  // 매 턴 작은 피드백 - Gemini로 한 줄 평
+  try {
+    var res = await fetch('/api/roleplay', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        mode: 'turn_feedback',
+        userText: userText,
+        verb: DAY_DATA.verb.en,
+        chunks: DAY_DATA.chunks.map(function(c){return c.en;})
+      })
+    });
+    var d = await res.json();
+    if(d && d.feedback){
+      var slot = slotId ? $g(slotId) : null;
+      if(slot){
+        slot.innerHTML = '💬 ' + d.feedback;
+        slot.style.display = 'block';
+        var chat = $g('rp-chat');
+        if(chat) chat.scrollTop = chat.scrollHeight;
+      }
+    }
+  } catch(e){
+    // 매 턴 피드백 실패는 조용히 무시 (메인 흐름 방해 X)
+  }
+}
+
+function toggleMic(){
+  // 일시정지 / 재개 (현재는 단순 stop만)
+  if(VOICE_STATE.recognition){
+    try { VOICE_STATE.recognition.abort(); } catch(e){}
+  }
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  VOICE_STATE.paused = true;
+  setVoiceStatus('⏸', '일시정지', '#5D4037');
+}
+
+function stopVoiceConversation(){
+  VOICE_STATE.manualStop = true;
+  VOICE_STATE.active = false;
+  VOICE_STATE.isListening = false;
+  VOICE_STATE.isSpeaking = false;
+  VOICE_STATE.turnCount = 0;
+  if(VOICE_STATE.recognition){
+    try { VOICE_STATE.recognition.abort(); } catch(e){}
+    VOICE_STATE.recognition = null;
+  }
+  if(VOICE_STATE.ttsKeepAlive){
+    clearInterval(VOICE_STATE.ttsKeepAlive);
+    VOICE_STATE.ttsKeepAlive = null;
+  }
+  if(VOICE_STATE.listenTimer){
+    clearTimeout(VOICE_STATE.listenTimer);
+    VOICE_STATE.listenTimer = null;
+  }
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  $s('voice-active-area','display','none');
+  $s('voice-start-options','display','block');
+
+  // 토글도 정리
+  VOICE_STATE.enabled = false;
+  var btn = $g('voice-toggle-btn');
+  if(btn){
+    btn.textContent = 'OFF';
+    btn.style.background = '';
+    btn.style.color = '';
+  }
+  var tip = $g('voice-tip');
+  if(tip) tip.style.display = 'none';
+  var ctrl = $g('voice-control-area');
+  if(ctrl) ctrl.style.display = 'none';
+
+  // 종료 시 종합 피드백 (충분히 대화했을 때만)
+  if(rpHistory && rpHistory.filter(function(m){return m.role==='user';}).length >= 1){
+    endRolePlay();
+  }
 }
 
 // ═══════════════════════════════
@@ -1793,6 +2274,13 @@ window.setChunkFilter = setChunkFilter;
 window.filterChunks = filterChunks;
 window.toggleChunkMemo = toggleChunkMemo;
 window.toggleChunkFav = toggleChunkFav;
+// 🎙️ 음성 대화 모드
+window.toggleVoiceMode = toggleVoiceMode;
+window.setVoiceRate = setVoiceRate;
+window.startVoiceConversation = startVoiceConversation;
+window.retryListening = retryListening;
+window.toggleMic = toggleMic;
+window.stopVoiceConversation = stopVoiceConversation;
 </script>
 </body>
 </html>
