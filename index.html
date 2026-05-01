@@ -1668,32 +1668,38 @@ function startListening(){
   if(lh){ lh.innerHTML = '<span style="color:#999;font-style:italic;">말씀하시면 여기에 실시간으로 표시됩니다...</span>'; lh.style.display = 'block'; }
 
   rec.onresult = function(ev){
-    var finalT = '';
-    var interimT = '';
+    // 매번 전체 results를 처음부터 재계산 (누적 X)
+    // 이렇게 안 하면 브라우저별로 final/interim이 중복 누적되는 버그 발생
+    var allFinal = '';
+    var allInterim = '';
     var lowConf = false;
-    for(var i=ev.resultIndex; i<ev.results.length; i++){
+    for(var i=0; i<ev.results.length; i++){
       var trans = ev.results[i][0].transcript;
       var conf = ev.results[i][0].confidence;
       if(ev.results[i].isFinal){
-        finalT += trans;
-        if(typeof conf === 'number' && conf < 0.7) lowConf = true;
+        allFinal += trans + ' ';
+        if(typeof conf === 'number' && conf > 0 && conf < 0.7) lowConf = true;
       } else {
-        interimT += trans;
+        allInterim += trans;
       }
     }
-    if(finalT){
-      VOICE_STATE.finalTranscript += finalT;
-      if(lowConf) VOICE_STATE.lowConfidence = true;
-    }
-    VOICE_STATE.interimTranscript = interimT;
+    // 공백 정리
+    allFinal = allFinal.replace(/\s+/g, ' ').trim();
+    allInterim = allInterim.replace(/\s+/g, ' ').trim();
+
+    VOICE_STATE.finalTranscript = allFinal;
+    VOICE_STATE.interimTranscript = allInterim;
+    if(lowConf) VOICE_STATE.lowConfidence = true;
     VOICE_STATE.lastSpeechAt = Date.now();
 
     // 화면에 실시간 표시
-    var combined = (VOICE_STATE.finalTranscript + ' ' + interimT).trim();
-    if(lh && combined){
+    var lh = $g('voice-last-heard');
+    if(lh){
       var conMark = VOICE_STATE.lowConfidence ? ' <span style="color:var(--red);font-size:10px;">⚠️ 발음 점검?</span>' : '';
-      lh.innerHTML = '<span style="color:#1A1A1A;font-weight:600;">' + escapeHtml(VOICE_STATE.finalTranscript) + '</span>' +
-                     '<span style="color:#999;">' + escapeHtml(interimT) + '</span>' + conMark;
+      var finalPart = allFinal ? '<span style="color:#1A1A1A;font-weight:600;">' + escapeHtml(allFinal) + '</span>' : '';
+      var interimPart = allInterim ? ' <span style="color:#999;">' + escapeHtml(allInterim) + '</span>' : '';
+      lh.innerHTML = (finalPart + interimPart) || '<span style="color:#999;font-style:italic;">말씀하시면 여기에 실시간으로 표시됩니다...</span>';
+      lh.innerHTML += conMark;
     }
   };
 
@@ -1819,8 +1825,16 @@ function finalizeAndSend(){
     try { VOICE_STATE.recognition.stop(); } catch(e){}
   }
 
-  // final + interim 합치기 (interim도 사용자가 말한 내용이므로 포함)
-  var transcript = (VOICE_STATE.finalTranscript + ' ' + VOICE_STATE.interimTranscript).trim().replace(/\s+/g, ' ');
+  // final이 있으면 final만 사용 (interim은 final로 곧 변환되므로 중복 방지)
+  // final이 없으면 interim 사용 (사용자가 빨리 보내기 누른 경우)
+  var transcript = VOICE_STATE.finalTranscript.trim();
+  if(!transcript){
+    transcript = VOICE_STATE.interimTranscript.trim();
+  }
+  transcript = transcript.replace(/\s+/g, ' ');
+
+  // 🛡️ 중복 단어/구절 정리 (인식 오류로 같은 구절 반복되는 케이스)
+  transcript = dedupeRepeats(transcript);
 
   // [📤 보내기] 버튼 숨김
   $s('voice-send-now-btn','display','none');
@@ -1851,6 +1865,59 @@ function finalizeAndSend(){
   }
 
   handleSpeechResult(transcript);
+}
+
+// 인식 오류로 같은 구절이 연속 반복되는 경우 정리
+// 예: "I am in charge of I am in charge of KYC" → "I am in charge of KYC"
+// 예: "hihihi Ihi I amhi" → "I am" (단어에 붙어있는 짧은 prefix 제거)
+function dedupeRepeats(text){
+  if(!text) return text;
+
+  // 1단계: 단어 내부에 붙은 짧은 반복 prefix 제거 (interim 누적 버그 잔재)
+  // 흔한 짧은 인식 단편: hihihi, hihi, hi 등
+  // 긴 것부터 처리 (hihihi → hihi → hi 순서로 안 하면 짧은 게 먼저 매칭됨)
+  // 단어 끝에 hi 붙은 경우 ("Ihi" → "I", "amhi" → "am")
+  text = text.replace(/([a-zA-Z])hihihi(?=\s|$)/g, '$1');
+  text = text.replace(/([a-zA-Z])hihi(?=\s|$)/g, '$1');
+  text = text.replace(/([a-zA-Z])hi(?=\s|$)/g, '$1');
+  // 단어 시작에 hi 붙은 경우 ("hihiI" → "I")
+  text = text.replace(/(^|\s)hihihi([a-zA-Z])/g, '$1$2');
+  text = text.replace(/(^|\s)hihi([a-zA-Z])/g, '$1$2');
+  text = text.replace(/(^|\s)hi([a-zA-Z])/g, '$1$2');
+
+  text = text.replace(/\s+/g, ' ').trim();
+
+  var words = text.split(/\s+/);
+  if(words.length < 2) return text;
+
+  // 2단계: 단일 단어 즉시 반복 정리 ("hi hi hi hello" → "hi hello")
+  var dedup = [];
+  for(var j=0; j<words.length; j++){
+    if(j > 0 && words[j].toLowerCase() === words[j-1].toLowerCase()){
+      continue;
+    }
+    dedup.push(words[j]);
+  }
+  words = dedup;
+
+  // 3단계: 2~6단어 구절 반복 정리
+  for(var len=6; len>=2; len--){
+    var changed = true;
+    while(changed){
+      changed = false;
+      for(var i=0; i<=words.length-len*2; i++){
+        var a = words.slice(i, i+len).join(' ').toLowerCase();
+        var b = words.slice(i+len, i+len*2).join(' ').toLowerCase();
+        if(a === b){
+          words.splice(i+len, len);
+          changed = true;
+          break;
+        }
+      }
+    }
+  }
+
+  return words.join(' ');
 }
 
 // 사용자가 [📤 보내기] 버튼 누름 → 즉시 전송
