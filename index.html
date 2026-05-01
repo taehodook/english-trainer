@@ -1641,8 +1641,8 @@ function speakText(text, onEnd){
       clearInterval(VOICE_STATE.ttsCheckInterval);
       VOICE_STATE.ttsCheckInterval = null;
     }
-    // echo loop 방지: TTS 종료 후 250ms 마이크 시작 지연 (스피커 잔향 회피)
-    if(onEnd) setTimeout(onEnd, 250);
+    // echo loop 방지: TTS 종료 후 100ms 마이크 시작 지연 (스피커 잔향 회피, 자연스러운 흐름)
+    if(onEnd) setTimeout(onEnd, 100);
   };
   utt.onend = function(){ finish('onend'); };
   utt.onerror = function(){ finish('onerror'); };
@@ -1658,9 +1658,10 @@ function speakText(text, onEnd){
   if(text.length > 100) bufferMs += 3000;
   var fallbackMs = Math.max(estimatedMs + bufferMs, 8000);  // 최소 8초
 
-  // 발화가 정말 진행 중인지 주기적으로 체크 (1초마다)
+  // 발화가 정말 진행 중인지 주기적으로 체크 (200ms마다 - 빠른 반응)
   // 진행 중이면 fallback을 연장하고, 멈췄으면 그때 강제 종료
   var lastCheckTime = Date.now();
+  var consecutiveQuiet = 0;  // 연속으로 speaking=false인 횟수
   var checkInterval = setInterval(function(){
     if(finished){
       clearInterval(checkInterval);
@@ -1668,15 +1669,16 @@ function speakText(text, onEnd){
     }
     // speechSynthesis.speaking이 false면 → 발화 끝났는데 onend 안 옴
     if(!window.speechSynthesis.speaking && !window.speechSynthesis.pending){
-      clearInterval(checkInterval);
-      // 200ms 대기 후 진짜 끝났는지 확인
-      setTimeout(function(){
-        if(!finished && !window.speechSynthesis.speaking){
-          finish('check-detected-end');
-        }
-      }, 200);
+      consecutiveQuiet++;
+      // 2회 연속 (400ms) speaking=false면 진짜 끝난 것으로 판단
+      if(consecutiveQuiet >= 2){
+        clearInterval(checkInterval);
+        finish('check-detected-end');
+      }
+    } else {
+      consecutiveQuiet = 0;  // 다시 말하기 시작
     }
-  }, 1000);
+  }, 200);
   VOICE_STATE.ttsCheckInterval = checkInterval;
 
   VOICE_STATE.ttsFallbackTimer = setTimeout(function(){
@@ -1747,8 +1749,14 @@ function startVoiceConversation(startMode){
   }
 }
 
-function startListening(){
+function silentRestartListening(){
+  // 수동 모드에서 마이크가 자동 종료된 경우 누적값 유지하고 재시작
+  startListening({ preserveAccum: true });
+}
+
+function startListening(opts){
   if(!VOICE_STATE.active || VOICE_STATE.manualStop) return;
+  var preserveAccum = opts && opts.preserveAccum === true;  // 누적값 유지 여부 (수동 모드 silent 재시작용)
   // echo loop 방지: AI가 말하는 중이면 절대 마이크 켜지 않음
   if(VOICE_STATE.isSpeaking){
     setTimeout(startListening, 300);
@@ -1770,31 +1778,38 @@ function startListening(){
   rec.lang = 'en-US';
   rec.interimResults = true;     // 실시간 인식 결과
   rec.maxAlternatives = 1;
-  rec.continuous = true;          // 멈춰도 계속 듣기
+  // 🔵 수동 모드는 continuous: false (단순화 - 사용자가 버튼으로 끝냄)
+  // 🟢 자동 모드는 continuous: true (침묵 감지로 자동 종료)
+  rec.continuous = (VOICE_STATE.inputMode !== 'manual');
 
-  // 인식 누적 상태
-  VOICE_STATE.finalTranscript = '';
-  VOICE_STATE.interimTranscript = '';
+  // 인식 누적 상태 (preserveAccum이면 유지)
+  if(!preserveAccum){
+    VOICE_STATE.finalTranscript = '';
+    VOICE_STATE.interimTranscript = '';
+    VOICE_STATE.lowConfidence = false;
+  }
   VOICE_STATE.lastSpeechAt = Date.now();
   VOICE_STATE.silenceCountdownStart = 0;
-  VOICE_STATE.lowConfidence = false;
 
-  // 모드별 안내
-  if(VOICE_STATE.inputMode === 'manual'){
-    setVoiceStatus('🎙️', '말하세요! (다 말한 후 📤 누르기)', '#FF6F00');
-  } else {
-    setVoiceStatus('🎙️', '말하세요!', '#FF6F00');
+  // 모드별 안내 (preserveAccum이면 안내 그대로 유지)
+  if(!preserveAccum){
+    if(VOICE_STATE.inputMode === 'manual'){
+      setVoiceStatus('🎙️', '말하세요! (다 말한 후 📤 누르기)', '#FF6F00');
+    } else {
+      setVoiceStatus('🎙️', '말하세요!', '#FF6F00');
+    }
   }
   $s('voice-retry-area','display','none');
   // [📤 보내기] 버튼 표시
   $s('voice-send-now-btn','display','inline-block');
-  // interim 표시 영역 초기화
-  var lh = $g('voice-last-heard');
-  if(lh){ lh.innerHTML = '<span style="color:#999;font-style:italic;">말씀하시면 여기에 실시간으로 표시됩니다...</span>'; lh.style.display = 'block'; }
-
-  // 📳 진동 + 마이크 활성 시각 신호
-  vibrateMic();
-  flashMicReady();
+  // interim 표시 영역 초기화 (preserveAccum이면 유지)
+  if(!preserveAccum){
+    var lh = $g('voice-last-heard');
+    if(lh){ lh.innerHTML = '<span style="color:#999;font-style:italic;">말씀하시면 여기에 실시간으로 표시됩니다...</span>'; lh.style.display = 'block'; }
+    // 📳 진동 + 마이크 활성 시각 신호 (silent 재시작 시엔 건너뜀)
+    vibrateMic();
+    flashMicReady();
+  }
 
   rec.onresult = function(ev){
     // 매번 전체 results를 처음부터 재계산 (누적 X)
@@ -1816,17 +1831,22 @@ function startListening(){
     allFinal = allFinal.replace(/\s+/g, ' ').trim();
     allInterim = allInterim.replace(/\s+/g, ' ').trim();
 
+    // 누적된 게 화면에 보일 때만 dedupe 적용 (저장은 raw로)
+    // 갤럭시 Chrome에서 같은 final이 중복 누적되는 시각적 거슬림 해결
+    var displayFinal = dedupeRepeats(allFinal);
+    var displayInterim = dedupeRepeats(allInterim);
+
     VOICE_STATE.finalTranscript = allFinal;
     VOICE_STATE.interimTranscript = allInterim;
     if(lowConf) VOICE_STATE.lowConfidence = true;
     VOICE_STATE.lastSpeechAt = Date.now();
 
-    // 화면에 실시간 표시
+    // 화면에 실시간 표시 (dedupe 적용된 것)
     var lh = $g('voice-last-heard');
     if(lh){
       var conMark = VOICE_STATE.lowConfidence ? ' <span style="color:var(--red);font-size:10px;">⚠️ 발음 점검?</span>' : '';
-      var finalPart = allFinal ? '<span style="color:#1A1A1A;font-weight:600;">' + escapeHtml(allFinal) + '</span>' : '';
-      var interimPart = allInterim ? ' <span style="color:#999;">' + escapeHtml(allInterim) + '</span>' : '';
+      var finalPart = displayFinal ? '<span style="color:#1A1A1A;font-weight:600;">' + escapeHtml(displayFinal) + '</span>' : '';
+      var interimPart = displayInterim ? ' <span style="color:#999;">' + escapeHtml(displayInterim) + '</span>' : '';
       lh.innerHTML = (finalPart + interimPart) || '<span style="color:#999;font-style:italic;">말씀하시면 여기에 실시간으로 표시됩니다...</span>';
       lh.innerHTML += conMark;
     }
@@ -1859,13 +1879,32 @@ function startListening(){
 
   rec.onend = function(){
     VOICE_STATE.isListening = false;
-    // continuous 모드에서 종료되면 자동 재시작 (사용자가 멈추지 않은 한)
+    // 마이크 아이콘 펄스 제거
+    var area2 = $g('voice-active-area');
+    if(area2) area2.classList.remove('voice-listening');
+
+    // 🔵 수동 모드: 자동 전송 X, 자동 재시작 X
+    // 사용자가 [📤 보내기] 누를 때까지 대기 (단, recognition은 끝났으니 다시 시작 필요할 수도)
+    if(VOICE_STATE.inputMode === 'manual'){
+      // 수동 모드인데 마이크가 자동 종료된 경우 (Chrome이 침묵 시 종료)
+      // → 사용자가 아직 말을 마치지 않았을 수 있으니 조용히 재시작 (UI는 그대로 유지)
+      if(VOICE_STATE.active && !VOICE_STATE.manualStop && !VOICE_STATE.processingFinal && !VOICE_STATE.isSpeaking){
+        // 너무 짧은 간격 재시작은 무한루프 위험 → 200ms 대기
+        setTimeout(function(){
+          if(VOICE_STATE.active && !VOICE_STATE.manualStop && !VOICE_STATE.isSpeaking && !VOICE_STATE.processingFinal){
+            // 인식 누적 상태는 유지 (사용자가 이어서 말할 수 있도록)
+            silentRestartListening();
+          }
+        }, 200);
+      }
+      return;
+    }
+
+    // 🟢 자동 모드: 기존 로직 (continuous 종료 시 누적된 거 처리)
     if(VOICE_STATE.active && !VOICE_STATE.manualStop && !VOICE_STATE.processingFinal){
-      // 누적된 게 있으면 처리, 없으면 재시작
       if(VOICE_STATE.finalTranscript.trim()){
         finalizeAndSend();
       } else {
-        // 아무것도 못 들었으면 잠시 후 재시작
         setTimeout(function(){
           if(VOICE_STATE.active && !VOICE_STATE.manualStop && !VOICE_STATE.isSpeaking){
             startListening();
@@ -2008,13 +2047,9 @@ function dedupeRepeats(text){
   if(!text) return text;
 
   // 1단계: 단어 내부에 붙은 짧은 반복 prefix 제거 (interim 누적 버그 잔재)
-  // 흔한 짧은 인식 단편: hihihi, hihi, hi 등
-  // 긴 것부터 처리 (hihihi → hihi → hi 순서로 안 하면 짧은 게 먼저 매칭됨)
-  // 단어 끝에 hi 붙은 경우 ("Ihi" → "I", "amhi" → "am")
   text = text.replace(/([a-zA-Z])hihihi(?=\s|$)/g, '$1');
   text = text.replace(/([a-zA-Z])hihi(?=\s|$)/g, '$1');
   text = text.replace(/([a-zA-Z])hi(?=\s|$)/g, '$1');
-  // 단어 시작에 hi 붙은 경우 ("hihiI" → "I")
   text = text.replace(/(^|\s)hihihi([a-zA-Z])/g, '$1$2');
   text = text.replace(/(^|\s)hihi([a-zA-Z])/g, '$1$2');
   text = text.replace(/(^|\s)hi([a-zA-Z])/g, '$1$2');
@@ -2034,7 +2069,7 @@ function dedupeRepeats(text){
   }
   words = dedup;
 
-  // 3단계: 2~6단어 구절 반복 정리
+  // 3단계: 2~6단어 구절 인접 반복 정리 ("I'm thinking of I'm thinking of" → "I'm thinking of")
   for(var len=6; len>=2; len--){
     var changed = true;
     while(changed){
@@ -2047,6 +2082,41 @@ function dedupeRepeats(text){
           changed = true;
           break;
         }
+      }
+    }
+  }
+
+  // 4단계: 비인접 구절 반복 정리
+  // 같은 2단어 구절이 매우 가까이 (3단어 이내) 반복되면 첫 번째 제거
+  // 예: "I'm thinking of I'm thinking okay" → "I'm thinking okay"
+  // 단, 3단어 이상 떨어지면 의도된 반복일 수 있으니 유지
+  for(var len2=3; len2>=2; len2--){
+    var changed2 = true;
+    var safety = 0;
+    while(changed2 && safety < 20){
+      safety++;
+      changed2 = false;
+      for(var i2=0; i2<=words.length-len2; i2++){
+        var phrase = words.slice(i2, i2+len2).join(' ').toLowerCase();
+        // 이 구절이 바로 뒤에서 다시 나오는지 (3단어 이내에서)
+        var maxGap = 3;
+        for(var k=i2+len2; k<=Math.min(words.length-len2, i2+len2+maxGap); k++){
+          var laterPhrase = words.slice(k, k+len2).join(' ').toLowerCase();
+          if(phrase === laterPhrase){
+            // 두 발생 사이에 끼인 단어들이 의미 있으면 (관사, 전치사 외) 유지
+            var gap = words.slice(i2+len2, k);
+            var meaningfulGap = gap.some(function(w){
+              var lw = w.toLowerCase();
+              return ['of','to','at','in','on','by','for','the','a','an','and','or'].indexOf(lw) === -1;
+            });
+            if(meaningfulGap) continue;
+            // 첫 번째 발생 + 끼인 단어 제거 (뒤가 더 완성됐을 가능성)
+            words.splice(i2, len2 + gap.length);
+            changed2 = true;
+            break;
+          }
+        }
+        if(changed2) break;
       }
     }
   }
