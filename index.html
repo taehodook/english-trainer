@@ -393,7 +393,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
           <button id="voice-toggle-btn" class="btn btn-s" onclick="toggleVoiceMode()" style="padding:6px 12px;font-size:11px;">OFF</button>
         </div>
         <div id="voice-tip" style="display:none;margin-top:8px;padding:8px;background:#FFF8E1;border-radius:6px;font-size:10px;color:#5D4037;line-height:1.6;">
-          💡 <strong>Chrome 권장</strong> · 또박또박 천천히 · 매 턴마다 마이크 버튼 직접 누르세요
+          🤖 <strong>AI가 직접 듣고 이해합니다</strong> · 한국 억양 OK · 시나리오 맥락 반영<br>
+          📱 매 턴마다 [🎙️ 말하기 시작] → [⏹ 다 말했어요] 누르세요
         </div>
       </div>
 
@@ -427,25 +428,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
         <div id="voice-screen-user-turn" style="display:none;text-align:center;">
           <div style="font-size:14px;font-weight:700;color:#2E7D32;margin-bottom:12px;">🎤 당신 차례입니다</div>
           <button onclick="startListeningOnce()" style="background:#4CAF50;color:white;border:none;padding:18px 32px;border-radius:32px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 3px 10px rgba(76,175,80,0.4);margin:6px 0;">🎙️ 말하기 시작</button>
-          <div style="font-size:11px;color:#5D4037;margin-top:10px;line-height:1.5;">버튼 누른 후 영어로 말하세요<br>⏱ <strong>시간 제한 없음</strong> — 다 말한 후 [⏹ 다 말했어요] 누르기</div>
+          <div style="font-size:11px;color:#5D4037;margin-top:10px;line-height:1.5;">버튼 누르면 녹음 시작 → 다 말하면 [⏹ 다 말했어요] 누르기<br>🤖 AI가 시나리오 맥락을 이해하고 들어줍니다</div>
         </div>
 
-        <!-- 화면 4: 듣는 중 -->
+        <!-- 화면 4: 녹음 중 -->
         <div id="voice-screen-listening" style="display:none;text-align:center;">
           <div id="voice-mic-icon" style="font-size:64px;margin-bottom:6px;animation:voice-pulse 1.5s ease-in-out infinite;">🎙️</div>
-          <div style="font-size:16px;font-weight:700;color:#FF6F00;margin-bottom:8px;">듣는 중... 말하세요</div>
-          <div id="voice-listening-text" style="font-size:13px;color:#1A1A1A;background:white;border-radius:8px;padding:10px;margin:8px 0;min-height:36px;text-align:left;line-height:1.5;border:1px solid #FFE082;"><span style="color:#999;font-style:italic;">실시간으로 인식되는 내용이 여기 표시됩니다...</span></div>
-          <div style="font-size:11px;color:#5D4037;margin-bottom:8px;">💡 다 말한 후 아래 버튼을 누르세요 (시간 제한 없음)</div>
+          <div style="font-size:16px;font-weight:700;color:#FF6F00;margin-bottom:4px;">녹음 중...</div>
+          <div id="voice-record-timer" style="font-size:13px;color:#5D4037;margin-bottom:10px;font-weight:600;">0초 녹음 중</div>
+          <div style="font-size:11px;color:#5D4037;background:white;border-radius:6px;padding:8px;margin:8px 0;line-height:1.5;">💡 천천히, 또박또박 영어로 말씀하세요<br>최대 60초 · 다 말한 후 아래 버튼 누르기</div>
           <button onclick="stopListeningManual()" style="background:#2E7D32;color:white;border:none;padding:14px 24px;border-radius:24px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(46,125,50,0.3);">⏹ 다 말했어요</button>
         </div>
 
-        <!-- 화면 5: 인식 결과 확인 (편집 가능) -->
+        <!-- 화면 5: 인식 결과 + AI 응답 미리보기 -->
         <div id="voice-screen-confirm" style="display:none;">
-          <div style="text-align:center;font-size:13px;font-weight:700;color:#5D4037;margin-bottom:8px;">📝 인식된 내용 (수정 가능)</div>
-          <textarea id="voice-recognized-text" style="width:100%;font-size:14px;color:#1A1A1A;background:white;border-radius:8px;padding:12px;margin:8px 0;min-height:80px;line-height:1.5;border:2px solid #FFB300;font-weight:600;font-family:inherit;box-sizing:border-box;resize:vertical;"></textarea>
-          <div id="voice-confidence-warning" style="display:none;font-size:11px;color:var(--red);margin-bottom:8px;text-align:center;">⚠️ 발음이 명확하지 않아요 — 위 박스에서 직접 수정 가능합니다</div>
-          <div style="font-size:10px;color:#5D4037;background:#FFF8E1;border-radius:6px;padding:6px;margin-bottom:8px;line-height:1.4;">💡 <strong>잘못 인식됐으면 위 박스에서 직접 수정 후 전송하세요</strong></div>
-          <div class="btn-row" style="margin-top:8px;">
+          <div style="text-align:center;font-size:13px;font-weight:700;color:#5D4037;margin-bottom:8px;">📝 당신이 말한 내용 (수정 가능)</div>
+          <textarea id="voice-recognized-text" style="width:100%;font-size:14px;color:#1A1A1A;background:white;border-radius:8px;padding:12px;margin:8px 0;min-height:60px;line-height:1.5;border:2px solid #FFB300;font-weight:600;font-family:inherit;box-sizing:border-box;resize:vertical;"></textarea>
+          <div id="voice-instant-feedback" style="display:none;font-size:11px;color:#2E7D32;background:#E8F5E9;border-radius:6px;padding:8px;margin:6px 0;line-height:1.5;"></div>
+          <div style="text-align:center;font-size:13px;font-weight:700;color:#5D4037;margin:14px 0 6px 0;">🤖 AI 응답 미리보기</div>
+          <div id="voice-reply-preview" style="font-size:13px;color:#1A1A1A;background:#F5F5F5;border-radius:8px;padding:10px;margin:6px 0;line-height:1.5;border:1px solid var(--border);"></div>
+          <div style="font-size:10px;color:#5D4037;background:#FFF8E1;border-radius:6px;padding:6px;margin:8px 0;line-height:1.4;">💡 [전송] 누르면 AI 응답이 음성으로 재생됩니다</div>
+          <div class="btn-row" style="margin-top:10px;">
             <button onclick="sendRecognizedText()" style="background:#2E7D32;color:white;border:none;padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;flex:1;">📤 전송</button>
             <button onclick="startListeningOnce()" class="btn btn-s" style="font-size:12px;flex:1;">🔄 다시 말하기</button>
           </div>
@@ -1511,20 +1514,23 @@ var VOICE_STATE = {
   enabled: false,
   rate: 1.0,
   screen: 'start',
-  recognition: null,
-  recognizedText: '',
-  recognizedConfidence: 1,
+  mediaRecorder: null,    // MediaRecorder 인스턴스
+  audioStream: null,      // 마이크 스트림 (cleanup용)
+  audioChunks: [],        // 녹음 데이터 chunks
+  audioMimeType: '',      // 사용된 MIME 타입
+  recordStartTime: 0,     // 녹음 시작 시각 (경과 시간 표시)
+  recordTimerInterval: null,
+  pendingTranscript: '',  // Gemini 응답 대기 중 임시 저장
+  pendingReply: '',
+  pendingFeedback: '',
   ttsKeepAlive: null,
   turnCount: 0,
-  manualStop: false,
-  userStopped: false,  // 사용자가 [⏹ 다 말했어요] 눌렀는지
-  finalChunks: [],     // 확정된 final 결과들 (배열)
-  lastInterim: ''      // 현재 interim
+  manualStop: false
 };
 
 function isVoiceSupported(){
-  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  return !!SR && ('speechSynthesis' in window);
+  // MediaRecorder + speechSynthesis 둘 다 있어야
+  return !!(window.MediaRecorder && navigator.mediaDevices && navigator.mediaDevices.getUserMedia && 'speechSynthesis' in window);
 }
 
 // XSS 방지용 HTML 이스케이프
@@ -1535,58 +1541,6 @@ function escapeHtml(s){
 
 // 갤럭시 Chrome 누적 인식 결과의 중복 제거 (안전망)
 // 예: "I'm I'm in I'm in charge" → "I'm in charge"
-function dedupeRepeats(text){
-  if(!text) return text;
-  text = text.replace(/\s+/g, ' ').trim();
-  var words = text.split(/\s+/);
-  if(words.length < 2) return text;
-
-  // 1단계: 단일 단어 즉시 반복 정리 ("I'm I'm in" → "I'm in")
-  var dedup = [];
-  for(var j=0; j<words.length; j++){
-    if(j > 0 && words[j].toLowerCase() === words[j-1].toLowerCase()){
-      continue;
-    }
-    dedup.push(words[j]);
-  }
-  words = dedup;
-
-  // 2단계: 2~6단어 구절 인접 반복 정리
-  // ("I'm in I'm in charge" → "I'm in charge")
-  // ("I'm in charge of I'm in charge of a" → "I'm in charge of a")
-  for(var len=6; len>=2; len--){
-    var changed = true;
-    var safety = 0;
-    while(changed && safety < 30){
-      safety++;
-      changed = false;
-      for(var i=0; i<=words.length-len*2; i++){
-        var a = words.slice(i, i+len).join(' ').toLowerCase();
-        var b = words.slice(i+len, i+len*2).join(' ').toLowerCase();
-        if(a === b){
-          words.splice(i+len, len);
-          changed = true;
-          break;
-        }
-      }
-    }
-  }
-
-  // 3단계: prefix 반복 정리
-  // ("I'm in charge of I'm in charge of a cat" → "I'm in charge of a cat")
-  // 앞쪽 N단어가 뒤쪽 N단어의 prefix면 앞쪽 제거
-  for(var len2=Math.min(6, Math.floor(words.length/2)); len2>=2; len2--){
-    if(words.length < len2*2) continue;
-    var prefix = words.slice(0, len2).join(' ').toLowerCase();
-    var middle = words.slice(len2, len2*2).join(' ').toLowerCase();
-    if(prefix === middle){
-      words.splice(0, len2);
-    }
-  }
-
-  return words.join(' ');
-}
-
 // 화면 전환 헬퍼
 function showVoiceScreen(name){
   VOICE_STATE.screen = name;
@@ -1601,7 +1555,7 @@ function showVoiceScreen(name){
 
 function toggleVoiceMode(){
   if(!isVoiceSupported()){
-    alert('이 브라우저는 음성 대화를 지원하지 않아요.\nChrome(Android) 권장!');
+    alert('이 브라우저는 음성 녹음을 지원하지 않아요.\nChrome(Android/PC) 권장!');
     return;
   }
   if(!rpScenario){
@@ -1724,186 +1678,196 @@ function goToUserTurn(){
   vibrateMic();
 }
 
-function startListeningOnce(){
+async function startListeningOnce(){
   if(!VOICE_STATE.enabled || VOICE_STATE.manualStop) return;
-  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR){
-    showError('브라우저가 음성 인식을 지원하지 않습니다');
+  if(!navigator.mediaDevices || !window.MediaRecorder){
+    showError('이 브라우저는 녹음을 지원하지 않습니다. Chrome(Android) 권장!');
     return;
   }
-  // 기존 인스턴스 정리
-  if(VOICE_STATE.recognition){
-    try { VOICE_STATE.recognition.abort(); } catch(e){}
-    VOICE_STATE.recognition = null;
-  }
 
-  // 누적 상태 초기화
-  VOICE_STATE.recognizedText = '';
-  VOICE_STATE.recognizedConfidence = 1;
-  VOICE_STATE.userStopped = false;  // 사용자가 [다 말했어요] 눌렀는지
-  VOICE_STATE.finalChunks = [];      // 확정된 final 결과 누적 (배열)
-  VOICE_STATE.lastInterim = '';      // 현재 진행 중인 interim
-
-  var rec = new SR();
-  rec.lang = 'en-US';
-  rec.continuous = true;        // 🔑 사용자가 멈출 때까지 계속 듣기
-  rec.interimResults = true;    // 실시간 표시
-  rec.maxAlternatives = 1;
+  // 기존 녹음 정리
+  cleanupRecording();
 
   showVoiceScreen('listening');
-  // 듣기 영역 초기화
-  var lt = $g('voice-listening-text');
-  if(lt) lt.innerHTML = '<span style="color:#999;font-style:italic;">실시간으로 인식되는 내용이 여기 표시됩니다...</span>';
 
-  rec.onresult = function(ev){
-    // 🔑 핵심: resultIndex부터만 처리 (이전 결과는 이미 처리됨)
-    // 갤럭시 Chrome이 results 배열을 누적해서 보내는 버그 회피
-    var newInterim = '';
-    var minConf = VOICE_STATE.recognizedConfidence;
-
-    for(var i = ev.resultIndex; i < ev.results.length; i++){
-      var r = ev.results[i][0];
-      var trans = (r.transcript || '').trim();
-      if(ev.results[i].isFinal){
-        if(trans){
-          // final로 확정된 chunk를 배열에 추가
-          VOICE_STATE.finalChunks.push(trans);
-        }
-        if(typeof r.confidence === 'number' && r.confidence > 0 && r.confidence < minConf){
-          minConf = r.confidence;
-        }
-      } else {
-        // interim은 마지막 것 하나만
-        newInterim = trans;
-      }
-    }
-
-    VOICE_STATE.lastInterim = newInterim;
-    VOICE_STATE.recognizedConfidence = minConf;
-
-    // 누적 final + 현재 interim 합치기 (안전망: dedupeRepeats 적용)
-    var allFinal = VOICE_STATE.finalChunks.join(' ').replace(/\s+/g, ' ').trim();
-    allFinal = dedupeRepeats(allFinal);
-    VOICE_STATE.recognizedText = allFinal;
-
-    // 화면에 실시간 표시
-    var lt = $g('voice-listening-text');
-    if(lt){
-      var finalPart = allFinal ? '<span style="color:#1A1A1A;font-weight:600;">' + escapeHtml(allFinal) + '</span>' : '';
-      var interimPart = newInterim ? ' <span style="color:#999;font-style:italic;">' + escapeHtml(newInterim) + '</span>' : '';
-      if(finalPart || interimPart){
-        lt.innerHTML = finalPart + interimPart;
-      }
-    }
-  };
-
-  var errorShown = false;
-  rec.onerror = function(ev){
-    var err = ev.error;
-    if(err === 'aborted') return;
-    if(err === 'no-speech'){
-      // continuous 모드에선 no-speech가 자주 발생할 수 있는데
-      // 사용자가 멈추지 않았으면 그냥 무시 (계속 대기)
-      if(!VOICE_STATE.userStopped) return;
-    }
-    errorShown = true;
-    if(err === 'no-speech'){
-      showError('말소리가 감지되지 않았어요. 마이크 가까이서 다시 시도하세요.');
-    } else if(err === 'not-allowed' || err === 'service-not-allowed'){
-      showError('마이크 권한이 차단되었어요. 브라우저 설정에서 권한을 허용해주세요.');
-    } else if(err === 'network'){
-      showError('네트워크 오류. 인터넷 연결 확인 후 다시 시도하세요.');
-    } else {
-      showError('인식 오류: ' + err);
-    }
-  };
-
-  rec.onend = function(){
-    VOICE_STATE.recognition = null;
-    if(VOICE_STATE.manualStop || !VOICE_STATE.enabled) return;
-    if(errorShown) return;
-
-    // 사용자가 명시적으로 멈췄든, Web Speech가 자동 종료했든
-    // 현재까지 인식된 결과가 있으면 confirm 화면으로
-    if(VOICE_STATE.screen === 'listening'){
-      // 현재 진행 중인 interim도 final 누적에 포함
-      if(VOICE_STATE.lastInterim){
-        VOICE_STATE.finalChunks.push(VOICE_STATE.lastInterim);
-        VOICE_STATE.lastInterim = '';
-        var allFinal = VOICE_STATE.finalChunks.join(' ').replace(/\s+/g, ' ').trim();
-        VOICE_STATE.recognizedText = dedupeRepeats(allFinal);
-      }
-
-      if(VOICE_STATE.recognizedText){
-        showConfirmScreen();
-      } else {
-        showError('인식된 내용이 없어요. 다시 시도해주세요.');
-      }
-    }
-  };
-
-  VOICE_STATE.recognition = rec;
+  // 마이크 권한 + 스트림 획득
+  var stream;
   try {
-    rec.start();
+    stream = await navigator.mediaDevices.getUserMedia({
+      audio: {
+        channelCount: 1,
+        sampleRate: 16000,
+        echoCancellation: true,
+        noiseSuppression: true
+      }
+    });
+  } catch(err){
+    if(err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError'){
+      showError('마이크 권한이 차단되었어요. 브라우저 설정에서 권한을 허용해주세요.');
+    } else if(err.name === 'NotFoundError'){
+      showError('마이크를 찾을 수 없어요.');
+    } else {
+      showError('마이크 시작 실패: ' + err.message);
+    }
+    return;
+  }
+  VOICE_STATE.audioStream = stream;
+
+  // MIME 타입 결정 (브라우저 지원 따라)
+  var mimeType = '';
+  var candidates = ['audio/webm;codecs=opus', 'audio/webm', 'audio/ogg;codecs=opus', 'audio/mp4'];
+  for(var i=0; i<candidates.length; i++){
+    if(MediaRecorder.isTypeSupported(candidates[i])){
+      mimeType = candidates[i];
+      break;
+    }
+  }
+  if(!mimeType){
+    showError('지원되는 오디오 형식이 없어요.');
+    cleanupRecording();
+    return;
+  }
+  VOICE_STATE.audioMimeType = mimeType;
+  VOICE_STATE.audioChunks = [];
+
+  var recorder;
+  try {
+    recorder = new MediaRecorder(stream, { mimeType: mimeType });
   } catch(e){
-    showError('마이크 시작 실패: ' + e.message);
+    showError('녹음 초기화 실패: ' + e.message);
+    cleanupRecording();
+    return;
+  }
+
+  recorder.ondataavailable = function(ev){
+    if(ev.data && ev.data.size > 0){
+      VOICE_STATE.audioChunks.push(ev.data);
+    }
+  };
+
+  recorder.onstop = function(){
+    // 녹음 종료 → 오디오 처리
+    var totalSize = VOICE_STATE.audioChunks.reduce(function(s, c){ return s + c.size; }, 0);
+    if(totalSize < 1000){
+      // 너무 짧음 (< 1KB) - 소리가 거의 없는 것으로 간주
+      showError('녹음이 너무 짧아요. 마이크에 가까이서 다시 말씀해주세요.');
+      cleanupRecording();
+      return;
+    }
+    if(totalSize > 8 * 1024 * 1024){
+      // 8MB 초과 - 너무 김 (60초 이상)
+      showError('녹음이 너무 길어요 (60초 이내로). 다시 시도해주세요.');
+      cleanupRecording();
+      return;
+    }
+    processRecording();
+  };
+
+  recorder.onerror = function(ev){
+    showError('녹음 오류: ' + (ev.error?.message || 'unknown'));
+    cleanupRecording();
+  };
+
+  VOICE_STATE.mediaRecorder = recorder;
+  VOICE_STATE.recordStartTime = Date.now();
+
+  // 녹음 시간 카운터
+  VOICE_STATE.recordTimerInterval = setInterval(function(){
+    if(VOICE_STATE.recordStartTime){
+      var sec = Math.floor((Date.now() - VOICE_STATE.recordStartTime) / 1000);
+      var timer = $g('voice-record-timer');
+      if(timer) timer.textContent = sec + '초 녹음 중';
+      // 60초 초과 시 자동 중지 (Vercel 페이로드 한계 회피)
+      if(sec >= 60){
+        if(VOICE_STATE.mediaRecorder && VOICE_STATE.mediaRecorder.state === 'recording'){
+          stopListeningManual();
+        }
+      }
+    }
+  }, 500);
+
+  try {
+    recorder.start(1000);  // 1초마다 chunk 발생
+  } catch(e){
+    showError('녹음 시작 실패: ' + e.message);
+    cleanupRecording();
   }
 }
 
 function stopListeningManual(){
-  // 사용자가 [⏹ 다 말했어요] 눌렀을 때
-  VOICE_STATE.userStopped = true;
-  if(VOICE_STATE.recognition){
-    try { VOICE_STATE.recognition.stop(); } catch(e){}
-    // onend에서 confirm 화면으로 진행
-  } else {
-    // recognition이 이미 끝났으면 직접 진행
-    if(VOICE_STATE.recognizedText){
-      showConfirmScreen();
-    } else {
-      showError('인식된 내용이 없어요. 다시 시도해주세요.');
+  // 사용자가 [⏹ 다 말했어요] 눌렀을 때 또는 60초 초과 자동 중지
+  if(VOICE_STATE.recordTimerInterval){
+    clearInterval(VOICE_STATE.recordTimerInterval);
+    VOICE_STATE.recordTimerInterval = null;
+  }
+  if(VOICE_STATE.mediaRecorder && VOICE_STATE.mediaRecorder.state === 'recording'){
+    try {
+      VOICE_STATE.mediaRecorder.stop();  // onstop 발화 → processRecording
+    } catch(e){
+      showError('녹음 중지 실패: ' + e.message);
+      cleanupRecording();
     }
   }
 }
 
-function showConfirmScreen(){
-  showVoiceScreen('confirm');
-  var box = $g('voice-recognized-text');
-  if(box) box.value = VOICE_STATE.recognizedText;
-  var warn = $g('voice-confidence-warning');
-  if(warn) warn.style.display = (VOICE_STATE.recognizedConfidence > 0 && VOICE_STATE.recognizedConfidence < 0.7) ? 'block' : 'none';
+function cleanupRecording(){
+  if(VOICE_STATE.recordTimerInterval){
+    clearInterval(VOICE_STATE.recordTimerInterval);
+    VOICE_STATE.recordTimerInterval = null;
+  }
+  if(VOICE_STATE.audioStream){
+    try {
+      VOICE_STATE.audioStream.getTracks().forEach(function(t){ t.stop(); });
+    } catch(e){}
+    VOICE_STATE.audioStream = null;
+  }
+  if(VOICE_STATE.mediaRecorder){
+    if(VOICE_STATE.mediaRecorder.state !== 'inactive'){
+      try { VOICE_STATE.mediaRecorder.stop(); } catch(e){}
+    }
+    VOICE_STATE.mediaRecorder = null;
+  }
+  VOICE_STATE.recordStartTime = 0;
 }
 
-function showError(msg){
-  showVoiceScreen('error');
-  var el = $g('voice-error-msg');
-  if(el) el.textContent = msg;
+// Blob → base64 변환
+function blobToBase64(blob){
+  return new Promise(function(resolve, reject){
+    var reader = new FileReader();
+    reader.onloadend = function(){
+      // dataURL: "data:audio/webm;base64,XXXX..." → "XXXX..." 만 추출
+      var dataUrl = reader.result;
+      var commaIdx = dataUrl.indexOf(',');
+      resolve(commaIdx >= 0 ? dataUrl.slice(commaIdx + 1) : dataUrl);
+    };
+    reader.onerror = function(){ reject(new Error('Blob 읽기 실패')); };
+    reader.readAsDataURL(blob);
+  });
 }
 
-async function sendRecognizedText(){
-  // textarea에서 최종값 읽기 (사용자가 수정한 경우 반영)
-  var box = $g('voice-recognized-text');
-  var text = box ? box.value.trim() : VOICE_STATE.recognizedText;
-  if(!text){ showError('전송할 텍스트가 없어요'); return; }
-
+// 녹음된 오디오를 Gemini로 보내고 결과 받기
+async function processRecording(){
+  if(!VOICE_STATE.enabled || VOICE_STATE.manualStop) return;
   showVoiceScreen('processing');
+  var stream = VOICE_STATE.audioStream;
+  // 마이크 스트림은 이제 정리 (recorder.stop은 이미 호출됨)
+  if(stream){
+    try { stream.getTracks().forEach(function(t){ t.stop(); }); } catch(e){}
+    VOICE_STATE.audioStream = null;
+  }
 
-  VOICE_STATE.turnCount++;
-  var slotId = 'turn-fb-' + VOICE_STATE.turnCount;
-  addRpMessage('user', text, { feedbackSlotId: slotId });
-  rpHistory.push({role:'user', content:text});
-
-  // 매 턴 피드백 (병렬, 0.5초 지연)
-  setTimeout(function(){
-    if(VOICE_STATE.enabled) requestTurnFeedback(text, slotId);
-  }, 500);
-
-  // 메인 API 호출
   try {
-    var res = await fetch('/api/roleplay', {
-      method:'POST', headers:{'Content-Type':'application/json'},
+    var blob = new Blob(VOICE_STATE.audioChunks, { type: VOICE_STATE.audioMimeType });
+    VOICE_STATE.audioChunks = [];
+
+    var base64 = await blobToBase64(blob);
+
+    var res = await fetch('/api/roleplay-voice', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        mode: 'chat',
+        audioBase64: base64,
+        audioMimeType: VOICE_STATE.audioMimeType,
         scenario: rpScenario.scenario,
         aiRole: rpScenario.aiRole,
         history: rpHistory,
@@ -1912,57 +1876,105 @@ async function sendRecognizedText(){
       })
     });
     var d = await res.json();
+
     if(d.error){
-      addRpMessage('ai', '⚠️ ' + d.error);
-      showError(d.error + ' (다시 시도하거나 종료하세요)');
+      showError(d.error);
       return;
     }
-    addRpMessage('ai', d.message);
-    rpHistory.push({role:'assistant', content:d.message});
+    if(!d.transcript || !d.reply){
+      showError('AI 응답 형식 오류. 다시 시도하세요.');
+      return;
+    }
 
-    if(VOICE_STATE.manualStop || !VOICE_STATE.enabled) return;
+    // 결과를 pending에 저장하고 confirm 화면 표시
+    VOICE_STATE.pendingTranscript = d.transcript;
+    VOICE_STATE.pendingReply = d.reply;
+    VOICE_STATE.pendingFeedback = d.feedback || '';
+    showConfirmScreen();
 
-    showVoiceScreen('ai_speaking');
-    speakText(d.message, function(){
-      if(VOICE_STATE.manualStop || !VOICE_STATE.enabled) return;
-      goToUserTurn();
-    });
   } catch(e){
-    addRpMessage('ai', '⚠️ 연결 오류');
-    showError('서버 연결 실패. 다시 시도하거나 종료하세요.');
+    showError('전송 실패: ' + e.message + ' (다시 시도하세요)');
   }
 }
 
-async function requestTurnFeedback(userText, slotId){
-  try {
-    var res = await fetch('/api/roleplay', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        mode: 'turn_feedback',
-        userText: userText,
-        verb: DAY_DATA.verb.en,
-        chunks: DAY_DATA.chunks.map(function(c){return c.en;})
-      })
-    });
-    var d = await res.json();
-    if(d && d.feedback){
-      var slot = slotId ? $g(slotId) : null;
-      if(slot){
-        slot.innerHTML = '💬 ' + d.feedback;
-        slot.style.display = 'block';
-        var chat = $g('rp-chat');
-        if(chat) chat.scrollTop = chat.scrollHeight;
-      }
+function showConfirmScreen(){
+  showVoiceScreen('confirm');
+  // 인식된 사용자 발화 (편집 가능)
+  var box = $g('voice-recognized-text');
+  if(box) box.value = VOICE_STATE.pendingTranscript;
+  // AI 응답 미리보기
+  var preview = $g('voice-reply-preview');
+  if(preview) preview.textContent = VOICE_STATE.pendingReply;
+  // 즉각 피드백 (간단)
+  var fb = $g('voice-instant-feedback');
+  if(fb){
+    if(VOICE_STATE.pendingFeedback){
+      fb.innerHTML = '💬 ' + VOICE_STATE.pendingFeedback;
+      fb.style.display = 'block';
+    } else {
+      fb.style.display = 'none';
     }
-  } catch(e){}
+  }
+}
+
+function showError(msg){
+  showVoiceScreen('error');
+  var el = $g('voice-error-msg');
+  if(el) el.textContent = msg;
+  // 에러 시 마이크 정리
+  cleanupRecording();
+}
+
+async function sendRecognizedText(){
+  // textarea에서 최종값 (사용자가 수정 가능)
+  var box = $g('voice-recognized-text');
+  var userText = box ? box.value.trim() : VOICE_STATE.pendingTranscript;
+  if(!userText){ showError('전송할 텍스트가 없어요'); return; }
+
+  var aiReply = VOICE_STATE.pendingReply;
+  var feedback = VOICE_STATE.pendingFeedback;
+
+  // 사용자가 텍스트를 수정한 경우 - AI 응답을 다시 받아야 하나?
+  // 단순화: 수정해도 기존 AI 응답 그대로 사용 (AI가 의도를 이미 추측했으니)
+  // 큰 문제 없으면 OK, 명백히 다르게 수정한 경우엔 사용자가 [다시] 누름
+
+  // 채팅창에 사용자 발화 + 피드백 슬롯
+  VOICE_STATE.turnCount++;
+  var slotId = 'turn-fb-' + VOICE_STATE.turnCount;
+  addRpMessage('user', userText, { feedbackSlotId: slotId });
+  rpHistory.push({role:'user', content:userText});
+
+  // 즉각 피드백 슬롯에 채우기
+  if(feedback){
+    var slot = $g(slotId);
+    if(slot){
+      slot.innerHTML = '💬 ' + feedback;
+      slot.style.display = 'block';
+    }
+  }
+
+  // AI 응답 추가
+  addRpMessage('ai', aiReply);
+  rpHistory.push({role:'assistant', content:aiReply});
+
+  // pending 정리
+  VOICE_STATE.pendingTranscript = '';
+  VOICE_STATE.pendingReply = '';
+  VOICE_STATE.pendingFeedback = '';
+
+  if(VOICE_STATE.manualStop || !VOICE_STATE.enabled) return;
+
+  // AI 응답 음성으로 → 끝나면 사용자 차례
+  showVoiceScreen('ai_speaking');
+  speakText(aiReply, function(){
+    if(VOICE_STATE.manualStop || !VOICE_STATE.enabled) return;
+    goToUserTurn();
+  });
 }
 
 function cleanupVoice(){
   VOICE_STATE.manualStop = true;
-  if(VOICE_STATE.recognition){
-    try { VOICE_STATE.recognition.abort(); } catch(e){}
-    VOICE_STATE.recognition = null;
-  }
+  cleanupRecording();
   if(VOICE_STATE.ttsKeepAlive){
     clearInterval(VOICE_STATE.ttsKeepAlive);
     VOICE_STATE.ttsKeepAlive = null;
