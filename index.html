@@ -1517,7 +1517,9 @@ var VOICE_STATE = {
   ttsKeepAlive: null,
   turnCount: 0,
   manualStop: false,
-  userStopped: false  // 사용자가 [⏹ 다 말했어요] 눌렀는지
+  userStopped: false,  // 사용자가 [⏹ 다 말했어요] 눌렀는지
+  finalChunks: [],     // 확정된 final 결과들 (배열)
+  lastInterim: ''      // 현재 interim
 };
 
 function isVoiceSupported(){
@@ -1529,6 +1531,60 @@ function isVoiceSupported(){
 function escapeHtml(s){
   if(!s) return '';
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+// 갤럭시 Chrome 누적 인식 결과의 중복 제거 (안전망)
+// 예: "I'm I'm in I'm in charge" → "I'm in charge"
+function dedupeRepeats(text){
+  if(!text) return text;
+  text = text.replace(/\s+/g, ' ').trim();
+  var words = text.split(/\s+/);
+  if(words.length < 2) return text;
+
+  // 1단계: 단일 단어 즉시 반복 정리 ("I'm I'm in" → "I'm in")
+  var dedup = [];
+  for(var j=0; j<words.length; j++){
+    if(j > 0 && words[j].toLowerCase() === words[j-1].toLowerCase()){
+      continue;
+    }
+    dedup.push(words[j]);
+  }
+  words = dedup;
+
+  // 2단계: 2~6단어 구절 인접 반복 정리
+  // ("I'm in I'm in charge" → "I'm in charge")
+  // ("I'm in charge of I'm in charge of a" → "I'm in charge of a")
+  for(var len=6; len>=2; len--){
+    var changed = true;
+    var safety = 0;
+    while(changed && safety < 30){
+      safety++;
+      changed = false;
+      for(var i=0; i<=words.length-len*2; i++){
+        var a = words.slice(i, i+len).join(' ').toLowerCase();
+        var b = words.slice(i+len, i+len*2).join(' ').toLowerCase();
+        if(a === b){
+          words.splice(i+len, len);
+          changed = true;
+          break;
+        }
+      }
+    }
+  }
+
+  // 3단계: prefix 반복 정리
+  // ("I'm in charge of I'm in charge of a cat" → "I'm in charge of a cat")
+  // 앞쪽 N단어가 뒤쪽 N단어의 prefix면 앞쪽 제거
+  for(var len2=Math.min(6, Math.floor(words.length/2)); len2>=2; len2--){
+    if(words.length < len2*2) continue;
+    var prefix = words.slice(0, len2).join(' ').toLowerCase();
+    var middle = words.slice(len2, len2*2).join(' ').toLowerCase();
+    if(prefix === middle){
+      words.splice(0, len2);
+    }
+  }
+
+  return words.join(' ');
 }
 
 // 화면 전환 헬퍼
@@ -1685,6 +1741,8 @@ function startListeningOnce(){
   VOICE_STATE.recognizedText = '';
   VOICE_STATE.recognizedConfidence = 1;
   VOICE_STATE.userStopped = false;  // 사용자가 [다 말했어요] 눌렀는지
+  VOICE_STATE.finalChunks = [];      // 확정된 final 결과 누적 (배열)
+  VOICE_STATE.lastInterim = '';      // 현재 진행 중인 interim
 
   var rec = new SR();
   rec.lang = 'en-US';
@@ -1698,33 +1756,41 @@ function startListeningOnce(){
   if(lt) lt.innerHTML = '<span style="color:#999;font-style:italic;">실시간으로 인식되는 내용이 여기 표시됩니다...</span>';
 
   rec.onresult = function(ev){
-    // 누적된 final + 현재 interim 모두 합치기
-    var allFinal = '';
-    var allInterim = '';
-    var minConf = 1;
-    for(var i=0; i<ev.results.length; i++){
+    // 🔑 핵심: resultIndex부터만 처리 (이전 결과는 이미 처리됨)
+    // 갤럭시 Chrome이 results 배열을 누적해서 보내는 버그 회피
+    var newInterim = '';
+    var minConf = VOICE_STATE.recognizedConfidence;
+
+    for(var i = ev.resultIndex; i < ev.results.length; i++){
       var r = ev.results[i][0];
-      var trans = r.transcript || '';
+      var trans = (r.transcript || '').trim();
       if(ev.results[i].isFinal){
-        allFinal += trans + ' ';
+        if(trans){
+          // final로 확정된 chunk를 배열에 추가
+          VOICE_STATE.finalChunks.push(trans);
+        }
         if(typeof r.confidence === 'number' && r.confidence > 0 && r.confidence < minConf){
           minConf = r.confidence;
         }
       } else {
-        allInterim += trans;
+        // interim은 마지막 것 하나만
+        newInterim = trans;
       }
     }
-    allFinal = allFinal.replace(/\s+/g, ' ').trim();
-    allInterim = allInterim.replace(/\s+/g, ' ').trim();
 
-    VOICE_STATE.recognizedText = allFinal;
+    VOICE_STATE.lastInterim = newInterim;
     VOICE_STATE.recognizedConfidence = minConf;
+
+    // 누적 final + 현재 interim 합치기 (안전망: dedupeRepeats 적용)
+    var allFinal = VOICE_STATE.finalChunks.join(' ').replace(/\s+/g, ' ').trim();
+    allFinal = dedupeRepeats(allFinal);
+    VOICE_STATE.recognizedText = allFinal;
 
     // 화면에 실시간 표시
     var lt = $g('voice-listening-text');
     if(lt){
       var finalPart = allFinal ? '<span style="color:#1A1A1A;font-weight:600;">' + escapeHtml(allFinal) + '</span>' : '';
-      var interimPart = allInterim ? ' <span style="color:#999;font-style:italic;">' + escapeHtml(allInterim) + '</span>' : '';
+      var interimPart = newInterim ? ' <span style="color:#999;font-style:italic;">' + escapeHtml(newInterim) + '</span>' : '';
       if(finalPart || interimPart){
         lt.innerHTML = finalPart + interimPart;
       }
@@ -1757,37 +1823,21 @@ function startListeningOnce(){
     if(VOICE_STATE.manualStop || !VOICE_STATE.enabled) return;
     if(errorShown) return;
 
-    // continuous 모드는 사용자가 멈추지 않아도 가끔 자동 종료됨
-    // 사용자가 명시적으로 멈춘 경우만 confirm으로 진행
-    if(VOICE_STATE.userStopped){
+    // 사용자가 명시적으로 멈췄든, Web Speech가 자동 종료했든
+    // 현재까지 인식된 결과가 있으면 confirm 화면으로
+    if(VOICE_STATE.screen === 'listening'){
+      // 현재 진행 중인 interim도 final 누적에 포함
+      if(VOICE_STATE.lastInterim){
+        VOICE_STATE.finalChunks.push(VOICE_STATE.lastInterim);
+        VOICE_STATE.lastInterim = '';
+        var allFinal = VOICE_STATE.finalChunks.join(' ').replace(/\s+/g, ' ').trim();
+        VOICE_STATE.recognizedText = dedupeRepeats(allFinal);
+      }
+
       if(VOICE_STATE.recognizedText){
         showConfirmScreen();
       } else {
         showError('인식된 내용이 없어요. 다시 시도해주세요.');
-      }
-    } else {
-      // 사용자가 안 멈췄는데 자동 종료된 경우 → 자동 재시작 (누적 유지)
-      if(VOICE_STATE.screen === 'listening'){
-        try {
-          var rec2 = new SR();
-          rec2.lang = 'en-US';
-          rec2.continuous = true;
-          rec2.interimResults = true;
-          rec2.maxAlternatives = 1;
-          // 같은 핸들러 재사용을 위해 동일하게 설정
-          rec2.onresult = rec.onresult;
-          rec2.onerror = rec.onerror;
-          rec2.onend = rec.onend;
-          VOICE_STATE.recognition = rec2;
-          rec2.start();
-        } catch(e){
-          // 재시작 실패하면 현재까지 인식된 거로 confirm
-          if(VOICE_STATE.recognizedText){
-            showConfirmScreen();
-          } else {
-            showError('마이크가 멈췄어요. 다시 시도해주세요.');
-          }
-        }
       }
     }
   };
