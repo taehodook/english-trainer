@@ -420,7 +420,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
         <!-- 화면 2: AI 발화 중 -->
         <div id="voice-screen-ai-speaking" style="display:none;text-align:center;">
           <div style="font-size:48px;margin-bottom:6px;">🤖</div>
-          <div style="font-size:16px;font-weight:700;color:#FF6F00;margin-bottom:8px;">AI가 말하는 중...</div>
+          <div style="font-size:16px;font-weight:700;color:#FF6F00;margin-bottom:4px;">AI가 말하는 중...</div>
+          <div id="voice-tts-progress" style="font-size:11px;color:#5D4037;margin-bottom:8px;"></div>
           <div style="font-size:11px;color:#5D4037;">끝까지 들으세요</div>
         </div>
 
@@ -1514,16 +1515,20 @@ var VOICE_STATE = {
   enabled: false,
   rate: 1.0,
   screen: 'start',
-  mediaRecorder: null,    // MediaRecorder 인스턴스
-  audioStream: null,      // 마이크 스트림 (cleanup용)
-  audioChunks: [],        // 녹음 데이터 chunks
-  audioMimeType: '',      // 사용된 MIME 타입
-  recordStartTime: 0,     // 녹음 시작 시각 (경과 시간 표시)
+  mediaRecorder: null,
+  audioStream: null,
+  audioChunks: [],
+  audioMimeType: '',
+  recordStartTime: 0,
   recordTimerInterval: null,
-  pendingTranscript: '',  // Gemini 응답 대기 중 임시 저장
+  pendingTranscript: '',
   pendingReply: '',
   pendingFeedback: '',
   ttsKeepAlive: null,
+  ttsCurrentChunkIndex: 0,
+  ttsTotalChunks: 0,
+  ttsAborted: false,
+  ttsProgressInterval: null,
   turnCount: 0,
   manualStop: false
 };
@@ -1606,46 +1611,197 @@ function setVoiceRate(rate){
 }
 
 // ─── TTS ───
+// ─── TTS (chunking 방식 - Android pause 버그 회피) ───
+// 긴 문장이 중간에 끊기는 알려진 문제 해결책:
+// 문장(. ! ? ;) 단위로 잘라서 각 chunk를 순차 재생
+// 각 chunk가 짧으니 Chrome 14초 끊김 + Android pause 버그 모두 회피
+
+// 문장 단위로 텍스트 분할
+function splitTextIntoChunks(text){
+  if(!text) return [];
+  // 1. 문장 부호 뒤에서 자르기 (. ! ? ; 뒤)
+  // 2. 너무 짧은 부분(약어 등)은 다음 chunk에 합치기
+  var chunks = [];
+  // 강한 경계: . ! ? ; 다음 공백
+  // 약한 경계: , 다음 공백 (긴 문장에만 적용)
+  var maxChunkLen = 100;  // 한 chunk 최대 길이 (글자 수)
+
+  // 먼저 강한 경계로 분할
+  var rough = text.split(/([.!?;]+\s+)/).filter(Boolean);
+  var assembled = [];
+  for(var i = 0; i < rough.length; i++){
+    if(/^[.!?;]+\s+$/.test(rough[i])){
+      // 부호 + 공백 → 직전 chunk에 붙임
+      if(assembled.length > 0){
+        assembled[assembled.length - 1] += rough[i].trim();
+      }
+    } else {
+      assembled.push(rough[i].trim());
+    }
+  }
+  // 빈 항목 제거
+  assembled = assembled.filter(function(s){ return s.length > 0; });
+
+  // 너무 긴 chunk는 콤마/접속사 단위로 더 쪼개기
+  for(var j = 0; j < assembled.length; j++){
+    var s = assembled[j];
+    if(s.length <= maxChunkLen){
+      chunks.push(s);
+    } else {
+      // 콤마 또는 접속사 앞에서 쪼개기
+      // (, and / , but / , because / , so / , when / , if 등)
+      var parts = s.split(/(,\s+|\s+(?:and|but|because|so|when|if|while|though|although)\s+)/i).filter(Boolean);
+      var cur = '';
+      for(var k = 0; k < parts.length; k++){
+        if((cur + parts[k]).length > maxChunkLen && cur){
+          chunks.push(cur.trim());
+          cur = parts[k];
+        } else {
+          cur += parts[k];
+        }
+      }
+      if(cur.trim()) chunks.push(cur.trim());
+    }
+  }
+
+  return chunks.filter(function(c){ return c.length > 0; });
+}
+
 function speakText(text, onEnd){
   if(!('speechSynthesis' in window)){
     if(onEnd) onEnd();
     return;
   }
+  // 기존 재생 중단
+  window.speechSynthesis.cancel();
   if(VOICE_STATE.ttsKeepAlive){
     clearInterval(VOICE_STATE.ttsKeepAlive);
     VOICE_STATE.ttsKeepAlive = null;
   }
-  window.speechSynthesis.cancel();
 
-  var utt = new SpeechSynthesisUtterance(text);
-  utt.lang = 'en-US';
-  utt.rate = VOICE_STATE.rate;
+  var chunks = splitTextIntoChunks(text);
+  if(chunks.length === 0){
+    if(onEnd) onEnd();
+    return;
+  }
+
+  // 영어 음성 선택 (한 번만)
   var voices = window.speechSynthesis.getVoices();
   var enVoice = voices.find(function(v){ return v.lang.startsWith('en') && v.name.indexOf('Google') >= 0; })
               || voices.find(function(v){ return v.lang.startsWith('en'); });
-  if(enVoice) utt.voice = enVoice;
 
-  // Chrome 14초 끊김 방지
-  VOICE_STATE.ttsKeepAlive = setInterval(function(){
-    if(window.speechSynthesis.speaking){
-      window.speechSynthesis.pause();
-      window.speechSynthesis.resume();
-    }
-  }, 10000);
+  // 각 chunk를 순차 재생 (체이닝)
+  var idx = 0;
+  var finished = false;
+  // chunk별로 onend가 안 오는 경우 안전장치 - 예상 시간 기반 fallback
+  var chunkTimer = null;
 
-  var done = false;
-  var finish = function(){
-    if(done) return;
-    done = true;
-    if(VOICE_STATE.ttsKeepAlive){
-      clearInterval(VOICE_STATE.ttsKeepAlive);
-      VOICE_STATE.ttsKeepAlive = null;
+  VOICE_STATE.ttsCurrentChunkIndex = 0;
+  VOICE_STATE.ttsTotalChunks = chunks.length;
+  VOICE_STATE.ttsAborted = false;
+
+  function speakNext(){
+    if(finished) return;
+    if(VOICE_STATE.ttsAborted){
+      // stopVoice 등으로 중단됨
+      finished = true;
+      return;
     }
-    if(onEnd) onEnd();
+    if(idx >= chunks.length){
+      // 모든 chunk 재생 완료
+      finished = true;
+      VOICE_STATE.ttsCurrentChunkIndex = 0;
+      VOICE_STATE.ttsTotalChunks = 0;
+      if(chunkTimer){ clearTimeout(chunkTimer); chunkTimer = null; }
+      if(onEnd) onEnd();
+      return;
+    }
+
+    var chunk = chunks[idx];
+    VOICE_STATE.ttsCurrentChunkIndex = idx + 1;
+    var utt = new SpeechSynthesisUtterance(chunk);
+    utt.lang = 'en-US';
+    utt.rate = VOICE_STATE.rate;
+    if(enVoice) utt.voice = enVoice;
+
+    var chunkDone = false;
+    var advanceToNext = function(){
+      if(chunkDone) return;
+      chunkDone = true;
+      if(chunkTimer){ clearTimeout(chunkTimer); chunkTimer = null; }
+      idx++;
+      // 다음 chunk 즉시 시작 (자연스러운 흐름)
+      speakNext();
+    };
+
+    utt.onend = function(){ advanceToNext(); };
+    utt.onerror = function(ev){
+      // error 발생해도 다음 chunk 진행 (가운데 끊김 방지)
+      console.warn('TTS chunk error:', ev?.error || 'unknown');
+      advanceToNext();
+    };
+
+    // 안전장치: 예상 발화 시간 + 3초 지나도 onend 안 오면 강제 진행
+    // 영어 약 12자/초 (rate 1.0 기준)
+    var estimatedMs = (chunk.length / VOICE_STATE.rate / 12) * 1000;
+    var fallbackMs = Math.max(estimatedMs + 3000, 5000);
+    chunkTimer = setTimeout(function(){
+      if(!chunkDone){
+        // onend 안 옴 → 강제 진행
+        try { window.speechSynthesis.cancel(); } catch(e){}
+        advanceToNext();
+      }
+    }, fallbackMs);
+
+    try {
+      window.speechSynthesis.speak(utt);
+    } catch(e){
+      advanceToNext();
+    }
+  }
+
+  speakNext();
+}
+
+// TTS 강제 중단
+function stopTTS(){
+  VOICE_STATE.ttsAborted = true;
+  try { window.speechSynthesis.cancel(); } catch(e){}
+  if(VOICE_STATE.ttsKeepAlive){
+    clearInterval(VOICE_STATE.ttsKeepAlive);
+    VOICE_STATE.ttsKeepAlive = null;
+  }
+  if(VOICE_STATE.ttsProgressInterval){
+    clearInterval(VOICE_STATE.ttsProgressInterval);
+    VOICE_STATE.ttsProgressInterval = null;
+  }
+}
+
+// AI 발화 진행 표시 시작 (chunk 단위로 갱신)
+function startTTSProgressDisplay(){
+  if(VOICE_STATE.ttsProgressInterval){
+    clearInterval(VOICE_STATE.ttsProgressInterval);
+  }
+  var update = function(){
+    var p = $g('voice-tts-progress');
+    if(!p) return;
+    if(VOICE_STATE.ttsTotalChunks > 1){
+      p.textContent = '문장 ' + VOICE_STATE.ttsCurrentChunkIndex + ' / ' + VOICE_STATE.ttsTotalChunks;
+    } else {
+      p.textContent = '';
+    }
   };
-  utt.onend = finish;
-  utt.onerror = finish;
-  window.speechSynthesis.speak(utt);
+  update();
+  VOICE_STATE.ttsProgressInterval = setInterval(update, 300);
+}
+
+function stopTTSProgressDisplay(){
+  if(VOICE_STATE.ttsProgressInterval){
+    clearInterval(VOICE_STATE.ttsProgressInterval);
+    VOICE_STATE.ttsProgressInterval = null;
+  }
+  var p = $g('voice-tts-progress');
+  if(p) p.textContent = '';
 }
 
 function vibrateMic(){
@@ -1663,7 +1819,9 @@ function startVoiceConversation(startMode){
   if(startMode === 'ai_first'){
     var opening = rpScenario.aiOpening;
     showVoiceScreen('ai_speaking');
+    startTTSProgressDisplay();
     speakText(opening, function(){
+      stopTTSProgressDisplay();
       if(VOICE_STATE.manualStop || !VOICE_STATE.enabled) return;
       goToUserTurn();
     });
@@ -1966,7 +2124,9 @@ async function sendRecognizedText(){
 
   // AI 응답 음성으로 → 끝나면 사용자 차례
   showVoiceScreen('ai_speaking');
+  startTTSProgressDisplay();
   speakText(aiReply, function(){
+    stopTTSProgressDisplay();
     if(VOICE_STATE.manualStop || !VOICE_STATE.enabled) return;
     goToUserTurn();
   });
@@ -1975,11 +2135,7 @@ async function sendRecognizedText(){
 function cleanupVoice(){
   VOICE_STATE.manualStop = true;
   cleanupRecording();
-  if(VOICE_STATE.ttsKeepAlive){
-    clearInterval(VOICE_STATE.ttsKeepAlive);
-    VOICE_STATE.ttsKeepAlive = null;
-  }
-  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  stopTTS();
 }
 
 function stopVoiceConversation(){
